@@ -1,0 +1,35 @@
+@import '../../styles/scss/_elements';
+
+.patient-status {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  .section-title {
+    font-weight: 600;
+    margin-bottom: 15px
+  }
+  .filter {
+    @extend %filter;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .status {
+    @extend %contentBox;
+    display: grid;
+    grid-template-rows: .1fr 1fr;
+    height: 100%;
+    padding: 20px 5px 10px 5px;
+    > p {margin-bottom: 15px;}
+    > div {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: minmax(360px, 1fr);
+      padding: 0 10px;
+    }
+  }
+}

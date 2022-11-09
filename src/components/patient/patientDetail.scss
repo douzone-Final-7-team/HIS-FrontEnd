@@ -1,0 +1,30 @@
+@import '../../styles/scss/_elements';
+@import '../../styles/scss/variables';
+
+.table {  
+  @extend %tbl;
+  display: grid;
+  grid-template-columns: repeat(3, .5fr) 2fr repeat(5, 1fr) .5fr repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  margin: 18px 0;
+  font-size: 16px;
+  .item {padding: 5px; border: 1px solid $tblBorder;}
+  .th {
+    background-color: $thColor;
+    font-weight: 600;
+    &:first-child {border-top-left-radius: 4px;}
+    &:nth-child(13) {grid-column-start: span 3;}
+    &:last-child {grid-column-start: span 3;}
+  }
+  .td {
+    &:nth-child(6) {border-top-right-radius: 4px;}
+    &:nth-child(13) {grid-column-start: span 9;}
+    &:last-child {grid-column-start: span 9;}
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+    }
+    select {width: 100%; border: none; outline: none;}
+  }
+}
