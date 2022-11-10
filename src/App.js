@@ -11,10 +11,10 @@ function App() {
     <div className='App'>
       {/* <Layout /> */}
       {/* <Reception  /> */}
-      <WardManagement />
+      {/* <WardManagement /> */}
       {/* <WardManagement2 /> */}
       {/* <Outpatient /> */}
-      {/* <Doctor /> */}
+      <Doctor />
     </div>
   );
 }
