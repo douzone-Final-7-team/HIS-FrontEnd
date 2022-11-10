@@ -10,6 +10,7 @@ import PatientDetail from '../components/patient/PatientDetail';
 import PatientStatus from '../components/patient/PatientStatus';
 import Waiting4Payment from '../components/patient/Waiting4Payment';
 import Receipt from '../components/patient/Receipt';
+import MedicalHistory from '../components/patient/MedicalHistory';
 
 
 const Reception = () => {
@@ -37,7 +38,7 @@ const Reception = () => {
             </div>
           </div>
           <PatientDetail/>
-          <div className='sample'>과거병력</div>
+          <MedicalHistory />
         </div>
         <PatientStatus className='bottom1'/>
         <Waiting4Payment/>

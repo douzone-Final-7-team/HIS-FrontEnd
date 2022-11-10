@@ -16,9 +16,9 @@
   main {
     display: grid;  
     gap: 25px;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 75px .3fr .4fr 1fr;
-    padding: 30px 35px;
+    grid-template-columns: 1fr 335px;
+    grid-template-rows: 75px .8fr 1fr 435px;
+    padding: 20px 35px;
     .top {
       grid-column-start: span 2;
     }
