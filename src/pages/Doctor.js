@@ -2,10 +2,7 @@ import React from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
-
 // components
-import Header from '../layouts/Header';
-import Nav from '../components/nav/Nav';
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
 
