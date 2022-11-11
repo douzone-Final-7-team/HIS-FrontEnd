@@ -12,8 +12,6 @@ import PatientStatus from '../components/patient/PatientStatus';
 const Outpatient = () => {
   return (
     <div className='outpatient'>
-      <header><Header/></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

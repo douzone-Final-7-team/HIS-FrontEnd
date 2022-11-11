@@ -13,8 +13,6 @@ import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
 const Doctor = () => {
   return (
     <div className='doctor'>
-      <header><Header /></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

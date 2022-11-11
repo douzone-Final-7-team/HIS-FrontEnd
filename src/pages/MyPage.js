@@ -13,8 +13,6 @@ import EmpBar from '../components/employee/EmpBar';
 const MyPage = () => {
     return(
         <div className="myPage">
-            <header><Header /></header>
-            <nav><Nav /></nav>
             <main className="main">
             <div className='top'>
                 <EmpBar />
