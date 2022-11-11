@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 const NavItem = ({menu, isActive}) => {
   return isActive === true ? (
     <div className='nav-item active'>
