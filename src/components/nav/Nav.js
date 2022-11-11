@@ -12,7 +12,10 @@ const Nav = () => {
 const menus = [
   
   { img: <TbBuildingHospital/>, path: '/reception'}, // 원무
-  { img: <TbNurse/>, path: '/outpatient'},  //외래간호
+  { img: <TbNurse/>, path: '/ward-management'},  //원무병동
+  { img: <TbNurse/>, path: '/ward-management2'},  //병간
+  { img: <TbNurse/>, path: '/outpatient'},  // 외래간호
+  { img: <TbNurse/>, path: '/doctor'}  //의사
 ]
   return (
     <div className='nav'>
