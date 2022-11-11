@@ -1,0 +1,151 @@
+@import './scss/elements';
+@import './scss/variables';
+
+.myPage {
+  display: grid;
+  grid-template-columns: 65px 1fr;
+  grid-template-rows: 85px 1fr;
+  width: 100%;
+  height: 100vh;
+  
+  header {
+    grid-column-start: span 2 ;
+  }
+
+  main {
+    display: grid;  
+    gap: 25px;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 75px .3fr .4fr 1fr;
+    padding: 30px 35px;
+    .top {
+      grid-column-start: span 2;
+    }
+
+    .infoBox {
+        background-color: white;
+        width: 600px;
+        height: 480px;
+        border-radius: 10px;
+
+        .infoTitle {
+          display: flex;
+          justify-content: center;
+          margin-top: 15px;
+          margin-bottom: 15px;
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .infoContent {
+          display: flex;
+          justify-content: center;
+
+          .infoUl {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+            .infoLi {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 50px;
+            }
+
+            .infoLabel {
+              display: flex;
+              align-items: center;
+              font-weight: bold;
+              font-size: 20px;
+              margin-right: 20px;
+            }
+
+            .infoInput {
+              width: 270px;
+              height: 35px;
+              border-radius: 5px;
+              border: 1px black solid;
+              outline: none;
+            }
+
+            .pwChange {
+              width: 100px;
+              height: 35px;
+              text-align: center;
+              margin: 0 auto;
+              margin-top: 23px;
+              background-color: $primaryColor;
+              color: white;
+              border:1px white solid;
+              border-radius: 5px;
+              cursor: pointer;
+            }
+          }
+        }
+    }
+
+    .jobBox {
+      background-color: white;
+      width: 1000px;
+      border-radius: 10px;
+
+      .jobTitle {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .jobContent {
+        display: flex;
+        justify-content: center;
+
+        .jobUl {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          margin-left: 20px;
+          margin-right: 20px;
+
+          .jobLi {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+          }
+
+          .jobLabel {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 20px;
+          }
+
+          .jobInput {
+            width: 270px;
+            height: 35px;
+            border-radius: 5px;
+            border: 1px black solid;
+            outline: none;
+          }
+
+          .addrChange {
+            width: 100px;
+            height: 35px;
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 23px;
+            background-color: $primaryColor;
+            color: white;
+            border:1px white solid;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+  }
+}
