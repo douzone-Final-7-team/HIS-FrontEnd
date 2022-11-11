@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { PatientInfo } from './modules';
 
-import { persistReducer } from "redux-persist"; // 추가
+// import { persistReducer } from "redux-persist"; // 추가
 import storage from "redux-persist/lib/storage"; // 추가
 
 const middlewares = [thunk]; // 전
