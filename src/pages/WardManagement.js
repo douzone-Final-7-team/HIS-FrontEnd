@@ -12,8 +12,6 @@ import WardCheck from '../components/patient/WardCheck';
 const WardManagement = () => {
   return (
     <div className='ward-management'>
-      <header><Header/></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

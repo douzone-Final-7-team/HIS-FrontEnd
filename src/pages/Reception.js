@@ -16,8 +16,6 @@ import MedicalHistory from '../components/patient/MedicalHistory';
 const Reception = () => {
   return (
     <div className='reception'>
-      <header><Header /></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />
