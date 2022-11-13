@@ -1,8 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 // style
 import './patientDetail.scss';
 
 const PDetail = () => {
+  const patient = useSelector(state => state.value)
   return (
     <div className='patient-detail'>
       <table>
