@@ -1,14 +1,5 @@
-import { configureStore, createAsyncThunk } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import searchSlice from './Slice';
-
-const asyncUpFetch = createAsyncThunk(
-  'searchSlice/asyncUpFetch',    //type
-  async () => {
-    const resp = await fetch('')     //요청 : 서버접속
-    const data = await resp.json();     // 결과를 가져오고
-    return data.value;
-  }
-)
 
 // store : 모든 slice를 통합
 const store = configureStore({
