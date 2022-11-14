@@ -1,8 +1,12 @@
 # HIS-Project-Front-Repository
 
-더존비즈온 채용연계 풀스택 개발자 양성훈련 파이널 프로젝트
+더존비즈온 채용연계 훈련과정 파이널 프로젝트
 
-## 🛠 Using Libraries
+## 개발목표
+
+### 서비스 내용
+
+### 🛠 Using Libraries
 
 - node-sass
 - react-router-dom
@@ -11,7 +15,10 @@
 - axios
 
 
-### h3
+### 프로젝트 진행
+
+
+### 개발내용
 
 Lorem Ipsum is simply dummy text of
 the printing and typesetting industry. 
