@@ -3,8 +3,6 @@ import React from 'react'
 import '../styles/scss/reset.scss';
 import '../styles/outpatient.scss';
 // components
-import Header from '../layouts/Header';
-import Nav from '../components/nav/Nav';
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
 import PatientStatus from '../components/patient/PatientStatus';
@@ -12,8 +10,6 @@ import PatientStatus from '../components/patient/PatientStatus';
 const Outpatient = () => {
   return (
     <div className='outpatient'>
-      <header><Header/></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

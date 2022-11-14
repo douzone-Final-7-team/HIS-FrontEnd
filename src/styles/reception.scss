@@ -2,23 +2,16 @@
 @import './scss/variables';
 
 .reception{
-  display: grid;
-  grid-template-columns: 65px 1fr;
-  grid-template-rows: 85px 1fr;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   
-  header {
-    grid-column-start: span 2 ;
-  }
-  // nav {}
-
   main {
     display: grid;  
-    gap: 25px;
+    gap: 15px;
     grid-template-columns: 2.5fr 1fr 1fr;
-    grid-template-rows: 75px 210px 1fr;
-    padding: 30px 35px;
+    grid-template-rows: 75px 250px 1fr;
+    height: 100%;
+    padding: 20px 35px;
     .top {
       grid-column-start: span 3;
     }
@@ -27,24 +20,27 @@
       grid-column-start: span 3;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 20px;
+      padding: 10px 20px;
       .search-info {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 10px;
         .input-patient {
           display: flex;
           align-items: center;
-          font-size: 18px;
+          font-size: 14px;
           letter-spacing: 0.72px;
-          label {margin-right: 10px; font-weight: 600;}
+          label {font-weight: 600;}
           input {
             width: 150px;
-            padding-bottom: 5px;
+            margin-right: 10px;
+            margin-left: 10px;
+            padding-bottom: 2px;
             border: none;
             border-bottom: 1px solid $grey;
             outline: 0;
-            font-size: 18px;
+            font-size: 14px;
             text-align: center;
           }
           

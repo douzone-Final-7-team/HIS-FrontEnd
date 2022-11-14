@@ -4,15 +4,11 @@ import '../styles/scss/reset.scss';
 import '../styles/wardManagement2.scss';
 
 // components
-import Header from '../layouts/Header';
-import Nav from '../components/nav/Nav';
 import EmpBar from '../components/employee/EmpBar';
 
 const WardManagement2 = () => {
   return (
     <div className='ward-management2'>
-      <header><Header /></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

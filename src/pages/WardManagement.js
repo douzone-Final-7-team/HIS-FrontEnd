@@ -3,8 +3,6 @@ import React from 'react'
 import '../styles/scss/reset.scss';
 import '../styles/wardManagement.scss';
 // components
-import Header from '../layouts/Header';
-import Nav from '../components/nav/Nav';
 import EmpBar from '../components/employee/EmpBar';
 import WardCheck from '../components/patient/WardCheck';
 
@@ -12,8 +10,6 @@ import WardCheck from '../components/patient/WardCheck';
 const WardManagement = () => {
   return (
     <div className='ward-management'>
-      <header><Header/></header>
-      <nav><Nav /></nav>
       <main className='main'>
         <div className='top'>
           <EmpBar />

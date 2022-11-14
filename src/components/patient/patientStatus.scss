@@ -9,7 +9,7 @@
   text-align: center;
   .section-title {
     font-weight: 600;
-    margin-bottom: 15px
+    margin-bottom: 10px
   }
   .filter {
     @extend %filter;
@@ -20,10 +20,9 @@
   .status {
     @extend %contentBox;
     display: grid;
-    grid-template-rows: .1fr 1fr;
+    grid-template-rows: 30px 1fr;
     height: 100%;
-    padding: 20px 5px 10px 5px;
-    > p {margin-bottom: 15px;}
+    padding: 15px 5px 10px 5px;
     > div {
       display: grid;
       gap: 10px;

@@ -1,13 +1,14 @@
 import React from 'react'
 // style
-import './detailedStatus.scss';
+import './reducedPatientStatus.scss';
 
-
-const DetailedStatus = () => {
+const ReducedPatientStatus = () => {
   return (
-    <div className='detailed-status'>
-      <p>1진료실 홍길동(n)</p>
-      <div className='order-content'>
+    <div className='reduced-patient-status'>
+      <p className='section-title'>환자현황</p>
+      <div className='line'></div>
+      <p className='filtering'><span className='the-whole-waiting-list'>전체(n)</span> 대기(n) 진찰중(n) 완료(n)</p>
+      <div className='status-wrapper'>
         <div className='waiting-order selected'>
             <p className='waiting-name'>
               김더존
@@ -34,7 +35,7 @@ const DetailedStatus = () => {
               김더존
               <span className='medical-hours'>11:46</span>
             </p>
-          <p className='status-value'>진찰중</p>
+          <p className='status-value'>대기중</p>
         </div> 
         <div className='waiting-order completion'>
             <p className='waiting-name'>
@@ -42,10 +43,24 @@ const DetailedStatus = () => {
               <span className='medical-hours'>11:46</span>
             </p>
           <p className='status-value'>완료</p>
-        </div> 
+        </div>
+        <div className='waiting-order completion'>
+            <p className='waiting-name'>
+              김더존
+              <span className='medical-hours'>11:46</span>
+            </p>
+          <p className='status-value'>완료</p>
+        </div>
+        <div className='waiting-order completion'>
+            <p className='waiting-name'>
+              김더존
+              <span className='medical-hours'>11:46</span>
+            </p>
+          <p className='status-value'>완료</p>
+        </div>
       </div>
     </div>
   )
 }
 
-export default DetailedStatus;
+export default ReducedPatientStatus;
