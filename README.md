@@ -4,7 +4,11 @@
 
 ## 개발목표
 
+<br> 
+
 ### 서비스 내용
+
+<br> 
 
 ### 🛠 Using Libraries
 
@@ -14,9 +18,11 @@
 - redux-toolkit
 - axios
 
+<br> 
 
 ### 프로젝트 진행
 
+<br> 
 
 ### 개발내용
 
