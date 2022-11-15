@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // API 호출
-import PatientApi from '../api/PatientApi';
+// import PatientApi from '../api/PatientApi';
 
 // createAsyncThunk
 const asyncUpFetch = createAsyncThunk(
-  'Slice/asyncUpFetch',   //type
-  async (userId) => {
-    const resp = await PatientApi.fetchById(userId)     //요청 : 서버접속
-    const data = await resp.json(); 
-    return data.value;    
-  }
+  // 'Slice/asyncUpFetch',   //type
+  // async (userId) => {
+  //   const resp = await PatientApi.fetchById(userId)     //요청 : 서버접속
+  //   const data = await resp.json(); 
+  //   return data.value;    
+  // }
 )
 
 // initialState
