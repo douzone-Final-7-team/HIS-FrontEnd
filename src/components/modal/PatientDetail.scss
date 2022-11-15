@@ -1,0 +1,14 @@
+@import '../../styles/scss/elements';
+@import '../../styles/scss/variables';
+
+.detail-box {
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    main {
+      display: flex;
+      justify-content: center;
+    }
+}

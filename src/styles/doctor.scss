@@ -54,7 +54,7 @@
           position: absolute;
           left: 50%;
           transform: translate(-50%);
-          z-index: 999;
+          z-index: 900;
 
           .dropdown-box{
 
@@ -118,6 +118,7 @@
         }
       }
     }
+    
     .item2 {
       grid-row-start: span 2;
       height: 100%;
@@ -126,18 +127,26 @@
       @extend %contentBox;
       width: 1400px;
       height: 150px;
+      padding: 15px 0;
       overflow-y: scroll;
       overflow-x: hidden;
 
       .admissionTitle {
         display: flex;
         justify-content: center;
-        margin-top: 5px;
-        font-weight: bold;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .line {
+        width: 1400px;
+        height: 3px;
+        margin-bottom: 10px;
+        background-color: $primaryColor;
       }
 
       .admissionTb {
-        width: 1383px;
+        width: 1390px;
         border: 1px solid;
         border-collapse: collapse;
         text-align: center;
@@ -161,14 +170,147 @@
 
 
       }
-    }
-    .item4 {
-      height: 100%;
-      border: 1px solid #000;
-    }
-    .item5 {
-      height: 100%;
-      border: 1px solid #000;
+    } 
+    
+    .treatment-box {
+      @extend %contentBox;
+      width: 1400px;
+      padding: 15px 0;
+
+      .box-title {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .line {
+        width: 1400px;
+        height: 3px;
+        margin-bottom: 10px;
+        background-color: $primaryColor;
+      }
+
+      .case-div {
+        display: inline;
+        margin-top: 30px;
+
+        span {
+          font-size: 17px;
+          font-weight: 600;
+        }
+
+        input {
+          width: 250px;
+          height: 25px;
+          margin-left: 20px;
+          border: 1px solid $tblBorder;
+          border-radius: 5px;
+        }
+      }
+
+      .treatment-form {
+        padding: 0 30px;
+
+        .devide {
+          display: inline-block;
+
+          .order-div {
+            margin-top: 30px;
+          }
+  
+          .form-span {
+            font-size: 17px;
+            font-weight: 600;
+          }
+  
+          .treatment-checkbox,
+          .medicine-checkbox,
+          .admission-checkbox {
+            margin-left: 25px;
+          }
+  
+          .checkbox-span {
+            font-weight: 600;
+          }
+
+          .order-detail {
+            display: inline-block;
+  
+            span {
+              font-size: 17px;
+              font-weight: 600;
+            }
+  
+            input {
+              width: 300px;
+              height: 120px;
+              margin-top: 10px;
+              border: 1px solid $tblBorder;
+              border-radius: 5px;
+            }
+  
+            .treatment-detail,
+            .medicine-detail,
+            .admission-detail {
+              display: block;
+              position: absolute;
+            }
+  
+            .treatment-detail {
+              display: none;
+              left: 27%;
+              bottom: 24%;
+            }
+  
+            .medicine-detail {
+              display: none;
+              left: 44.2%;
+              bottom: 24%;
+            }
+  
+            .admission-detail {
+              display: none;
+              left: 61.4%;
+              bottom: 24%;
+            }
+          }
+        }
+
+        .treatment-checkbox:checked ~ * .treatment-detail {
+          display: block;
+        }
+
+        .medicine-checkbox:checked ~ * .medicine-detail {
+          display: block;
+        }
+
+        .admission-checkbox:checked ~ * .admission-detail {
+          display: block;
+        }
+
+        .memo-div {
+          margin-top: 35px;
+
+          span {
+            font-size: 17px;
+            font-weight: 600;
+          }
+
+          .memo-input {
+            width: 1340px;
+            height: 150px;
+            border: 1px solid $tblBorder;
+            border-radius: 5px;
+          }
+        }
+
+        a {
+          position: relative;
+          left: 94.4%;
+          margin-top: 12px;
+        }
+      }
     }
   }
 }
