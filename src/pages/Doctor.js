@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import Calendar from 'react-calendar';
 // style
 import '../styles/scss/reset.scss';
@@ -13,7 +14,41 @@ import PatientDetailModal from '../components/modal/PatientDetailModal';
 
 const Doctor = () => {
   const [value, onChange] = useState(new Date());
+  const [inPatient, setInPatient] = useState([{
+    ADMISSION_DATE: "",
+    EMP_NAME: "",
+    GENDER: "",
+    PATIENT_AGE: "",
+    PATIENT_ID_FK: "",
+    PATIENT_NAME: "",
+    ROOM_NUM: ""
+  }]);
+  const [pastTreatment, setPastTreatment] = useState([{
+    DIAGNOSTIC_NAME: "",
+    TREATMENT_DATE: ""
+  }]);
   const [detail, setDetail] = useState(false);
+
+  useEffect(() => {
+    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
+      .then((res) => {
+        console.log(res.data)
+        setInPatient(res.data)
+      });
+
+    axios.get("http://localhost:9090/patient/pastTreatment")
+      .then((res) => {
+        console.log(res.data)
+        setPastTreatment(res.data)
+      });
+  }, []);
+
+
+
+  console.log(inPatient);
+
+  
+
   return (
     <div className='doctor'>
       <main className='main'>
@@ -33,22 +68,13 @@ const Doctor = () => {
                     <th>진단명</th>
                     <th>처방 및 치료 내역</th>
                   </tr>
-                  <tr>
-                    <td>2022-11-14</td>
-                    <td>위염</td>
-                    <td><button onClick={() => setDetail(!detail)}>상세기록</button></td>
-                  </tr>
-                  <tr>
-                    <td>2022-11-14</td>
-                    <td>위염</td>
-                    <td><button>상세기록</button></td>
-                  </tr>
-                  <tr>
-                    <td>2022-11-14</td>
-                    <td>위염</td>
-                    <td><button>상세기록</button></td>
-                  </tr>
-
+                  {pastTreatment.map((data)=> (
+                    <tr>
+                      <td>{data.TREATMENT_DATE}</td>
+                      <td>{data.DIAGNOSTIC_NAME}</td>
+                      <td><button onClick={() => setDetail(!detail)}>상세기록</button></td>
+                    </tr>
+                  ))}
                 </table>
               </div>
             </div>
@@ -98,14 +124,16 @@ const Doctor = () => {
               <th className='admissionTh'>담당 의사</th>
               <th className='admissionTh'>병실</th>
             </tr>
-            <tr>
-              <td className='admissionTd'>000001</td>
-              <td className='admissionTd'>배병서</td>
-              <td className='admissionTd'>M/26</td>
-              <td className='admissionTd'>2022-10-21</td>
-              <td className='admissionTd'>황동화 교수</td>
-              <td className='admissionTd'>501</td>
-            </tr>
+            {inPatient.map((data) => (
+              <tr>
+                <td className='admissionTd'>{data.PATIENT_ID_FK}</td>
+                <td className='admissionTd'>{data.PATIENT_NAME}</td>
+                <td className='admissionTd'>{data.GENDER}/{data.PATIENT_AGE}</td>
+                <td className='admissionTd'>{data.ADMISSION_DATE}</td>
+                <td className='admissionTd'>{data.EMP_NAME}</td>
+                <td className='admissionTd'>{data.ROOM_NUM}</td>
+              </tr>
+            ))}
           </table>
         </div>
         <div className='treatment-box'>
