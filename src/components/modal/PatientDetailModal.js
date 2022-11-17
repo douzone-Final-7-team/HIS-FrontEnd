@@ -4,8 +4,9 @@ import '../../styles/scss/reset.scss';
 import '../../components/modal/PatientDetail.scss';
 // components 
 
-const PatientDetailModal = () => {
+const PatientDetailModal = (props) => {
 
+    console.log(props);
     return(
         <div className="detail-box">
             <main>
@@ -18,29 +19,29 @@ const PatientDetailModal = () => {
                     <table>
                         <tr>
                             <th>이름</th>
-                            <td><input value="배병서" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].PATIENT_NAME}/></td>
                             <th colSpan={2}>주민등록번호</th>
-                            <td colSpan={2}><input value="970721-1865467" /></td>
+                            <td colSpan={2}><input value={props.pastTreatmentDetail[0].PATIENT_SSN} /></td>
                             <th>보험유무</th>
-                            <td><input value="O"/></td>
+                            <td><input value={props.pastTreatmentDetail[0].INSURANCE_CHECK} /></td>
                         </tr>
                         <tr>
                             <th>S/A</th>
-                            <td><input value="M/26"/></td>
+                            <td id="SA">{props.pastTreatmentDetail[0].GENDER}/{props.pastTreatmentDetail[0].PATIENT_AGE}</td>
                             <th>TEL</th>
-                            <td><input value="010-2227-1396"/></td>
+                            <td><input value={props.pastTreatmentDetail[0].PATIENT_TEL} /></td>
                             <th>진료과</th>
-                            <td><input value="해당 진료과"/></td>
+                            <td><input value={props.pastTreatmentDetail[0].SPECIALITY} /></td>
                             <th>진료구분</th>
-                            <td><input value="재진"/></td>
+                            <td><input value="재진" /></td>
                         </tr>
                         <tr>
                             <th colSpan={2}>주소</th>
-                            <td colSpan={10}><input className="addr" value="부산시 금정구 금정로 20 107동 2904호" /></td>
+                            <td colSpan={10}><input className="addr" value={props.pastTreatmentDetail[0].PATIENT_ADDR} /></td>
                         </tr>
                         <tr>
                             <th colSpan={2}>증상</th>
-                            <td colSpan={10}><input className="symptom" value="존나 아프다" /></td>
+                            <td colSpan={10}><input className="symptom" value={props.pastTreatmentDetail[0].SYMPTOM} /></td>
                         </tr>
                     </table>
                   </div>
@@ -50,31 +51,31 @@ const PatientDetailModal = () => {
                     <table>
                         <tr>
                             <th>진료 의사</th>
-                            <td><input value="황동화 교수" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].EMP_NAME} /></td>
                             <th>병 명</th>
-                            <td><input value="위염" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].DIAGNOSTIC_NAME} /></td>
                             <th>치료</th>
-                            <td><input value="O" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].TREATMENT_CHECK} /></td>
                             <th>입원</th>
-                            <td><input value="O" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].ADMISSION_CHECK}/></td>
                             <th>약 처방</th>
-                            <td><input value="O" /></td>
+                            <td><input value={props.pastTreatmentDetail[0].PRESCRIPTION_CHECK}/></td>
                         </tr>
                         <tr>
                             <th>치료오더</th>
-                            <td colSpan={10}><input value="치료 오더 내역입니다." /></td>
+                            <td colSpan={10}><input value={props.pastTreatmentDetail[0].TREATMENT_ORDER} /></td>
                         </tr>
                         <tr>
                             <th>입원 오더</th>
-                            <td colSpan={10}><input value="입원 오더 내용입니다." /></td>
+                            <td colSpan={10}><input value={props.pastTreatmentDetail[0].ADMISSION_DUEDATE} /></td>
                         </tr>
                         <tr>
                             <th>약 처방</th>
-                            <td colSpan={10}><input value="약 처방 내역입니다." /></td>
+                            <td colSpan={10}><input value={props.pastTreatmentDetail[0].PRESCRIPTION} /></td>
                         </tr>
                         <tr className="memo-tr">
                             <th>진료 메모</th>
-                            <td colSpan={10}><input value="진료 메모입니다." /></td>
+                            <td colSpan={10}><input value={props.pastTreatmentDetail[0].TREATMENT_MEMO} /></td>
                         </tr>
                     </table>
                   </div>

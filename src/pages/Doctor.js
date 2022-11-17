@@ -14,40 +14,53 @@ import PatientDetailModal from '../components/modal/PatientDetailModal';
 
 const Doctor = () => {
   const [value, onChange] = useState(new Date());
-  const [inPatient, setInPatient] = useState([{
-    ADMISSION_DATE: "",
-    EMP_NAME: "",
-    GENDER: "",
-    PATIENT_AGE: "",
-    PATIENT_ID_FK: "",
-    PATIENT_NAME: "",
-    ROOM_NUM: ""
-  }]);
-  const [pastTreatment, setPastTreatment] = useState([{
-    DIAGNOSTIC_NAME: "",
-    TREATMENT_DATE: ""
-  }]);
+  const [inPatientList, setInPatientList] = useState([{}]);
+  const [pastTreatmentList, setPastTreatmentList] = useState([{}]);
+  const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
+  const [diagnosis, setDiagnosis] = useState("");
+  const [treatmentMemo, setTreatmentMemo] = useState("");
+  const [treatmentOrder, setTreatmentOrder] = useState("");
+  const [medicineOrder, setMedicineOrder] = useState("");
+  const [admissionOrder, setAdmissionOrder] = useState(""); 
   const [detail, setDetail] = useState(false);
 
   useEffect(() => {
     axios.get("http://localhost:9090/AdmissionFront/myInPatient")
       .then((res) => {
-        console.log(res.data)
-        setInPatient(res.data)
+        setInPatientList(res.data)
       });
 
-    axios.get("http://localhost:9090/patient/pastTreatment")
+    axios.get("http://localhost:9090/patient/pastTreatmentList")
       .then((res) => {
-        console.log(res.data)
-        setPastTreatment(res.data)
+        setPastTreatmentList(res.data)
       });
+
+    axios.get("http://localhost:9090/patient/pastTreatmentDetail")
+      .then((res) => {
+        setPastTreatmentDetail(res.data)
+      });
+
   }, []);
 
+  const data = {
+    diagnosis: diagnosis,
+    treatmentMemo: treatmentMemo,
+    treatmentOrder: treatmentOrder,
+    medicineOrder: medicineOrder,
+    admissionOrder: admissionOrder
+  }
 
-
-  console.log(inPatient);
-
-  
+  const sendMedicalCharts = () => {
+    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+    {
+      headers: {
+        "Content-Type" : `application/json`,
+      },
+    })
+    .then((res)=>{
+      console.log(res);
+    })
+  }
 
   return (
     <div className='doctor'>
@@ -68,7 +81,7 @@ const Doctor = () => {
                     <th>진단명</th>
                     <th>처방 및 치료 내역</th>
                   </tr>
-                  {pastTreatment.map((data)=> (
+                  {pastTreatmentList.map((data)=> (
                     <tr>
                       <td>{data.TREATMENT_DATE}</td>
                       <td>{data.DIAGNOSTIC_NAME}</td>
@@ -81,7 +94,7 @@ const Doctor = () => {
           </div>
           {detail && (
                       <Modal closeModal={() => setDetail(!detail)}>
-                        <PatientDetailModal />
+                        <PatientDetailModal pastTreatmentDetail={pastTreatmentDetail} />
                       </Modal>
                     )}
           <table className='infoTable'>
@@ -124,7 +137,7 @@ const Doctor = () => {
               <th className='admissionTh'>담당 의사</th>
               <th className='admissionTh'>병실</th>
             </tr>
-            {inPatient.map((data) => (
+            {inPatientList.map((data) => (
               <tr>
                 <td className='admissionTd'>{data.PATIENT_ID_FK}</td>
                 <td className='admissionTd'>{data.PATIENT_NAME}</td>
@@ -140,7 +153,14 @@ const Doctor = () => {
           <span className='box-title'>진료 기록</span>
           <div className='line'></div>
           <form className='treatment-form'> <br /> <br />
-          <div className='case-div'><span>병 &nbsp;&nbsp;&nbsp;명</span> <input className='name-input' placeholder='병명을 입력해주세요.'/></div> <br />
+          <div className='case-div'><span>병 &nbsp;&nbsp;&nbsp;명</span> 
+            <input 
+              className='name-input' 
+              placeholder='병명을 입력해주세요.' 
+              onChange={(e) => {
+                setDiagnosis(e.target.value);
+              }} />
+          </div> <br />
             <div className='devide'>
               <div className='order-div'><span className='form-span'>오 &nbsp;&nbsp;&nbsp;더</span>
                 <input className='treatment-checkbox' type="checkbox" /> <span className='checkbox-span'>치료</span> 
@@ -148,14 +168,48 @@ const Doctor = () => {
                 <input className='admission-checkbox' type="checkbox" /> <span className='checkbox-span'>입원 여부</span>
 
                 <div className='order-detail'>
-                  <div className='treatment-detail'><span>치료 처방</span> <br /> <input /></div>
-                  <div className='medicine-detail'><span>약 처방</span> <br /> <input /></div>
-                  <div className='admission-detail'><span>입원 오더</span> <br /> <input /></div>
+                  <div className='treatment-detail'>
+                    <span>치료 처방</span> <br /> 
+                    <textarea 
+                      onChange={(e) => {
+                        setTreatmentOrder(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className='medicine-detail'>
+                    <span>약 처방</span> <br /> 
+                    <textarea 
+                      onChange={(e) => {
+                        setMedicineOrder(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className='admission-detail'>
+                    <span>입원 오더</span> <br /> 
+                    <textarea 
+                      onChange={(e) => {
+                        setAdmissionOrder(e.target.value);
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </div>  
             </div>
-            <div className='memo-div'><span className='form-span'>진료 메모</span> <br /> <br /><input className='memo-input' type={"text"}/></div>
-            <a href='#!' className='btn'>완료</a>
+
+            <div className='memo-div'>
+              <span className='form-span'>진료 메모</span> <br /><br /> 
+              <textarea 
+                onChange={(e) => {
+                  setTreatmentMemo(e.target.value);
+                }}
+              />
+            </div>
+            <a 
+              href='#!' 
+              className='btn' 
+              onClick={(e) => {
+                sendMedicalCharts();
+            }}>완료</a>
           </form>
         </div>
         <ReducedPatientStatus />
