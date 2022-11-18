@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Pages from './pages/index.js';
+import { Provider } from 'react-redux';
+import store from './redux/store.js';
+import Pages from './pages/PagiNavigation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
-    <Pages />
+  <Provider store={store}>
+      <Pages />
+  </Provider>
 );
