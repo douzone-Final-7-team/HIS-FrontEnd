@@ -152,20 +152,27 @@ const Doctor = () => {
         <div className='treatment-box'>
           <span className='box-title'>진료 기록</span>
           <div className='line'></div>
-          <form className='treatment-form'> <br /> <br />
-          <div className='case-div'><span>병 &nbsp;&nbsp;&nbsp;명</span> 
-            <input 
-              className='name-input' 
-              placeholder='병명을 입력해주세요.' 
-              onChange={(e) => {
-                setDiagnosis(e.target.value);
-              }} />
-          </div> <br />
+          <form className='treatment-form'> 
+
             <div className='devide'>
-              <div className='order-div'><span className='form-span'>오 &nbsp;&nbsp;&nbsp;더</span>
-                <input className='treatment-checkbox' type="checkbox" /> <span className='checkbox-span'>치료</span> 
-                <input className='medicine-checkbox' type="checkbox" /> <span className='checkbox-span'>약</span>
-                <input className='admission-checkbox' type="checkbox" /> <span className='checkbox-span'>입원 여부</span>
+
+              <div className='order-div'>
+
+                <div className='case-div'><span>병 &nbsp;&nbsp;&nbsp;명</span> 
+                    <input 
+                      className='name-input' 
+                      placeholder='병명을 입력해주세요.' 
+                      onChange={(e) => {
+                        setDiagnosis(e.target.value);
+                      }} />
+
+                    <div className='order-checkbox'>
+                      <span className='form-span'>오 &nbsp;&nbsp;&nbsp;더</span>
+                      <input className='treatment-checkbox' type="checkbox" /> <span className='checkbox-span'>치료</span> 
+                      <input className='medicine-checkbox' type="checkbox" /> <span className='checkbox-span'>약</span>
+                      <input className='admission-checkbox' type="checkbox" /> <span className='checkbox-span'>입원 여부</span>
+                    </div>
+                </div>
 
                 <div className='order-detail'>
                   <div className='treatment-detail'>
@@ -176,6 +183,7 @@ const Doctor = () => {
                       }}
                     />
                   </div>
+
                   <div className='medicine-detail'>
                     <span>약 처방</span> <br /> 
                     <textarea 
@@ -184,6 +192,7 @@ const Doctor = () => {
                       }}
                     />
                   </div>
+                  
                   <div className='admission-detail'>
                     <span>입원 오더</span> <br /> 
                     <textarea 
@@ -194,6 +203,7 @@ const Doctor = () => {
                   </div>
                 </div>
               </div>  
+
             </div>
 
             <div className='memo-div'>

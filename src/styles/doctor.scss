@@ -191,51 +191,57 @@
         background-color: $primaryColor;
       }
 
-      .case-div {
-        display: inline;
-        margin-top: 30px;
-
-        span {
-          font-size: 17px;
-          font-weight: 600;
-        }
-
-        input {
-          width: 250px;
-          height: 25px;
-          margin-left: 20px;
-          border: 1px solid $tblBorder;
-          border-radius: 5px;
-        }
-      }
-
       .treatment-form {
         padding: 0 30px;
 
         .devide {
-          display: inline-block;
+          display: block;
 
           .order-div {
-            margin-top: 30px;
-          }
+            display: inline-block;
+
+            .form-span {
+              font-size: 17px;
+              font-weight: 600;
+            } 
+
+            .case-div {
+              display: inline;
+      
+              span {
+                font-size: 17px;
+                font-weight: 600;
+              }
+      
+              input {
+                width: 250px;
+                height: 25px;
+                margin-left: 20px;
+                border: 1px solid $tblBorder;
+                border-radius: 5px;
+              }
+
+              .order-checkbox {
+                display: inline-block;
   
-          .form-span {
-            font-size: 17px;
-            font-weight: 600;
-          }
+                .treatment-checkbox,
+                .medicine-checkbox,
+                .admission-checkbox {
+                  margin-left: 25px;
+                }
+      
+                .checkbox-span {
+                  font-weight: 600;
+                }
   
-          .treatment-checkbox,
-          .medicine-checkbox,
-          .admission-checkbox {
-            margin-left: 25px;
-          }
-  
-          .checkbox-span {
-            font-weight: 600;
+              }
+            }
+
           }
 
           .order-detail {
             display: inline-block;
+            margin-left: 30px;
   
             span {
               font-size: 17px;
@@ -253,44 +259,25 @@
             .treatment-detail,
             .medicine-detail,
             .admission-detail {
-              display: block;
-              position: absolute;
+              display: inline-block;
             }
   
-            .treatment-detail {
-              display: none;
-              left: 27%;
-              bottom: 24%;
-            }
-  
-            .medicine-detail {
-              display: none;
-              left: 44.2%;
-              bottom: 24%;
-            }
-  
-            .admission-detail {
-              display: none;
-              left: 61.4%;
-              bottom: 24%;
-            }
           }
         }
 
         .treatment-checkbox:checked ~ * .treatment-detail {
-          display: block;
+          display: none;
         }
 
         .medicine-checkbox:checked ~ * .medicine-detail {
-          display: block;
+          display: none;
         }
 
         .admission-checkbox:checked ~ * .admission-detail {
-          display: block;
+          display: none;
         }
 
         .memo-div {
-          margin-top: 35px;
 
           span {
             font-size: 17px;

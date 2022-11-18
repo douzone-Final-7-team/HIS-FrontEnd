@@ -11,6 +11,7 @@ import Outpatient from './Outpatient';
 import WardManagement from './WardManagement';
 import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
+import Login from './Login';
 
 const PagiNavigation = () => {
   return(
@@ -21,6 +22,7 @@ const PagiNavigation = () => {
           <nav><Nav /></nav>
           <div>
             <Routes>
+              <Route path="/" element={<Login/>} />
               <Route path="/reception" element={<Reception />} />
               <Route path="/doctor" element={<Doctor/>} />
               <Route path='/outpatient' element={<Outpatient/>} />
