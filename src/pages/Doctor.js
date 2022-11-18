@@ -5,18 +5,17 @@ import Calendar from 'react-calendar';
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
 import '../styles/Calendar.css';
-import '../components/modal/modal.scss';
+
 // components
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
-import Modal from '../components/modal/Modal';
-import PatientDetailModal from '../components/modal/PatientDetailModal';
+
 
 const Doctor = () => {
+
   const [value, onChange] = useState(new Date());
   const [inPatientList, setInPatientList] = useState([{}]);
   const [pastTreatmentList, setPastTreatmentList] = useState([{}]);
-  const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
   const [diagnosis, setDiagnosis] = useState("");
   const [treatmentMemo, setTreatmentMemo] = useState("");
   const [treatmentOrder, setTreatmentOrder] = useState("");
@@ -33,11 +32,6 @@ const Doctor = () => {
     axios.get("http://localhost:9090/patient/pastTreatmentList")
       .then((res) => {
         setPastTreatmentList(res.data)
-      });
-
-    axios.get("http://localhost:9090/patient/pastTreatmentDetail")
-      .then((res) => {
-        setPastTreatmentDetail(res.data)
       });
 
   }, []);
@@ -92,11 +86,7 @@ const Doctor = () => {
               </div>
             </div>
           </div>
-          {detail && (
-                      <Modal closeModal={() => setDetail(!detail)}>
-                        <PatientDetailModal pastTreatmentDetail={pastTreatmentDetail} />
-                      </Modal>
-                    )}
+      
           <table className='infoTable'>
             <tr>
               <th className='devide1'>S/A</th>

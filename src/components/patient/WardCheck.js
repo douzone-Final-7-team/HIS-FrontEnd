@@ -47,11 +47,8 @@ const RoomOpions = [
 // }
 
 
-
-
-
 const WardCheck = () => {
-  
+
   const selectedadPeople = [];
 
   let selectedOutInfo;
@@ -67,9 +64,9 @@ const WardCheck = () => {
         "roomNum" : selectedadPeople[1].substr(2,1),
         "bedNum" : selectedadPeople[0]
       }
-
+     
       selectedOutInfo = JSON.stringify(selectedOutInfo)
-
+   
       dispatch(selectPeople(selectedOutInfo))
  
       // 비동기 정보
@@ -79,25 +76,20 @@ const WardCheck = () => {
     
 
   const [roomInfos, setRoomInfos] = useState([]);
-  const [test, setTest] = useState([]);
-  console.log("let : " + JSON.stringify(data));
+  const [test, setTest] = useState([]);;
     useEffect(()=>{
       axios.get("http://localhost:9090/admission/roominfos", {params : data})
           .then(res => setRoomInfos(res.data));
     },[test]);
 
-    console.log(roomInfos);
-    console.log("아아아아아"+test);
+
 
     const WardSelectBox = (props) =>{
       const wardHandleChange = (e) => {
         let ward = '';
         ward = e.target.value;
-        console.log("Change : "+ward);
         data.ward = ward;
-        console.log("Data : "+data.ward);
         setTest(...test,ward);
-        console.log("selectBox : "+test);
       }
       
       return (
@@ -118,11 +110,8 @@ const WardCheck = () => {
       const roomHandleChange = (e) => {
         let roomNum = '';
         roomNum = e.target.value;
-        console.log("Change : "+roomNum);
         data.roomNum = roomNum;
-        console.log("Data : "+data.roomNum);
         setTest(...test,roomNum);
-        console.log("selectBox : "+test);
       }
       
       return (
@@ -138,12 +127,6 @@ const WardCheck = () => {
         </select>
       )
     }
-
-
-    
-    console.log("selectbox(data) : " + data.empIdPk);
-    console.log("selectbox(data) : " + data.ward);
-    console.log("selectbox(data) : " + data.roomNum);
 
   return (
     <div className='ward-check'>
