@@ -5,12 +5,12 @@ import Calendar from 'react-calendar';
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
 import '../styles/Calendar.css';
-import '../components/modal/modal.scss';
+import '../components/doctor/pastTreatmentModal.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
-import Modal from '../components/modal/Modal';
-import PatientDetailModal from '../components/modal/PatientDetailModal';
+import Modal from '../components/doctor/pastTreatmentModal';
+import PatientDetailModal from '../components/doctor/PatientDetailModal';
 
 const Doctor = () => {
   const [value, onChange] = useState(new Date());
@@ -22,6 +22,7 @@ const Doctor = () => {
   const [treatmentOrder, setTreatmentOrder] = useState("");
   const [medicineOrder, setMedicineOrder] = useState("");
   const [admissionOrder, setAdmissionOrder] = useState(""); 
+  const [admissionCheck, setAdmissionCheck] = useState(0);
   const [detail, setDetail] = useState(false);
 
   useEffect(() => {
@@ -47,7 +48,8 @@ const Doctor = () => {
     treatmentMemo: treatmentMemo,
     treatmentOrder: treatmentOrder,
     medicineOrder: medicineOrder,
-    admissionOrder: admissionOrder
+    admissionOrder: admissionOrder,
+    admissionCheck: admissionCheck
   }
 
   const sendMedicalCharts = () => {
@@ -151,27 +153,33 @@ const Doctor = () => {
         </div>
         <div className='treatment-box'>
           <span className='box-title'>진료 기록</span>
-          <div className='line'></div>
-          <form className='treatment-form'> 
+          <div className='line' />
 
-            <div className='devide'>
+            <form className='treatment-form'>
 
-              <div className='order-div'>
+              <div className='divide1'>
 
-                <div className='case-div'><span>병 &nbsp;&nbsp;&nbsp;명</span> 
-                    <input 
-                      className='name-input' 
+                <div className='diagnosis-div'>
+                  <span className='diagnosis-title'>병 &nbsp;&nbsp;&nbsp; 명 : </span>
+                  <input 
+                      className='diagnosis-input' 
                       placeholder='병명을 입력해주세요.' 
                       onChange={(e) => {
                         setDiagnosis(e.target.value);
                       }} />
-
-                    <div className='order-checkbox'>
-                      <span className='form-span'>오 &nbsp;&nbsp;&nbsp;더</span>
-                      <input className='treatment-checkbox' type="checkbox" /> <span className='checkbox-span'>치료</span> 
-                      <input className='medicine-checkbox' type="checkbox" /> <span className='checkbox-span'>약</span>
-                      <input className='admission-checkbox' type="checkbox" /> <span className='checkbox-span'>입원 여부</span>
-                    </div>
+                      <br />
+                  <div className='order-div'>
+                    <span>오 &nbsp;&nbsp;&nbsp; 더 : </span>
+                    <input className='treatment-checkbox' type="checkbox" /> <span>치료</span> 
+                    <input className='medicine-checkbox' type="checkbox" /> <span>약</span>
+                    <input 
+                      className='admission-checkbox' 
+                      type="checkbox" 
+                      onChange={() => {
+                        setAdmissionCheck(1);
+                      }}
+                      /> <span>입원 여부</span>
+                  </div>
                 </div>
 
                 <div className='order-detail'>
@@ -202,25 +210,32 @@ const Doctor = () => {
                     />
                   </div>
                 </div>
-              </div>  
 
-            </div>
+              </div>
 
-            <div className='memo-div'>
-              <span className='form-span'>진료 메모</span> <br /><br /> 
-              <textarea 
-                onChange={(e) => {
-                  setTreatmentMemo(e.target.value);
-                }}
-              />
-            </div>
-            <a 
-              href='#!' 
-              className='btn' 
-              onClick={(e) => {
-                sendMedicalCharts();
-            }}>완료</a>
-          </form>
+              <div className='divide2'>
+
+                <div className='memo-div'>
+
+                  <span className='form-span'>진료 메모</span> <br /><br /> 
+                    <textarea 
+                      onChange={(e) => {
+                      setTreatmentMemo(e.target.value);
+                      }}
+                    />
+
+                </div>
+
+                <a 
+                  href='#!' 
+                  className='btn' 
+                  onClick={(e) => {
+                    sendMedicalCharts();
+                  }}>완료</a>
+
+              </div>
+
+            </form>
         </div>
         <ReducedPatientStatus />
       </main>

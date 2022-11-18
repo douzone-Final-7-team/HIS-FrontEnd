@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/reception.scss';
-import '../components/modal/modal.scss'
 // components
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
@@ -14,8 +13,6 @@ import { useDispatch } from 'react-redux';
 import { find } from '../redux/Slice';
 import PatientAction from '../redux/modules/patient/PatientAction';
 import PatientApi from '../api/PatientApi';
-import Modal from '../components/modal/Modal';
-import PatientRegistrationModal from '../components/modal/PatientRegistrationModal';
 
 const Reception = (props) => {
   const dispatch = useDispatch();
@@ -48,11 +45,11 @@ const Reception = (props) => {
             </div>
             <div className='btns'>
               <input type="button" value="등록" className='regbtn' onClick={() => setRegistration(!registration)}/>
-              {registration && (
+              {/* {registration && (
                 <Modal closeModal={() => setRegistration(!registration)}>
                   <PatientRegistrationModal/>
                 </Modal>
-              )}
+              )} */}
               <a href='#' className='btn '>접수</a>
             </div>
           </div>
