@@ -41,7 +41,7 @@ const Receipt = () => {
             </tr>
           </tbody>
         </table>
-        <a href='#' className='btn'>수납</a>
+        <a href='#!' className='btn'>수납</a>
       </div>
     </div>
   )
