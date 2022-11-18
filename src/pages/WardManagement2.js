@@ -2,18 +2,17 @@ import React, { useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/wardManagement2.scss';
-import '../components/Modal/careInfoModalmodal.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import WardCheck from '../components/patient/WardCheck';
 import WardPatientRequest from '../components/WardManagement2/WardPatientRequest';
 import WardMangeMentTap from '../components/WardManagement2/WardMangementTab';
 import GlobalMangementTab from '../components/WardManagement2/GlobalMangementTab';
-import CareInfoModalmodal from '../components/Modal/CareInfoModal';
+
 
 const WardManagement2 = () => {
 
-  const [excuteModal, setExcuteModal] = useState(false);
+
   
   return (
     <div className='ward-management2'>
@@ -26,7 +25,7 @@ const WardManagement2 = () => {
         </div>
         <div className='item2'>
         <div className='outpatientDetail-wapper'>
-          <WardMangeMentTap setExcuteModal={setExcuteModal} excuteModal={excuteModal}/>
+          <WardMangeMentTap/>
         </div>
       </div>
         <div className='item3'>
@@ -36,7 +35,7 @@ const WardManagement2 = () => {
           <GlobalMangementTab/>
         </div>
       </main>
-      {excuteModal &&(<CareInfoModalmodal setExcuteModal={setExcuteModal} excuteModal={!excuteModal}/>)}
+
     </div>
   );
 }
