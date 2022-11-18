@@ -147,6 +147,10 @@ const Outpatient = () => {
                 <input type='number'/> - <input type='number'/>
               </form>
             </div>
+            <div className='btns'>
+              <a href='#!' className='btn'>등록</a>
+              <a href='#!' className='btn '>접수</a>
+            </div>
           </div>
           <PatientDetail patient={patient}/>
           <MedicalHistory />
