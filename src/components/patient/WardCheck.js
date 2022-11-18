@@ -2,7 +2,39 @@ import React from 'react'
 // style
 import './wardCheck.scss';
 
+//redux
+import { useDispatch } from 'react-redux';
+import {getInpatientInfo} from '../../redux/AdmissionPatientInfoApi';
+import { selectPeople } from '../../redux/outPatientInfoSlice';
+
 const WardCheck = () => {
+  
+  const selectedadPeople = [];
+
+  let selectedOutInfo;
+  const dispatch = useDispatch();
+ 
+    const sendWardbasicData = () =>{
+      for(let i=0 ; i < document.getElementById('aaa').childNodes.length ; i++){
+        selectedadPeople[i] = document.getElementById('aaa').childNodes[i].innerText
+      }
+        selectedOutInfo = {
+        "name": selectedadPeople[2],
+        "ward" : selectedadPeople[1].substr(0,1)*100,
+        "roomNum" : selectedadPeople[1].substr(2,1),
+        "bedNum" : selectedadPeople[0]
+      }
+
+      selectedOutInfo = JSON.stringify(selectedOutInfo)
+
+      dispatch(selectPeople(selectedOutInfo))
+ 
+      // 비동기 정보
+      dispatch(getInpatientInfo(selectedOutInfo));
+
+    }
+    
+
   return (
     <div className='ward-check'>
       <div className='filter'>
@@ -32,10 +64,10 @@ const WardCheck = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr id ='aaa'>
                 <td>1</td>
                 <td>201</td>
-                <td>김더존</td>
+                <td onClick={sendWardbasicData}>배병서</td>
                 <td>홍길동</td>
             </tr>
             <tr>

@@ -25,8 +25,8 @@ const Outpatient = () => {
               </form>
             </div>
             <div className='btns'>
-              <a href='#' className='btn'>등록</a>
-              <a href='#' className='btn '>접수</a>
+              <a href='#!' className='btn'>등록</a>
+              <a href='#!' className='btn '>접수</a>
             </div>
           </div>
           <PatientDetail/>
