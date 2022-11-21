@@ -14,9 +14,10 @@ import PatientDetailModal from '../components/doctor/PatientDetailModal';
 
 const Doctor = () => {
   const [value, onChange] = useState(new Date());
-  const [inPatientList, setInPatientList] = useState([{}]);
+  const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
   const [pastTreatmentList, setPastTreatmentList] = useState([{}]);
   const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
+  const [inPatientList, setInPatientList] = useState([{}]);
   const [diagnosis, setDiagnosis] = useState("");
   const [treatmentMemo, setTreatmentMemo] = useState("");
   const [treatmentOrder, setTreatmentOrder] = useState("");
@@ -26,10 +27,12 @@ const Doctor = () => {
   const [detail, setDetail] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
+
+    axios.get("http://localhost:9090/patient/treatmentPatientInfo")
       .then((res) => {
-        setInPatientList(res.data)
-      });
+        console.log(res.data)
+        setTreatmentPatientInfo(res.data);
+      }); 
 
     axios.get("http://localhost:9090/patient/pastTreatmentList")
       .then((res) => {
@@ -41,6 +44,11 @@ const Doctor = () => {
         setPastTreatmentDetail(res.data)
       });
 
+    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
+      .then((res) => {
+        setInPatientList(res.data)
+    });
+
   }, []);
 
   const data = {
@@ -49,7 +57,8 @@ const Doctor = () => {
     treatmentOrder: treatmentOrder,
     medicineOrder: medicineOrder,
     admissionOrder: admissionOrder,
-    admissionCheck: admissionCheck
+    admissionCheck: admissionCheck,
+    treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
   }
 
   const sendMedicalCharts = () => {
@@ -71,8 +80,8 @@ const Doctor = () => {
           <EmpBar />
         </div>
         <div className='infoBox'>
-          <span className='infoName'>이름 : </span><input className='nameInput' value="배병서"/>
-          <span className='infoSsn'>주민등록번호 : </span><input className='ssnInput' value="970721-1865467"/>
+          <span className='infoName'>이름 : </span><input className='nameInput' value={treatmentPatientInfo[0].PATIENT_NAME}/>
+          <span className='infoSsn'>주민등록번호 : </span><input className='ssnInput' value={treatmentPatientInfo[0].PATIENT_SSN}/>
           <div className='dropdown'>
             <a href='#!'className='btn'>과거병력</a>
             <div className='dropdown-submenu'>
@@ -102,19 +111,19 @@ const Doctor = () => {
           <table className='infoTable'>
             <tr>
               <th className='devide1'>S/A</th>
-              <td className='devide1'><input value="M/26"/></td>
+              <td className='devide1'>{treatmentPatientInfo[0].PATIENT_AGE}/{treatmentPatientInfo[0].GENDER}</td>
               <th className='devide1'>TEL</th>
-              <td><input value="010-2227-1396"/></td>
+              <td><input value={treatmentPatientInfo[0].PATIENT_TEL}/></td>
               <th className='devide1'>진료과</th>
-              <td><input value="해당 진료과"/></td>
+              <td><input value={treatmentPatientInfo[0].SPECIALITY}/></td>
               <th className='devide1'>보험유무</th>
-              <td><input value="O"/></td>
+              <td><input value={treatmentPatientInfo[0].INSURANCE_CHECK}/></td>
               <th className='devide1'>진료구분</th>
-              <td><input value="재진"/></td>
+              <td><input value={treatmentPatientInfo[0].VISITCOUNT}/></td>
             </tr>
             <tr>
               <th colSpan={2}>증상</th>
-              <td colSpan={10}><input value="존나 아프다" /></td>
+              <td colSpan={10}><input value={treatmentPatientInfo[0].SYMPTOM} /></td>
             </tr>
           </table>
         </div>
@@ -184,7 +193,7 @@ const Doctor = () => {
 
                 <div className='order-detail'>
                   <div className='treatment-detail'>
-                    <span>치료 처방</span> <br /> 
+                    <span>치료 오더</span> <br /> 
                     <textarea 
                       onChange={(e) => {
                         setTreatmentOrder(e.target.value);

@@ -17,57 +17,182 @@
     }
 
     .infoBox {
-        background-color: white;
-        width: 600px;
-        height: 480px;
-        border-radius: 10px;
 
-        .infoTitle {
+        .devide1{
+          @extend %contentBox;
+          width: 730px;
+          padding: 5px 0;
+          .infoTitle {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+          }
+  
+          .infoContent {
+            display: flex;
+            justify-content: center;
+  
+            .infoUl {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+  
+              .infoLi {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 50px;
+              }
+  
+              .infoLabel {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+                font-size: 20px;
+                margin-right: 20px;
+              }
+  
+              .infoInput {
+                width: 270px;
+                height: 35px;
+                border-radius: 5px;
+                border: 1px black solid;
+                outline: none;
+              }
+  
+              .pwChange {
+                width: 100px;
+                height: 35px;
+                text-align: center;
+                margin: 0 auto;
+                margin-top: 18px;
+                margin-bottom: 15px;
+                background-color: $primaryColor;
+                color: white;
+                border:1px white solid;
+                border-radius: 5px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+
+        .devide2 {
+          @extend %contentBox;
+          width: 730px;
+          height: 250px;
+          margin-top: 20px;
+          padding: 5px 0;
+
+          p {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+          }
+
+          .change-box1 {
+            display: flex;
+            justify-content: center;
+            
+            ul {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+
+              li {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 30px;
+
+                span {
+                  display: flex;
+                  align-items: center;
+                  font-weight: bold;
+                  font-size: 20px;
+                  margin-right: 20px;
+                }
+
+                input {
+                  width: 270px;
+                  height: 35px;
+                  border-radius: 5px;
+                  border: 1px black solid;
+                  outline: none;
+                }
+              }
+
+              .btn {
+                margin: 0 auto;
+                margin-top: 15px;
+              }
+              
+            }
+          }
+          
+        }
+
+    }
+
+    .jobBox {
+
+      .devide3 {
+        @extend %contentBox;
+        width: 1000px;
+        padding: 5px 0;
+        .jobTitle {
           display: flex;
           justify-content: center;
-          margin-top: 15px;
+          margin-top: 10px;
           margin-bottom: 15px;
           font-size: 18px;
           font-weight: bold;
         }
-
-        .infoContent {
+  
+        .jobContent {
           display: flex;
           justify-content: center;
-
-          .infoUl {
+          
+          .jobUl {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-
-            .infoLi {
+            margin-left: 20px;
+            margin-right: 20px;
+  
+            .jobLi {
               display: flex;
               justify-content: space-between;
               margin-top: 50px;
             }
-
-            .infoLabel {
+  
+            .jobLabel {
               display: flex;
               align-items: center;
               font-weight: bold;
               font-size: 20px;
               margin-right: 20px;
             }
-
-            .infoInput {
+  
+            .jobInput {
               width: 270px;
               height: 35px;
               border-radius: 5px;
               border: 1px black solid;
               outline: none;
             }
-
-            .pwChange {
+  
+            .addrChange {
               width: 100px;
               height: 35px;
               text-align: center;
               margin: 0 auto;
-              margin-top: 23px;
+              margin-top: 18px;
+              margin-bottom: 15px;
               background-color: $primaryColor;
               color: white;
               border:1px white solid;
@@ -76,66 +201,60 @@
             }
           }
         }
-    }
-
-    .jobBox {
-      background-color: white;
-      width: 1000px;
-      border-radius: 10px;
-
-      .jobTitle {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
-        margin-bottom: 15px;
-        font-size: 18px;
-        font-weight: bold;
       }
 
-      .jobContent {
-        display: flex;
-        justify-content: center;
+      .devide4 {
+        @extend %contentBox;
+        width: 1000px;
+        height: 250px;
+        margin-top: 20px;
+        padding: 5px 0;
 
-        .jobUl {
+        p {
           display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          margin-left: 20px;
-          margin-right: 20px;
+          justify-content: center;
+          margin-top: 10px;
+          margin-bottom: 15px;
+          font-size: 18px;
+          font-weight: bold;
+        }
 
-          .jobLi {
+        .change-box2 {
+          display: flex;
+          justify-content: center;
+          
+          ul {
             display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-          }
+            flex-direction: column;
+            justify-content: flex-start;
 
-          .jobLabel {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            font-size: 20px;
-            margin-right: 20px;
-          }
+            li {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 30px;
 
-          .jobInput {
-            width: 270px;
-            height: 35px;
-            border-radius: 5px;
-            border: 1px black solid;
-            outline: none;
-          }
+              span {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+                font-size: 20px;
+                margin-right: 20px;
+              }
 
-          .addrChange {
-            width: 100px;
-            height: 35px;
-            text-align: center;
-            margin: 0 auto;
-            margin-top: 23px;
-            background-color: $primaryColor;
-            color: white;
-            border:1px white solid;
-            border-radius: 5px;
-            cursor: pointer;
+              input {
+                width: 500px;
+                height: 35px;
+                border-radius: 5px;
+                border: 1px black solid;
+                outline: none;
+              }
+            }
+
+            .btn {
+              margin: 0 auto;
+              margin-top: 15px;
+            }
+            
           }
         }
       }

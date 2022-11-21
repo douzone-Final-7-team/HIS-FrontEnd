@@ -13,36 +13,62 @@ const MyPage = () => {
                 <EmpBar />
             </div>
             <div className="infoBox">
-                <p className="infoTitle">개인정보</p>
-                <hr />
-                <div className="infoContent">
-                    <ul className="infoUl">
-                        <li className="infoLi"><label className="infoLabel">이름</label> <input className="infoInput" readOnly/></li>
-                        <li className="infoLi"><label className="infoLabel">주민등록번호</label> <input className="infoInput" readOnly /></li>
-                        <li className="infoLi"><label className="infoLabel">아이디</label> <input className="infoInput" readOnly /></li>
-                        <li className="infoLi"><label className="infoLabel">비밀번호</label> <input className="infoInput" readOnly /></li>
-                        <button className="pwChange">비밀번호 변경</button>
-                    </ul>
+                <div className="devide1">
+                    <p className="infoTitle">개인정보</p>
+                    <hr />
+                    <div className="infoContent">
+                        <ul className="infoUl">
+                            <li className="infoLi"><label className="infoLabel">이름</label> <input className="infoInput" readOnly/></li>
+                            <li className="infoLi"><label className="infoLabel">주민등록번호</label> <input className="infoInput" readOnly /></li>
+                            <li className="infoLi"><label className="infoLabel">아이디</label> <input className="infoInput" readOnly /></li>
+                            <li className="infoLi"><label className="infoLabel">비밀번호</label> <input className="infoInput" readOnly /></li>
+                            <button className="pwChange">비밀번호 변경</button>
+                        </ul>
+                    </div>
+                </div>
+                <div className="devide2">
+                    <p>비밀번호 변경</p>
+                    <hr />
+                    <div className="change-box1">
+                        <ul>
+                            <li><span>현재 비밀번호</span><input /></li>
+                            <li><span>새로운 비밀번호</span><input /></li>
+                            <a className="btn">변경</a>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <div className="jobBox">
-                <p className="jobTitle">직종정보</p>
-                <hr />
-                <div className="jobContent">
-                    <ul className="jobUl">
-                        <li className="jobLi"><label className="jobLabel">직종</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">사원번호</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">면허번호</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">진료과</label><input className="jobInput" readOnly /></li>
-                    </ul>
-                    <ul className="jobUl">
-                        <li className="jobLi"><label className="jobLabel">재직구분</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">면호번호</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">입사일</label><input className="jobInput" readOnly /></li>
-                        <li className="jobLi"><label className="jobLabel">주소</label><input className="jobInput" readOnly /></li>
-                        <button className="addrChange">주소 변경</button>
-                    </ul>
+                <div className="devide3">
+                    <p className="jobTitle">직종정보</p>
+                    <hr />
+                    <div className="jobContent">
+                        <ul className="jobUl">
+                            <li className="jobLi"><label className="jobLabel">직종</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">사원번호</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">면허번호</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">진료과</label><input className="jobInput" readOnly /></li>
+                        </ul>
+                        <ul className="jobUl">
+                            <li className="jobLi"><label className="jobLabel">재직구분</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">면호번호</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">입사일</label><input className="jobInput" readOnly /></li>
+                            <li className="jobLi"><label className="jobLabel">주소</label><input className="jobInput" readOnly /></li>
+                            <button className="addrChange">주소 변경</button>
+                        </ul>
+                    </div>
+                </div>
+                <div className="devide4">
+                    <p>주소 변경</p>
+                    <hr />
+                    <div className="change-box2">
+                        <ul>
+                            <li><span>현재 주소</span><input /></li>
+                            <li><span>변경된 주소</span><input /></li>
+                            <a className="btn">변경</a>
+                        </ul>
+                    </div>
                 </div>
             </div>
             </main>
