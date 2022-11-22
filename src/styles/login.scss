@@ -52,9 +52,12 @@
             }
             
         }
-          button {
+          .btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: 100%;
-              padding: 20px 10px 20px 10px;
+              height: 50px;
               border: none;
               border-radius: 12px;
               background: #00AAFF;
@@ -68,7 +71,6 @@
               &:active {
                   background: darken($primaryColor, 10%);
               }
-              margin-top: 0.8em;
     
           }
         }
