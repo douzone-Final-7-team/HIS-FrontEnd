@@ -30,7 +30,7 @@ const Outpatient = () => {
     if(e.key === 'Enter') {
       dispatch(PatientAction.getTest(inputValue));
     }
-  }, []);
+  }, [dispatch, inputValue]);
 
   return (
     <div className='outpatient'>

@@ -4,7 +4,7 @@
 .handOver-container{
   .checkBox-container{
     margin-top: 13px;
-    margin-left: 1088px;
+    margin-left: 950px;
     padding: 1px;
     display: flex;
     div{
@@ -13,6 +13,13 @@
       cursor: pointer; 
       margin-left: 30px;
       }
+    }
+  }
+  .btn-wapper{
+    margin-left: 990px;
+    display: flex;
+    .btn{
+      margin-left: 12px;
     }
   }
 }
@@ -57,13 +64,11 @@
     .handOver-to{
       width: 15%;
     }
+    .handOver-error{
+      margin-top: 75px;
+      margin-left: 200px;
+      font-size: 35px;
+    }
   }
 }
 
-.btn-wapper{
-  display: flex;
-  align-items : flex-end;
-  .btn{
-    margin-top: 4px;
-  }
-}

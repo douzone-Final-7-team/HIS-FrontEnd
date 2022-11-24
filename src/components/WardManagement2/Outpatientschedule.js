@@ -8,11 +8,16 @@ import './outpatientschedule.scss';
 //redux
 import {  useDispatch, useSelector } from 'react-redux';
 import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
+import { executeModal, modalMode, globalmodifyElement} from '../../redux/outPatientInfoSlice';
+import { setStartDate } from '../../redux/outChangeDateSlice';
 
 
 const OutDatePicker = () => {
 
-  const [startDate, setStartDate] = useState(new Date());
+  const startDate = useSelector(state=>{
+    return state.outChangeDate.value
+  }) 
+
   const [changeDate ,setchangeDate] = useState()
   const dispatch = useDispatch();
 
@@ -37,16 +42,40 @@ const OutDatePicker = () => {
 
   return (
     
-    <DatePicker selected={startDate} onChange={date => setStartDate(date)} dateFormat="yyyy년 MM월 dd일"/>
+    <DatePicker selected={startDate} onChange={date => dispatch(setStartDate(date))} dateFormat="yyyy년 MM월 dd일"/>
   );
 };
 
 const Outpatientschedule = () => {
+  const dispatch = useDispatch();
+
+
+  const ModalMode = (e)=>{
+    let selectMode = e.target.id
+    dispatch(executeModal(true))
+    dispatch(modalMode(selectMode))
+
+    let handOverCheck=document.getElementsByName("schedule");
+    for(let i =0; i < handOverCheck.length ; i++){
+      if(handOverCheck[i].checked){
+        handOverCheck[i].checked =false;
+      }
+    }
+  }
 
   const scheduleInfo = useSelector(state=>{
     return state.outPatientInfo.value[4]
-  })  
-
+  })
+    
+  const selectRow = (e)=>{
+    let changescheduleInfo = {
+      scheduleIdPk : scheduleInfo[e.target.id].SCHEDULE_ID_PK,
+      scheduleContent : scheduleInfo[e.target.id].SCHEDULE_CONTENT,
+      schedulePlace:scheduleInfo[e.target.id].SCHEDULE_PLACE,
+      scheduleDate:scheduleInfo[e.target.id].SCHEDULE_DATE
+    }
+    dispatch(globalmodifyElement(changescheduleInfo))
+  }
 
  
   return (
@@ -55,35 +84,47 @@ const Outpatientschedule = () => {
       <div className='schedule-wapper'>
         <table>
           <thead>
+          {scheduleInfo != null && scheduleInfo[0] != null ? 
+            (scheduleInfo[0].errorCode == null &&
             <tr>
               <th>-</th>
-              <th>날짜</th>
+              <th>시간</th>
               <th>위치</th>
               <th>일정 내용</th>
               <th>환자명</th>
               <th>상태</th>
             </tr>
+            )
+          :
+            <tr>
+              <th>-</th>
+              <th>시간</th>
+              <th>위치</th>
+              <th>일정 내용</th>
+              <th>환자명</th>
+              <th>상태</th>
+            </tr>
+          }
             </thead>
             <tbody>
-            {scheduleInfo != null &&
-              scheduleInfo.map((scheduleInfo, index)=>(
-                <tr key = {index}>
-                <td className='schedule-fix'><input type= "radio" name= "schedule"/></td>
-                <td>{(scheduleInfo.SCHEDULE_DATE + " ").substring(0,10)}</td>
+            {scheduleInfo != null && scheduleInfo[0] != null && ((scheduleInfo[0].errorCode == null ?
+              (scheduleInfo.map((scheduleInfo, index)=>(
+                <tr>
+                <td className='schedule-fix'><input type= "radio" name= "schedule" id = {index} onClick={selectRow}/></td>
+                <td>{(scheduleInfo.SCHEDULE_DATE).substring(11,16)}</td>
                 <td>{scheduleInfo.SCHEDULE_PLACE}</td>
                 <td className='schedule-content'>{scheduleInfo.SCHEDULE_CONTENT}</td>
                 <td >{scheduleInfo.PATIENT_NAME}</td>
                 <td>{scheduleInfo.PS_CODE_NAME}</td>
               </tr>
-            ))}
-
-          
+            ))):<div className='schedule-error'>존재하지 않는 환자 정보입니다. 확인 후 입력 해주세요</div>
+          ))}
           </tbody>
         </table>
       </div>
       <div className='btn-wapper' >
-        <a href='#!' className='btn'>수정</a> 
-        <a href='#!' className='btn'>등록</a>
+        <a href='#!' className='btn' id='schedule-modify' onClick={ModalMode}>수정</a> 
+        <a href='#!' className='btn' id='schedule-create' onClick={ModalMode}>등록</a>
       </div>
     </div>
   )

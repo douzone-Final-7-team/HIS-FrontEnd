@@ -9,8 +9,8 @@ import Outpatientschedule from './Outpatientschedule';
 import HandOver from './HandOver';
 
 //redux
-import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
-import { useDispatch } from 'react-redux';
+import { getInpatientSchedules, getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
+import { useDispatch, useSelector } from 'react-redux';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +53,13 @@ export default function GlobalMangementTab() {
   };
 
   const dispatch = useDispatch();
+  const reloadElements = useSelector(state=>{
+    return state.outPatientInfo.value[5]
+  }) 
+  const reloadSchedule = () =>{
+
+    dispatch(getInpatientSchedules(reloadElements))
+  }
  
   const ToHandOver = () =>{
    // 시큘리티 마무리 되면 userID얻어서 저장
@@ -63,14 +70,14 @@ export default function GlobalMangementTab() {
     let handOverElement = JSON.stringify(user)
 
     dispatch(getReceiveHandOver(handOverElement));
-
   }
+  
   
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="환자 일정" {...a11yProps(0)} />
+          <Tab label="환자 일정" {...a11yProps(0)} onClick={reloadSchedule}/>
           <Tab label="인계 사항" {...a11yProps(1)} onClick={ToHandOver}/>
           <Tab label="입원 예정" {...a11yProps(2)} />
         </Tabs>

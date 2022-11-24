@@ -15,7 +15,6 @@ import PatientRegistrationModal from '../components/modalReception/PatientRegist
 import axios from 'axios';
 
 const Reception = (props) => {
-  const dispatch = useDispatch();
   const [registration, setRegistration] = useState(false);
   const [data, setdata] = useState();
   const [name, setName] = useState();
