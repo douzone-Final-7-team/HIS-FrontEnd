@@ -89,7 +89,7 @@ const Reception = (props) => {
                   <PatientRegistrationModal/>
                 </Modal>
               )} */}
-              <a href='#' className='btn '>접수</a>
+              <a href='#!' className='btn '>접수</a>
             </div>
           </div>
           <PatientDetail data={data} setEmpId={setEmpId} symptom={symptom} setSymptom={setSymptom} setSpecialityName={setSpecialityName}/>
