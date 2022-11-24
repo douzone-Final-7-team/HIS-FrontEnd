@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect} from 'react'
 // icon
 import { AiFillHome } from "react-icons/ai";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
@@ -7,27 +7,30 @@ import './empComponents.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
-import { getSpecialityName } from '../../redux/outPatientInfoSlice';
+// import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
+import { getEmpName, getSpecialityName } from '../../redux/outPatientInfoSlice';
 
 function EmpBar() {
   
   const dispatch = useDispatch();
-  let date= new Date()
-  date = date.getFullYear()+"-"+ (date.getMonth()+1)+"-" + date.getDate()
-  const realdata = date
-  
-  useEffect(()=>{
 
+  const newDate = new Date();
+  let today = newDate;
+  today = today.getFullYear()+"-"+ (today.getMonth()+1)+"-" + today.getDate();
+
+  useEffect(()=>{
     const specialityName = document.getElementById("speciality").innerText.substring(4)
+    const empName = document.getElementById("empName").innerText.substring(3)
     let specialityElements = {
       specialityName :specialityName,
-      searchDate : realdata
+      searchDate :today
     }
+
     dispatch(getSpecialityName(specialityElements))
-    dispatch(getInpatientSchedules(specialityElements))
+    // dispatch(getInpatientSchedules(specialityElements))
+    dispatch(getEmpName(empName))
   
-  },[dispatch, realdata])
+  },[dispatch, today])
 
 
   return (
@@ -48,7 +51,7 @@ function EmpBar() {
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p><span>근무자</span>채송화</p>
+          <p id= "empName"><span>근무자</span>채송화</p>
         </div>                    
       </div>
     </div>

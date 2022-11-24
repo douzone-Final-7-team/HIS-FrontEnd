@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // style
 import '../styles/body.scss';
 // components
@@ -12,8 +12,10 @@ import WardManagement from './WardManagement';
 import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
 import Login from './Login';
+import { RiTextDirectionL } from 'react-icons/ri';
 
 const PagiNavigation = () => {
+  
   return(
     <div className='view'>
       <BrowserRouter>

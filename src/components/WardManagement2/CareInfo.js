@@ -1,15 +1,48 @@
 
 // style
 import './careInfo.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {executeModal, modalMode, modifyElement } from '../../redux/outPatientInfoSlice';
 
 
-const CareInfo = ({setExcuteModal, excuteModal}) => {
+
+const CareInfo = () => {
+  
+  const dispatch = useDispatch()
+
+
+  const ModalMode = (e)=>{
+    let selectMode = e.target.id
+    dispatch(executeModal(true))
+    dispatch(modalMode(selectMode))
+    let careInfoCheck=document.getElementsByName("careInfo");
+    for(let i =0; i < careInfoCheck.length ; i++){
+      if(careInfoCheck[i].checked){
+        careInfoCheck[i].checked =false;
+      }
+    }
+  }
   
   
   const getCareInfo = useSelector(state=>{
     return state.outPatientInfo.value[2]
   })
+
+  const selectRow = (e)=>{
+    let changeCareInfo = {
+      careIdPk : getCareInfo[e.target.id].CARE_ID_PK,
+      careContent : getCareInfo[e.target.id].CARE_CONTENT,
+      nurseName : getCareInfo[e.target.id].NURSE_NAME
+    }
+
+    dispatch(modifyElement(changeCareInfo))
+  }
+
+
+  const checkedStatus = useSelector(state=>{
+    return state.outPatientInfo.value[11]
+  }) 
+
 
   return (
     <div className='care-info-container'>
@@ -26,8 +59,8 @@ const CareInfo = ({setExcuteModal, excuteModal}) => {
           <tbody>
           {getCareInfo != null ?
           getCareInfo.map((careInfo, index)=>(
-            <tr key = {index}>
-              <td className='careInfo-fix'><input type= "radio" name= "careInfo"/></td>
+            <tr>
+              <td className='careInfo-fix'><input type= "radio" name= "careInfo" id = {index} onClick={selectRow} checked={checkedStatus}/></td>
               <td className='careInfo-date'>{(careInfo.CARE_DATE + "").substring(0,10)}</td>
               <td className='careInfo-content'>{careInfo.CARE_CONTENT}</td>
               <td className='careInfo-writer'>{careInfo.NURSE_NAME}</td>
@@ -44,10 +77,12 @@ const CareInfo = ({setExcuteModal, excuteModal}) => {
           </tbody>
         </table>
       </div>
-      <div className='btn-wapper' >
-        <a href='#!' className='btn' onClick={()=>{setExcuteModal(!excuteModal)}}>수정</a> 
-        <a href='#!' className='btn'>등록</a>
+      {getCareInfo != null &&
+      <div className='btn-wapper'>
+        <a href='#!' className='btn' id='careInfo-modify' onClick={ModalMode}>수정</a> 
+        <a href='#!' className='btn' id='careInfo-create' onClick={ModalMode}>등록</a>
       </div>
+      }
     </div>
   )
 }

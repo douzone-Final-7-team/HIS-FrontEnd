@@ -1,10 +1,14 @@
 @import './scss/variables';
 
+
+// header, nav {display: none;}
+
 .wrap {
   display: flex;
   justify-content: space-between;
   background-image: url(../assets/login.png);   
   height: 100vh;
+  width: 100vw;
   .his {
     display: flex;
     flex-direction: column;
@@ -52,14 +56,18 @@
             }
             
         }
-          button {
+          .btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: 100%;
-              padding: 20px 10px 20px 10px;
+              height: 50px;
               border: none;
               border-radius: 12px;
               background: #00AAFF;
               color: #fff;
               font-size: 18px;
+              height: 22%;
               cursor: pointer;
               &:hover {
                   background: lighten($primaryColor, 10%);
@@ -68,7 +76,6 @@
               &:active {
                   background: darken($primaryColor, 10%);
               }
-              margin-top: 0.8em;
     
           }
         }

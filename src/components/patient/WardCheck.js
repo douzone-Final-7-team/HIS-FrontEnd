@@ -5,7 +5,7 @@ import './wardCheck.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-import {getInpatientInfo} from '../../redux/AdmissionPatientInfoApi';
+import {getCareInfo, getInpatientInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
 import { selectPeople } from '../../redux/outPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 
@@ -49,14 +49,14 @@ const WardCheck = () => {
         "roomNum" : selectedadPeople[1].substr(2,1),
         "bedNum" : selectedadPeople[0]
       }
-     
-      selectedOutInfo = JSON.stringify(selectedOutInfo)
-   
+
       dispatch(selectPeople(selectedOutInfo))
- 
+      selectedOutInfo = JSON.stringify(selectedOutInfo)
+     
       // 비동기 정보
       dispatch(getInpatientInfo(selectedOutInfo));
-
+      dispatch(getCareInfo(selectedOutInfo));
+      dispatch(getMediRecords(selectedOutInfo))
     }
   
     // console.log(data.empIdPk);
@@ -145,7 +145,7 @@ const WardCheck = () => {
         <RoomSelectBox options={RoomOpions} defaultValue=''/>
       </div>
       <div className='table-wrapper'>
-          <table class="styled-table">
+          <table className="styled-table">
             <thead>
               <tr>
                 <th>-</th>
