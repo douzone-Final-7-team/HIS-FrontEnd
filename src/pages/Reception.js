@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/reception.scss';
-import '../components/modalReception/modal.scss'
 // components
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
@@ -86,12 +85,12 @@ const Reception = (props) => {
             </div>
             <div className='btns'>
               <input type="button" value="등록" className='regbtn' onClick={() => setRegistration(!registration)}/>
-              {registration && (
+              {/* {registration && (
                 <Modal closeModal={() => setRegistration(!registration)}>
                   <PatientRegistrationModal/>
                 </Modal>
-              )}
-              <button className='regbtn' onClick={receipt}>접수</button>
+              )} */}
+              <a href='#' className='btn '>접수</a>
             </div>
           </div>
           <PatientDetail data={data} setEmpId={setEmpId} symptom={symptom} setSymptom={setSymptom} setSpecialityName={setSpecialityName}/>

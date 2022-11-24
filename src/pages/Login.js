@@ -3,8 +3,6 @@ import '../styles/login.scss';
 import axios from 'axios';
 import logo from '../assets/DOUZONE.png';
 
-
-
 const Login = () => {
 
     const [inputId, setInputId] = useState("");
@@ -12,29 +10,12 @@ const Login = () => {
 
     const userLogin = () => {
       axios.post("http://43.200.169.159:9090/login", {
-      username: inputId,
-      pw: inputPw
-      })
-      .then((res)=>{
-        console.log(res.headers.get('Authorization'))
-        localStorage.setItem('jwt', res.headers.get('Authorization'))
-      })
-      .then(() => {
-        axios.post("http://43.200.169.159:9090/user/myPage", {}, {
-            headers : {'Authorization': localStorage.getItem('jwt')}
-        })
-        .then((res) => {
-          if(res.data[0].ROLE == 'ROLE_DOCTOR') {
-            window.location.href = 'http://localhost:3000/doctor';
-          } else if (res.data[0].ROLE == 'ROLE_INNURSE') {
-            window.location.href = 'http://localhost:3000/ward-management2';
-          } else if (res.data[0].ROLE == 'ROLE_OUTNURSE') {
-            window.location.href = 'http://localhost:3000/ward-management';
-          } else if (res.data[0].ROLE == 'ROLE_RECEIPT') {
-            window.location.href = 'http://localhost:3000/reception';
-          }
-        }); 
-      })
+        username: inputId,
+        pw: inputPw
+        }).then((res)=>{
+          console.log(res.headers.get('Authorization'))
+          localStorage.setItem('jwt', res.headers.get('Authorization'))
+        });
     }
     
     return (
