@@ -1,47 +1,97 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';
 
-const Receipt = () => {
+
+const Receipt = ({ test , setReRender }) => { //비구조할당
+
+
+  let data = { ADMISSION_ID_PK: test };
+
+  const [detail, setDetail] = useState([{}]);
+
+  // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
+
+  useEffect(() => {
+    axios.post(API_URL+"/AdmissionReceipt/AdReceipt", JSON.stringify(data), { headers: { "Content-Type": `application/json` }, })
+      .then(res => setDetail(res.data));
+  }, []);
+
+  console.log((detail));
+  console.log("0번째 : "+detail[0]);
+
+  const AdmissionList = () => {
+
+    return (
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>입원 내역</th>
+            <th>상세 내역</th>
+            <th>금 액</th>
+          </tr>
+        </thead>
+        {detail.map((detailEle) => (
+          <tbody>
+            <tr>
+              <td>입원시작일</td>
+              <td>{detailEle.ADMISSION_DATE}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>퇴원예정일</td>
+              <td>{detailEle.DISCHARGE_DUEDATE}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>총 입원일</td>
+              <td>{detailEle.ADMISSION_TOTAL_DAY}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>입원 금액</td>
+              <td>-</td>
+              <td>{parseInt(detailEle.ADMISSION_TOTAL_DAY) * 50000}</td>
+            </tr>
+            <tr>
+              <td>보험여부</td>
+              <td>{parseInt(detailEle.INSURANCE_COST) === 0 ? "X" : "O"}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>보험할인액</td>
+              <td>-</td>
+              <td>{parseInt(detailEle.INSURANCE_COST) === 0 ? "0" : "-" + detailEle.INSURANCE_COST}</td>
+            </tr>
+            <tr class="active-row">
+              <td>총 수납 금액</td>
+              <td>-</td>
+              <td>{detailEle.TOTAL_COST}</td>
+            </tr>
+
+          </tbody>
+        ))}
+      </table>
+    )
+  }
+
+  function complete(){
+    // console.log(sunabList[index].ADMISSION_ID_PK);
+    axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
+    // .then(res => setDetail(res.data))
+    // 리턴으로 성공 실패 여부 받아서 다음 처리
+    setReRender(()=>false);
+  }
+
   return (
     <div className='receipt'>
       <p className='section-title'>수납</p>
       <div className='content-box'>
-        <table class="styled-table">
-          <thead>
-            <tr>
-                <th>처방내역</th>
-                <th>금액</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-                <td>기본진료</td>
-                <td>7,000</td>
-            </tr>
-            <tr>
-                <td>치료</td>
-                <td>10,000</td>
-            </tr>
-            <tr>
-                <td>약처방</td>
-                <td>3,000</td>
-            </tr>
-            <tr>
-                <th>보험여부</th>
-                <th>할인금액</th>
-            </tr>
-            <tr>
-                <td>보험</td>
-                <td>- 4,350</td>
-            </tr>
-            <tr class="active-row">
-                <td>총 수납 금액</td>
-                <td>00,000</td>
-            </tr>
-          </tbody>
-        </table>
-        <a href='#!' className='btn'>수납</a>
+        <AdmissionList />
+        {detail.length === 0 ? "" : <button onClick={() => {complete()}} className='btn'>수납</button>}
+
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../utils/constants/Config';
 import './dischargeDue.scss';
 
 const InitList = () => {return (
@@ -19,7 +20,7 @@ const InitList = () => {return (
 const DischargeDue = () => {
     const [disChargeDueList, setDisChargeDueList] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost:9090/AdmissionFront/dischargelist")
+        axios.get(API_URL+"/AdmissionFront/dischargelist")
             .then(res => setDisChargeDueList(res.data));
     
     },[]);
@@ -37,7 +38,7 @@ const DischargeDue = () => {
                                                                                     <span className='e'>15:00</span>
                                                                                     <span className='f'>{v.WARDROOM}호 {v.BED_NUM}실</span>
                                                                                     <input type='hidden' value={index}/>
-                                                                                    {v.ADMISSION_STATUS_CODE === "ID" ? <input className='g complete'type='button' value = "퇴실완료"/>:<input className='g un-complete'type='button' value = "미수납"/>}
+                                                                                    {v.ADMISSION_STATUS_CODE === "IE" ? <input className='g complete'type='button' value = "퇴실완료"/>:<input className='g un-complete'type='button' value = "미수납"/>}
                                                                                     
                                                                                 </p>
                                                                             </li>
