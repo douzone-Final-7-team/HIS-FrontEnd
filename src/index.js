@@ -36,10 +36,10 @@ $('html').on('mouseenter', function () {
 });
 
 $(document).on('keydown', function (e) {
-  if (e.keyCode == 91 || e.keyCode == 18) {
+  if (e.keyCode === 91 || e.keyCode === 18) {
     closing_window = false; // 단축키 ALT+TAB (창 변경)
   }
-  if (e.keyCode == 116 || (e.ctrlKey && e.keyCode == 82)) {
+  if (e.keyCode === 116 || (e.ctrlKey && e.keyCode === 82)) {
     closing_window = false; // 단축키 F5, CTRL+F5, CTRL+R (새로고침)
   }
 });
