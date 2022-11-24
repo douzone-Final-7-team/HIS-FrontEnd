@@ -31,22 +31,24 @@ const Doctor = () => {
 
   useEffect(() => {
 
-    axios.get("http://43.200.169.159:9090/patient/treatmentPatientInfo")
+    axios.get("http://localhost:9090/patient/treatmentPatientInfo")
       .then((res) => {
+        console.log(res.data);
         setTreatmentPatientInfo(res.data);
       }); 
 
-    axios.get("http://43.200.169.159:9090/patient/pastTreatmentList")
+    axios.get("http://localhost:9090/patient/pastTreatmentList")
       .then((res) => {
         setPastTreatmentList(res.data)
       });
 
-    axios.get("http://43.200.169.159:9090/patient/pastTreatmentDetail")
+    axios.get("http://localhost:9090/patient/pastTreatmentDetail")
       .then((res) => {
+        console.log(res.data);
         setPastTreatmentDetail(res.data)
       });
 
-    axios.get("http://43.200.169.159:9090/AdmissionFront/myInPatient")
+    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
       .then((res) => {
         console.log(res.data)
         setInPatientList(res.data)
@@ -66,7 +68,7 @@ const Doctor = () => {
       treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
-    axios.post("http://43.200.169.159:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
     {
       headers: {
         "Content-Type" : `application/json`,
@@ -112,7 +114,11 @@ const Doctor = () => {
               </div>
             </div>
           </div>
-      
+          {detail && (
+            <Modal closeModal={() => setDetail(!detail)}>
+              <PatientDetailModal pastTreatmentDetail={pastTreatmentDetail} />
+            </Modal>
+          )}
           <table className='infoTable'>
             <tbody>
               <tr>

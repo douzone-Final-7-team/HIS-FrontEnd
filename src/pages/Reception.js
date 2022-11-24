@@ -96,7 +96,7 @@ const Reception = (props) => {
           <MedicalHistory data={data}/>
         </div>
         <PatientStatus className='bottom1'/>
-        <Waiting4Payment/>
+        {/* <Waiting4Payment/> */}
         <Receipt/>
       </main>
     </div>
