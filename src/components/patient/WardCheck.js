@@ -47,11 +47,8 @@ const RoomOpions = [
 // }
 
 
-
-
-
 const WardCheck = () => {
-  
+
   const selectedadPeople = [];
 
   let selectedOutInfo;
@@ -68,9 +65,8 @@ const WardCheck = () => {
         "bedNum" : selectedadPeople[0]
       }
      
-
       selectedOutInfo = JSON.stringify(selectedOutInfo)
-
+   
       dispatch(selectPeople(selectedOutInfo))
       
       // 비동기 정보
@@ -131,8 +127,6 @@ const WardCheck = () => {
       )
     }
 
-
- 
   return (
     <div className='ward-check'>
       <div className='filter'>
