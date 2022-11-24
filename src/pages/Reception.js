@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/reception.scss';
+
 // components
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
@@ -10,12 +11,12 @@ import Waiting4Payment from '../components/patient/Waiting4Payment';
 import Receipt from '../components/patient/Receipt';
 import MedicalHistory from '../components/patient/MedicalHistory';
 import { useDispatch } from 'react-redux';
-import { find } from '../redux/Slice';
-import PatientAction from '../redux/modules/patient/PatientAction';
-import PatientApi from '../api/PatientApi';
 
-const Reception = () => {
+
+const Reception = (props) => {
   const dispatch = useDispatch();
+  const [registration, setRegistration] = useState(false);
+
   let inputValue;
   const onEnter = (e) => {
     if (e.key === 'Enter') {
@@ -42,7 +43,7 @@ const Reception = () => {
               </form>
             </div>
             <div className='btns'>
-              <a href='#' className='btn'>등록</a>
+              <input type="button" value="등록" className='regbtn' onClick={() => setRegistration(!registration)}/>
               <a href='#' className='btn '>접수</a>
             </div>
           </div>

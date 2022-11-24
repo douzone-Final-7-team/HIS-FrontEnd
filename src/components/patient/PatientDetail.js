@@ -1,16 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 // style
 import './patientDetail.scss';
 
-const PDetail = () => {
-  const patient = useSelector(state => state.value)
+const PDetail = ({patient}) => {
+
   return (
     <div className='patient-detail'>
       <table>
         <tbody>
           <tr>
             <th className='devide1 border-left'>S/A</th>
+            {/* <td className='devide1'>{patient.}</td> */}
             <td className='devide1'><input/></td>
             <th className='devide1'>Tel</th>
             <td><input/></td>

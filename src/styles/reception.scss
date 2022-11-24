@@ -43,7 +43,23 @@
             font-size: 14px;
             text-align: center;
           }
-          
+        }
+        .btns {
+          .regbtn {
+            display: inline-block;
+            width: 75px;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #0af;
+            color: $white;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            line-height: 30px;
+            letter-spacing: 2.5px;
+            border: white;
+            cursor: pointer;
+          }
         }
         .btn:last-child {margin-left: 20px;}
       }
