@@ -68,20 +68,19 @@ const WardCheck = () => {
       selectedOutInfo = JSON.stringify(selectedOutInfo)
    
       dispatch(selectPeople(selectedOutInfo))
- 
+      
       // 비동기 정보
       dispatch(getInpatientInfo(selectedOutInfo));
-
     }
     
 
   const [roomInfos, setRoomInfos] = useState([]);
-  const [test, setTest] = useState([]);;
+  const [test, setTest] = useState([]);
+
     useEffect(()=>{
       axios.get("http://localhost:9090/admission/roominfos", {params : data})
           .then(res => setRoomInfos(res.data));
     },[test]);
-
 
 
     const WardSelectBox = (props) =>{

@@ -60,7 +60,6 @@ const Login = () => {
           <div className='his'>
             <h1>Health Information <br/>System</h1>
             <h2>헬스케어솔루션사업본부</h2>
-            <p><a href="/reception">gdgdG</a></p>
           </div>
           <div className='login-wrap'>
             <div className='login-form'>

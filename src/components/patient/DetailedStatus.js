@@ -3,10 +3,10 @@ import React from 'react'
 import './detailedStatus.scss';
 
 
-const DetailedStatus = () => {
+const DetailedStatus = ({ num }) => {
   return (
     <div className='detailed-status'>
-      <p>1진료실 홍길동(n)</p>
+      <p>{num}진료실 홍길동(n)</p>
       <div className='order-content'>
         <div className='waiting-order selected'>
             <p className='waiting-name'>
