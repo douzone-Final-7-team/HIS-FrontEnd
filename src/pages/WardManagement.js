@@ -27,10 +27,10 @@ const WardManagement = () => {
 
   
   // admission/roominfos
-  // console.log(API_URL+"/AdmissionFront/test");
+  console.log(API_URL+"/AdmissionFront/test");
 
 
-  // console.log("tpppppp : "+wardData[0].totalBed);
+  console.log("tpppppp : "+wardData[0].totalBed);
   // console.log(wardData[0].totalBed);
 
   
