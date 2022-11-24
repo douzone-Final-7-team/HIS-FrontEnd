@@ -10,6 +10,8 @@ import '../../styles/tab.scss';
 import Receipt from '../patient/Receipt';
 import AdmissionOrder from './admissionOrder';
 import DischargeDue from './dischargeDue';
+import axios from 'axios';
+import { API_URL } from '../../utils/constants/Config';
 
 // style
 
@@ -50,14 +52,33 @@ function TabPanel(props) {
   }
 
   
+  let sunabInfo = {filter : "All"};
   
   export default function AdmissionSunab() {
     const [value, setValue] = React.useState(0);
+    const [sunabList, setSunabList] = React.useState([]);
+    const [test,setTest] = React.useState("");
+    const [reRender , setReRender] = React.useState(true);
     const handleChange = (event, newValue) => {
         setValue(newValue);
       };
     
-  
+    
+
+    React.useEffect(()=>{
+      axios.put(API_URL+"/AdmissionReceipt/changeStateList");
+    },[]);
+
+
+    React.useEffect(()=>{
+      axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", JSON.stringify(sunabInfo), {headers:{"Content-Type" : `application/json`},})
+        .then(res => setSunabList(res.data));  
+        setTest("");
+        setReRender(()=>true);
+    },[reRender]);
+ 
+
+
     return (
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -76,10 +97,10 @@ function TabPanel(props) {
                     </ul>
                 </div>
                 <div className='b'>
-                    <Waiting4Payment />
+                    <Waiting4Payment sunabList={sunabList} setTest={setTest}/>
                 </div>
                 <div className='c'>
-                    <Receipt />
+                    <Receipt test={test} setReRender={setReRender}/>
                 </div>
             </div>
         </TabPanel>

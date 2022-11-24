@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 
 const AdmissionOrder = () => {
@@ -14,7 +15,7 @@ const AdmissionOrder = () => {
         WARD : ""
     }]);
     useEffect(()=>{
-        axios.post("http://localhost:9090/admissionReq/admissionOrder")
+        axios.post(API_URL+"/admissionReq/admissionOrder")
             .then(res => setAdmissionOrderList(res.data));
     
     },[]);
