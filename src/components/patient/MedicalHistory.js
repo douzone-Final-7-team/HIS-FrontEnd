@@ -23,12 +23,26 @@ const MedicalHistory = ({data}) => {
                 <td></td>
               </tr>
             )) : 
-            <tr>
-              <td>날짜</td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            <>
+              <tr>
+                <td>날짜</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>날짜</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>날짜</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </>
             }
         </thead>
         <tbody></tbody>

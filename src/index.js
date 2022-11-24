@@ -36,10 +36,10 @@ $('html').on('mouseenter', function () {
 });
 
 $(document).on('keydown', function (e) {
-  if (e.keyCode == 91 || e.keyCode == 18) {
+  if (e.keyCode === 91 || e.keyCode === 18) {
     closing_window = false; // 단축키 ALT+TAB (창 변경)
   }
-  if (e.keyCode == 116 || (e.ctrlKey && e.keyCode == 82)) {
+  if (e.keyCode === 116 || (e.ctrlKey && e.keyCode === 82)) {
     closing_window = false; // 단축키 F5, CTRL+F5, CTRL+R (새로고침)
   }
 });
@@ -61,7 +61,7 @@ $(document).on("submit", "form", function () {
 
 // toDoWhenClosing 함수를 통해 window가 닫히면 토큰 관련 값 전부 삭제
 var toDoWhenClosing = function () {
-  localStorage.removeItem('jwt')
+  // localStorage.removeItem('jwt')
   return;
 };
 
