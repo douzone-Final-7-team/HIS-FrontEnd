@@ -18,7 +18,7 @@ const MyPage = () => {
 
     useEffect(() => {
 
-        axios.post("http://43.200.169.159:9090/user/myPage", {}, {
+        axios.post("http://localhost:9090/user/myPage", {}, {
             headers : {'Authorization': token,}
         })
         .then((res) => {
@@ -33,7 +33,7 @@ const MyPage = () => {
             newPwd: newPwd.current
         }
 
-        axios.post("http://43.200.169.159:9090/user/changePwd", JSON.stringify(pwd),
+        axios.post("http://localhost:9090/user/changePwd", JSON.stringify(pwd),
         {
             headers: {
                 'Content-Type' : `application/json`, 
@@ -53,7 +53,7 @@ const MyPage = () => {
             newAddr: newAddr.current
         }
 
-        axios.post("http://43.200.169.159:9090/user/changeAddr", JSON.stringify(addr), 
+        axios.post("http://localhost:9090/user/changeAddr", JSON.stringify(addr), 
         {
             headers: {
                 'Content-Type' : `application/json`,
@@ -195,11 +195,12 @@ const MyPage = () => {
                         <ul>
                             <li>
                                 <span>현재 주소</span> 
-                                <input value={myInfo[0].EMP_ADDR} />
+                                <input value={myInfo[0].EMP_ADDR || ''}  />
                             </li>
                             <li>
                                 <span>변경된 주소</span> 
                                 <input 
+                                    type={"text"}
                                     onChange={(e) => {
                                         newAddr.current = e.target.value;
                                     }}
