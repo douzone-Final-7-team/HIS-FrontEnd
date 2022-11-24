@@ -1,4 +1,5 @@
 import React, { useState ,useEffect } from 'react'
+// import API_URL from '../utils/constants/Config'
 
 // style
 import '../styles/scss/reset.scss';
@@ -8,6 +9,7 @@ import EmpBar from '../components/employee/EmpBar';
 import WardCheck from '../components/patient/WardCheck';
 import AdmissionSunab from '../components/employee/admissionSunab';
 import axios from 'axios';
+import { API_URL } from '../utils/constants/Config';
 
 const WardManagement = () => {
 
@@ -19,14 +21,16 @@ const WardManagement = () => {
 
   }]);
   useEffect(()=>{
-    axios.get("http://localhost:9090/AdmissionFront/test")
+    axios.get(API_URL+"/AdmissionFront/test")
          .then(res => setWardData(res.data));
   },[]);
+
   
   // admission/roominfos
+  // console.log(API_URL+"/AdmissionFront/test");
 
 
-  // console.log(wardData[0].totalBed);
+  // console.log("tpppppp : "+wardData[0].totalBed);
   // console.log(wardData[0].totalBed);
 
   
