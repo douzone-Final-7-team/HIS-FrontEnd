@@ -12,7 +12,6 @@ export const getInpatientInfo = createAsyncThunk(
             "Content-Type" : `application/json`,
           },
         });
-        
         return resp.data
     }
 )
@@ -62,7 +61,8 @@ export const getInpatientSchedules = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-    console.log(specialityElements)
+      console.log(specialityElements)
+      console.log(resp.data)
       return resp.data
   }
 )
@@ -98,3 +98,9 @@ export const getSendHandOver = createAsyncThunk(
       return resp.data
   }
 )
+
+
+
+
+
+

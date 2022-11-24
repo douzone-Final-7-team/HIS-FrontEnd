@@ -1,25 +1,137 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 // style
 import './wardCheck.scss';
 
+//redux
+import { useDispatch } from 'react-redux';
+import {getInpatientInfo} from '../../redux/AdmissionPatientInfoApi';
+import { selectPeople } from '../../redux/outPatientInfoSlice';
+
+let data = {
+  empIdPk : 'O220019' //세션에 있는 사번
+
+}
+
+const WardOpions = [
+  { key : "" , value : "" , name : "병동선택"},
+  { key : "ward" , value : "200" , name : "내과 : 200"},
+  { key : "ward" , value : "300" , name : "정형외과 : 300"},
+  { key : "ward" , value : "400" , name : "이빈후과 : 400"},
+];
+
+const RoomOpions = [
+  { key : "" , value : "" , name : "호실선택"},
+  { key : "roomNum" , value : "1" , name : "1호실"},
+  { key : "roomNum" , value : "2" , name : "2호실"},
+  { key : "roomNum" , value : "3" , name : "3호실"},
+  { key : "roomNum" , value : "4" , name : "4호실"},
+  { key : "roomNum" , value : "5" , name : "5호실"},
+];
+
+
+// const RoomSelectBox = (props) =>{
+
+//   return (
+//     <select>
+//           {props.options.map((option) => (
+//               <option
+//                 key={option.value}
+//                 value={option.value}
+//               >
+//                 {option.name}
+//               </option>
+//           ))}
+//     </select>
+//   )
+// }
+
+
 const WardCheck = () => {
+
+  const selectedadPeople = [];
+
+  let selectedOutInfo;
+  const dispatch = useDispatch();
+ 
+    const sendWardbasicData = () =>{
+      for(let i=0 ; i < document.getElementById('aaa').childNodes.length ; i++){
+        selectedadPeople[i] = document.getElementById('aaa').childNodes[i].innerText
+      }
+        selectedOutInfo = {
+        "name": selectedadPeople[2],
+        "ward" : selectedadPeople[1].substr(0,1)*100,
+        "roomNum" : selectedadPeople[1].substr(2,1),
+        "bedNum" : selectedadPeople[0]
+      }
+     
+      selectedOutInfo = JSON.stringify(selectedOutInfo)
+   
+      dispatch(selectPeople(selectedOutInfo))
+      
+      // 비동기 정보
+      dispatch(getInpatientInfo(selectedOutInfo));
+    }
+    
+
+  const [roomInfos, setRoomInfos] = useState([]);
+  const [test, setTest] = useState([]);
+
+    useEffect(()=>{
+      axios.get("http://localhost:9090/admission/roominfos", {params : data})
+          .then(res => setRoomInfos(res.data));
+    },[test]);
+
+
+    const WardSelectBox = (props) =>{
+      const wardHandleChange = (e) => {
+        let ward = '';
+        ward = e.target.value;
+        data.ward = ward;
+        setTest(...test,ward);
+      }
+      
+      return (
+        <select onChange={wardHandleChange}>
+              {props.options.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.name}
+                  </option>
+              ))}
+        </select>
+      )
+    }
+
+    const RoomSelectBox = (props) =>{
+      const roomHandleChange = (e) => {
+        let roomNum = '';
+        roomNum = e.target.value;
+        data.roomNum = roomNum;
+        setTest(...test,roomNum);
+      }
+      
+      return (
+        <select onChange={roomHandleChange}>
+              {props.options.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.name}
+                  </option>
+              ))}
+        </select>
+      )
+    }
+
   return (
     <div className='ward-check'>
       <div className='filter'>
-        <select>
-          <option>병동조회</option>
-          <option>200</option>
-          <option>300</option>
-          <option>400</option>
-        </select>
-        <select>
-          <option>병실조회</option>
-          <option>201</option>
-          <option>202</option>
-          <option>203</option>
-          <option>204</option>
-          <option>205</option>
-        </select>
+        <WardSelectBox options={WardOpions}/>
+        <RoomSelectBox options={RoomOpions}/>
       </div>
       <div className='table-wrapper'>
           <table className="styled-table">
@@ -32,10 +144,10 @@ const WardCheck = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr id ='aaa'>
                 <td>1</td>
                 <td>201</td>
-                <td>김더존</td>
+                <td onClick={sendWardbasicData}>배병서</td>
                 <td>홍길동</td>
             </tr>
             <tr>
