@@ -25,7 +25,7 @@ const Receipt = ({ test , setReRender }) => { //비구조할당
   const AdmissionList = () => {
 
     return (
-      <table class="styled-table">
+      <table className="styled-table">
         <thead>
           <tr>
             <th>입원 내역</th>
@@ -65,7 +65,7 @@ const Receipt = ({ test , setReRender }) => { //비구조할당
               <td>-</td>
               <td>{parseInt(detailEle.INSURANCE_COST) === 0 ? "0" : "-" + detailEle.INSURANCE_COST}</td>
             </tr>
-            <tr class="active-row">
+            <tr className="active-row">
               <td>총 수납 금액</td>
               <td>-</td>
               <td>{detailEle.TOTAL_COST}</td>

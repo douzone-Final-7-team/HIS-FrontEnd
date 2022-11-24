@@ -362,7 +362,7 @@ else if(getModalMode === 'medi-check-create'){
   }
 return(
 <div className='wppaer' onClick={ModalMode}>
-  <div class="container" onClick={(e) => e.stopPropagation()}>  
+  <div className="container" onClick={(e) => e.stopPropagation()}>  
         <div id="contact">
             <h3>{modalTitle}</h3>
             <fieldset>

@@ -18,18 +18,17 @@
 
     .infoBox {
         background-color: white;
-        width: 410px;
-        height: 480px;
+        width: 450px;
+        height: 620px;
         border-radius: 10px;
         position: absolute;
-        left: 5%;
-
+        left: 38%;
+        top: 15%;
         hr{
           background-color: #0af;
           height: 3px;
-          width: 109.8%;
+          width: 100%;
           position: relative;
-          left: -5.4%;
         }
 
         .infoTitle {
