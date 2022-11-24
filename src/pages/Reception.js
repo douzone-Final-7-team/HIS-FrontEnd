@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/reception.scss';
-import '../components/modal/modal.scss'
+import '../components/Modal/modal.scss'
 // components
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
@@ -14,8 +14,8 @@ import { useDispatch } from 'react-redux';
 import { find } from '../redux/Slice';
 import PatientAction from '../redux/modules/patient/PatientAction';
 import PatientApi from '../api/PatientApi';
-import Modal from '../components/modal/Modal';
-import PatientRegistrationModal from '../components/modal/PatientRegistrationModal';
+import Modal from '../components/Modal/Modal';
+import PatientRegistrationModal from '../components/Modal/PatientRegistrationModal';
 
 const Reception = (props) => {
   const dispatch = useDispatch();

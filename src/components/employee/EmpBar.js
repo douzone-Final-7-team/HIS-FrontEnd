@@ -24,6 +24,7 @@ function EmpBar() {
       specialityName :specialityName,
       searchDate : realdata
     }
+
     dispatch(getSpecialityName(specialityElements))
     dispatch(getInpatientSchedules(specialityElements))
   

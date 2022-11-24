@@ -5,12 +5,12 @@ import Calendar from 'react-calendar';
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
 import '../styles/Calendar.css';
-import '../components/modal/modal.scss';
+import '../components/Modal/modal.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
-import Modal from '../components/modal/Modal';
-import PatientDetailModal from '../components/modal/PatientDetailModal';
+import Modal from '../components/Modal/Modal';
+import PatientDetailModal from '../components/Modal/PatientDetailModal';
 
 const Doctor = () => {
   const [value, onChange] = useState(new Date());

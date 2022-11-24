@@ -18,9 +18,9 @@ function PatientStatus() {
       <div className='status'>
         <p>전체(n) 대기중(n) 진료중(n) 치료(n) 완료(n)</p>
         <div>
-          <DetailedStatus />
-          <DetailedStatus />
-          <DetailedStatus />
+          <DetailedStatus num={1}/>
+          <DetailedStatus num={2}/>
+          <DetailedStatus num={3}/>
         </div>
       </div>
     </div>

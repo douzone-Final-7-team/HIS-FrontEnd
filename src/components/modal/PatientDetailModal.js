@@ -1,7 +1,7 @@
 import React from "react";
 // style
 import '../../styles/scss/reset.scss';
-import '../../components/modal/PatientDetail.scss';
+import '../../components/Modal/PatientDetail.scss';
 // components 
 
 const PatientDetailModal = (props) => {
