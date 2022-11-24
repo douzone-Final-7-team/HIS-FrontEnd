@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // style
 import '../styles/body.scss';
 // components
@@ -11,9 +11,11 @@ import Outpatient from './Outpatient';
 import WardManagement from './WardManagement';
 import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
-// import Login from './Login';
+import Login from './Login';
+import { RiTextDirectionL } from 'react-icons/ri';
 
 const PagiNavigation = () => {
+  
   return(
     <div className='view'>
       <BrowserRouter>
@@ -22,13 +24,25 @@ const PagiNavigation = () => {
           <nav><Nav /></nav>
           <div>
             <Routes>
-              {/* <Route path="/" element={<Login/>} /> */}
-              <Route path="/reception" element={<Reception />} />
-              <Route path="/doctor" element={<Doctor/>} />
-              <Route path='/outpatient' element={<Outpatient/>} />
-              <Route path='/ward-management' element={<WardManagement/>} />
-              <Route path='/ward-management2' element={<WardManagement2/>} />
-              <Route path='/my-page' element={<MyPage/>} />
+              <Route path="/" element={<Login/>} />
+              {localStorage.getItem('jwt')?
+              <>
+                <Route path="/reception" element={<Reception />} />
+                <Route path="/doctor" element={<Doctor/>} />
+                <Route path='/outpatient' element={<Outpatient/>} />
+                <Route path='/ward-management' element={<WardManagement/>} />
+                <Route path='/ward-management2' element={<WardManagement2/>} />
+                <Route path='/my-page' element={<MyPage/>} />
+              </>
+              :
+              <>
+                <Route path="/reception" element={<Navigate replace to="/"/>} />
+                <Route path="/doctor" element={<Navigate replace to="/"/>} />
+                <Route path='/outpatient' element={<Navigate replace to="/"/>} />
+                <Route path='/ward-management' element={<Navigate replace to="/"/>} />
+                <Route path='/ward-management2' element={<Navigate replace to="/"/>} />
+                <Route path='/my-page' element={<Navigate replace to="/"/>} />
+              </>}
             </Routes>
           </div>
         </div>

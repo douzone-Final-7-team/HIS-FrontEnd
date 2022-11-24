@@ -59,12 +59,12 @@ const WardCheck = () => {
     
 
   const [roomInfos, setRoomInfos] = useState([]);
-  const [test, setTest] = useState([]);;
+  const [test, setTest] = useState([]);
+
     useEffect(()=>{
       axios.get("http://localhost:9090/admission/roominfos", {params : data})
           .then(res => setRoomInfos(res.data));
     },[test]);
-
 
 
     const WardSelectBox = (props) =>{
@@ -118,7 +118,7 @@ const WardCheck = () => {
         <RoomSelectBox options={RoomOpions}/>
       </div>
       <div className='table-wrapper'>
-          <table class="styled-table">
+          <table className="styled-table">
             <thead>
               <tr>
                 <th>-</th>

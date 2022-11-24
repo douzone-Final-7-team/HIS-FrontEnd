@@ -12,7 +12,6 @@ export const getInpatientInfo = createAsyncThunk(
             "Content-Type" : `application/json`,
           },
         });
-        
         return resp.data
     }
 )

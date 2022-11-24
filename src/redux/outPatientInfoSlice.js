@@ -38,6 +38,7 @@ const outPatientInfoSlice = createSlice({
 
     extraReducers: (builder) => {
         builder.addCase(getInpatientInfo.fulfilled, (state, action)=>{
+            
                 state.value[1] = action.payload 
             })
 
