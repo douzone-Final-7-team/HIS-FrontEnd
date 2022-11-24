@@ -10,7 +10,7 @@ const outpatientPageInfoSlice = createSlice({
   name: 'outpatientPageInfoSlice',
   initialState,
   reducers: {
-    test: (state, action) => {
+    readOutpatientInfo: (state, action) => {
       state.value = state.payload;
     }
   },
