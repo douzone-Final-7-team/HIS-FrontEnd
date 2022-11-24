@@ -80,7 +80,8 @@ const HandOver = () => {
         <div className='handOver-wapper'>
           <table>
             <thead>
-              {handOverInfo != null && (handOverInfo[0].errorCode ==null &&
+              {handOverInfo != null && handOverInfo[0] != null &&
+              (handOverInfo[0].errorCode ==null &&
               <tr>
                 <th>-</th>
                 <th>날짜</th>
@@ -92,7 +93,7 @@ const HandOver = () => {
               
             </thead>
             <tbody>
-            {handOverInfo != null && ( (handOverInfo[0].errorCode == null ?
+            {handOverInfo != null && handOverInfo[0] != null && ( (handOverInfo[0].errorCode == null ?
               (handOverInfo.map((HandOverInfo, index)=>(
               <tr>
                 <td className='handOver-fix'><input type= "radio" name= "handOver" id = {index} onClick={selectRow}/></td>
