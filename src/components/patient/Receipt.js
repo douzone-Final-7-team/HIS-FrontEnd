@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';
@@ -11,16 +11,18 @@ const Receipt = ({ test , setReRender }) => { //비구조할당
   let data = { ADMISSION_ID_PK: test };
 
   const [detail, setDetail] = useState([{}]);
+  // const detail = useRef([{}]);
 
   // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
 
   useEffect(() => {
     axios.post(API_URL+"/AdmissionReceipt/AdReceipt", JSON.stringify(data), { headers: { "Content-Type": `application/json` }, })
       .then(res => setDetail(res.data));
-  }, []);
+      // .then(res => detail.current = res.data);
+  }, [data.ADMISSION_ID_PK]);
 
-  console.log((detail));
-  console.log("0번째 : "+detail[0]);
+  // console.log((detail.current));
+  // console.log("0번째 : "+detail.current[0]);
 
   const AdmissionList = () => {
 
