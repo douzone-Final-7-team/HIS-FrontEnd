@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from "react";
 
 // style
@@ -18,7 +18,9 @@ const OutDatePicker = () => {
     return state.outChangeDate.value
   }) 
 
-  const [changeDate ,setchangeDate] = useState()
+  console.log(startDate)
+  // const [changeDate ,setchangeDate] = useState()
+  const changeDate = useRef("")
   const dispatch = useDispatch();
 
   const scheduleInfoEelement = useSelector(state=>{
@@ -27,15 +29,16 @@ const OutDatePicker = () => {
 
   useEffect(()=>{
 
-    setchangeDate(startDate.getFullYear().toString() +"-"+ `${startDate.getUTCMonth()+ 1}`.toString() +"-"+startDate.getDate().toString())
+    changeDate.current = (startDate.getFullYear().toString() +"-"+ `${startDate.getUTCMonth()+ 1}`.toString() +"-"+startDate.getDate().toString())
 
     let changedScheduleElement = (scheduleInfoEelement != null) && {
       specialityName :scheduleInfoEelement.specialityName,
-        searchDate : changeDate
+        searchDate : changeDate.current
     }
     dispatch(getInpatientSchedules(changedScheduleElement))
 
-  },[setchangeDate, dispatch, startDate, changeDate, scheduleInfoEelement])
+  },[dispatch, startDate, changeDate, scheduleInfoEelement])
+  
 
   
 

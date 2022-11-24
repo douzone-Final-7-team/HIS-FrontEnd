@@ -304,7 +304,7 @@ else if(getModalMode === 'medi-check-create'){
             "scheduleContent" : saveContent.current,
             "scheduleIdPk" : globalModifyElements.scheduleIdPk,
             "specialityName":specialityName.specialityName,
-            "empName": getEmpName
+            "LastModifier": getEmpName
 
               }
               let newdate = parseISO(saveScheduleDate.current)
@@ -341,7 +341,9 @@ else if(getModalMode === 'medi-check-create'){
       "schedulePlace" : saveThirdContent.current,
       "scheduleContent" :  saveContent.current,
       "scheduleDate" : saveScheduleDate.current,
-      "specialityName" : specialityName.specialityName
+      "specialityName" : specialityName.specialityName,
+      "LastModifier": getEmpName
+
     }
     if(saveScheduleName.current === "" || saveScheduleWard.current === "" ||
     saveScheduleRoomNum.current === "" || saveScheduleBed.current === "" ||

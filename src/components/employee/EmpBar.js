@@ -7,7 +7,6 @@ import './empComponents.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-// import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
 import { getEmpName, getSpecialityName } from '../../redux/outPatientInfoSlice';
 
 function EmpBar() {
@@ -27,7 +26,6 @@ function EmpBar() {
     }
 
     dispatch(getSpecialityName(specialityElements))
-    // dispatch(getInpatientSchedules(specialityElements))
     dispatch(getEmpName(empName))
   
   },[dispatch, today])

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react'
 // style
 import './detailedStatus.scss';
@@ -17,7 +16,7 @@ const DetailedStatus = ({data, index}) => {
                   <span className='medical-hours'>{data.regTime}</span>
                 </p>
                 <p className='status-value'>{data.status}</p>
-              </div> 
+              </div>
             ))}
             </div>
     </div>
