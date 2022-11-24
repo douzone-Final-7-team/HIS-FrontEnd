@@ -2,7 +2,9 @@ import React from 'react'
 // style
 import './medicalHistory.scss';
 
-const MedicalHistory = () => {
+
+const MedicalHistory = ({data}) => {
+
   return (
     <div className='medical-history'>
       <table>
@@ -13,24 +15,21 @@ const MedicalHistory = () => {
             <th>처방 및 치료내역</th>
             <th>상세정보</th>
           </tr>
-          <tr>
-            <td>2022-10-25</td>
-            <td><input placeholder='진단명 입출력'/></td>
-            <td><input placeholder='몸살 주사 및 해열제 소염진통제 처방'/></td>
-            <td><input placeholder='처방'/></td>
-          </tr>
-          <tr>
-            <td>2022-10-25</td>
-            <td><input placeholder='진단명 입출력'/></td>
-            <td><input placeholder='몸살 주사 및 해열제 소염진통제 처방'/></td>
-            <td><input placeholder='처방'/></td>
-          </tr>
-          <tr>
-            <td>2022-10-25</td>
-            <td><input placeholder='진단명 입출력'/></td>
-            <td><input placeholder='몸살 주사 및 해열제 소염진통제 처방'/></td>
-            <td><input placeholder='처방'/></td>
-          </tr>
+            {data!=null && data!=undefined? data.treatmentInfo.map((data, index) => (
+              <tr key={index}>
+                <td>{data.TREATMENT_DATE}</td>
+                <td>{data.DIAGNOSTIC_NAME}</td>
+                <td>{data.TREATMENT_MEMO}</td>
+                <td></td>
+              </tr>
+            )) : 
+            <tr>
+              <td>날짜</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            }
         </thead>
         <tbody></tbody>
       </table>

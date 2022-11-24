@@ -26,7 +26,7 @@ function EmpBar() {
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
           <p><span>근무자</span>진료과 채송화</p>
-        </div>                    
+        </div>
       </div>
     </div>
   )
