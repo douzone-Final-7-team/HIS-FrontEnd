@@ -3,26 +3,13 @@ import '../styles/login.scss';
 import axios from 'axios';
 import logo from '../assets/DOUZONE.png';
 
-// axios.post("http://localhost:9090/login", {
-//   username: "rladmltk",
-//   pw: "1234"
-//   }).then((res)=>{
-//     console.log(res.headers.get('Authorization'))
-//     localStorage.setItem('jwt', res.headers.get('Authorization'))
-//   }).then(() => {
-//     if(localStorage.getItem('jwt')) {
-//       console.log()
-//     }
-//   });
-
-
 const Login = () => {
 
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
 
     const userLogin = () => {
-      axios.post("http://localhost:9090/login", {
+      axios.post("http://43.200.169.159:9090/login", {
         username: inputId,
         pw: inputPw
         }).then((res)=>{

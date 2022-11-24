@@ -18,10 +18,10 @@ const Doctor = () => {
   const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
   const [inPatientList, setInPatientList] = useState([{}]);
   const [value, onChange] = useState(new Date());
-  const [detail, setDetail] = useState(false);
   const [visibleTreatmentDiv, setVisibleTreatmentDiv] = useState(false);
   const [visibleMedicineDiv, setVisibleMedicineDiv] = useState(false);
   const [visibleAdmissionDiv, setVisibleAdmissionDiv] = useState(false);
+  const [detail, setDetail] = useState(false);
   const diagnosis = useRef("");
   const treatmentMemo = useRef("");
   const treatmentOrder = useRef("");
@@ -31,22 +31,22 @@ const Doctor = () => {
 
   useEffect(() => {
 
-    axios.get("http://localhost:9090/patient/treatmentPatientInfo")
+    axios.get("http://43.200.169.159:9090/patient/treatmentPatientInfo")
       .then((res) => {
         setTreatmentPatientInfo(res.data);
       }); 
 
-    axios.get("http://localhost:9090/patient/pastTreatmentList")
+    axios.get("http://43.200.169.159:9090/patient/pastTreatmentList")
       .then((res) => {
         setPastTreatmentList(res.data)
       });
 
-    axios.get("http://localhost:9090/patient/pastTreatmentDetail")
+    axios.get("http://43.200.169.159:9090/patient/pastTreatmentDetail")
       .then((res) => {
         setPastTreatmentDetail(res.data)
       });
 
-    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
+    axios.get("http://43.200.169.159:9090/AdmissionFront/myInPatient")
       .then((res) => {
         console.log(res.data)
         setInPatientList(res.data)
@@ -66,7 +66,7 @@ const Doctor = () => {
       treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
-    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+    axios.post("http://43.200.169.159:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
     {
       headers: {
         "Content-Type" : `application/json`,
