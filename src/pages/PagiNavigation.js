@@ -25,12 +25,24 @@ const PagiNavigation = () => {
           <div>
             <Routes>
               <Route path="/" element={<Login/>} />
-              <Route path="/reception" element={<Reception />} />
-              <Route path="/doctor" element={<Doctor/>} />
-              <Route path='/outpatient' element={<Outpatient/>} />
-              <Route path='/ward-management' element={<WardManagement />} />
-              <Route path='/ward-management2' element={<WardManagement2/>} />
-              <Route path='/my-page' element={<MyPage/>} />
+              {localStorage.getItem('jwt')?
+              <>
+                <Route path="/reception" element={<Reception />} />
+                <Route path="/doctor" element={<Doctor/>} />
+                <Route path='/outpatient' element={<Outpatient/>} />
+                <Route path='/ward-management' element={<WardManagement/>} />
+                <Route path='/ward-management2' element={<WardManagement2/>} />
+                <Route path='/my-page' element={<MyPage/>} />
+              </>
+              :
+              <>
+                <Route path="/reception" element={<Navigate replace to="/"/>} />
+                <Route path="/doctor" element={<Navigate replace to="/"/>} />
+                <Route path='/outpatient' element={<Navigate replace to="/"/>} />
+                <Route path='/ward-management' element={<Navigate replace to="/"/>} />
+                <Route path='/ward-management2' element={<Navigate replace to="/"/>} />
+                <Route path='/my-page' element={<Navigate replace to="/"/>} />
+              </>}
             </Routes>
           </div>
         </div>

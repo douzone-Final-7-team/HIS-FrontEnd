@@ -25,7 +25,7 @@ const Waiting4Payment = ({sunabList,setTest}) => { // 비구조할당
           <p className='status-value'>수납대기</p>
         </div>
     ))}
-    </div> 
+    </div>
     )
   }
 
