@@ -7,7 +7,7 @@ const Receipt = () => {
     <div className='receipt'>
       <p className='section-title'>수납</p>
       <div className='content-box'>
-        <table class="styled-table">
+        <table className="styled-table">
           <thead>
             <tr>
                 <th>처방내역</th>
@@ -35,7 +35,7 @@ const Receipt = () => {
                 <td>보험</td>
                 <td>- 4,350</td>
             </tr>
-            <tr class="active-row">
+            <tr className="active-row">
                 <td>총 수납 금액</td>
                 <td>00,000</td>
             </tr>

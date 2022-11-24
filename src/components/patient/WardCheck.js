@@ -134,7 +134,7 @@ const WardCheck = () => {
         <RoomSelectBox options={RoomOpions}/>
       </div>
       <div className='table-wrapper'>
-          <table class="styled-table">
+          <table className="styled-table">
             <thead>
               <tr>
                 <th>-</th>
