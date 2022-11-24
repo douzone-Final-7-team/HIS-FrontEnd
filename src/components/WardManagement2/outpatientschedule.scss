@@ -55,14 +55,19 @@
       .schedule-content{
         width: 50%;
       }
+      .schedule-error{
+        margin-top: 85px;
+        margin-left: 170px;
+        font-size: 35px;
+      }
     }
   }
 
   .btn-wapper{
-    margin-left: 1150px;
+    margin-left: 990px;
+    display: flex;
     .btn{
-      margin-top: 10px;
-      margin-left: 2px;
+      margin-left: 12px;
     }
   }
 } 

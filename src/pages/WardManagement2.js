@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/wardManagement2.scss';
@@ -8,12 +8,18 @@ import WardCheck from '../components/patient/WardCheck';
 import WardPatientRequest from '../components/WardManagement2/WardPatientRequest';
 import WardMangeMentTap from '../components/WardManagement2/WardMangementTab';
 import GlobalMangementTab from '../components/WardManagement2/GlobalMangementTab';
+import WardMangementModal from '../components/WardManagement2/WardMangementModal';
+import { useSelector } from 'react-redux';
+
 
 
 const WardManagement2 = () => {
-
-
   
+
+  const showModal = useSelector(state=>{
+    return state.outPatientInfo.value[7]
+  })
+
   return (
     <div className='ward-management2'>
       <main className='main'>
@@ -34,6 +40,7 @@ const WardManagement2 = () => {
         <div className='item4'>
           <GlobalMangementTab/>
         </div>
+        {showModal && <WardMangementModal/>}
       </main>
 
     </div>

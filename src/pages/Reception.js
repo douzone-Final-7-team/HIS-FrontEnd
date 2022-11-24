@@ -10,11 +10,9 @@ import PatientStatus from '../components/patient/PatientStatus';
 import Waiting4Payment from '../components/patient/Waiting4Payment';
 import Receipt from '../components/patient/Receipt';
 import MedicalHistory from '../components/patient/MedicalHistory';
-import { useDispatch } from 'react-redux';
 
 
 const Reception = (props) => {
-  const dispatch = useDispatch();
   const [registration, setRegistration] = useState(false);
 
   let inputValue;
@@ -44,7 +42,7 @@ const Reception = (props) => {
             </div>
             <div className='btns'>
               <input type="button" value="등록" className='regbtn' onClick={() => setRegistration(!registration)}/>
-              <a href='#' className='btn '>접수</a>
+              <a href='!#' className='btn '>접수</a>
             </div>
           </div>
           <PatientDetail/>

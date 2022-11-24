@@ -5,7 +5,7 @@ import './wardCheck.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-import {getInpatientInfo} from '../../redux/AdmissionPatientInfoApi';
+import {getCareInfo, getInpatientInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
 import { selectPeople } from '../../redux/outPatientInfoSlice';
 
 let data = {
@@ -30,23 +30,6 @@ const RoomOpions = [
 ];
 
 
-// const RoomSelectBox = (props) =>{
-
-//   return (
-//     <select>
-//           {props.options.map((option) => (
-//               <option
-//                 key={option.value}
-//                 value={option.value}
-//               >
-//                 {option.name}
-//               </option>
-//           ))}
-//     </select>
-//   )
-// }
-
-
 const WardCheck = () => {
 
   const selectedadPeople = [];
@@ -64,14 +47,14 @@ const WardCheck = () => {
         "roomNum" : selectedadPeople[1].substr(2,1),
         "bedNum" : selectedadPeople[0]
       }
-     
-      selectedOutInfo = JSON.stringify(selectedOutInfo)
-   
+
       dispatch(selectPeople(selectedOutInfo))
- 
+      selectedOutInfo = JSON.stringify(selectedOutInfo)
+     
       // 비동기 정보
       dispatch(getInpatientInfo(selectedOutInfo));
-
+      dispatch(getCareInfo(selectedOutInfo));
+      dispatch(getMediRecords(selectedOutInfo))
     }
     
 

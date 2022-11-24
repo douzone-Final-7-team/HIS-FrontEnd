@@ -122,10 +122,10 @@ const Outpatient = () => {
   }, [inputValue]);
 
   const onEnter = useCallback((e) => {
-    if(e.key == 'Enter') {
+    if(e.key === 'Enter') {
       dispatch(PatientAction.getTest(inputValue));
     }
-  }, []);
+  }, [dispatch, inputValue]);
 
   return (
     <div className='outpatient'>

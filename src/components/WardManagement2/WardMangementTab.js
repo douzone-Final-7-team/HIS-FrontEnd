@@ -48,7 +48,7 @@ function a11yProps(index) {
   };
 }
 
-export default function WardMangeMentTap({setExcuteModal, excuteModal}) {
+export default function WardMangeMentTap() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -77,13 +77,13 @@ export default function WardMangeMentTap({setExcuteModal, excuteModal}) {
       </Box>
       <div className='outpatient-info-wapper'>
             <div className='outpatient-info'>
-              <p><span>환자명 : </span>{(outpatientDetail != null) ? outpatientDetail.PATIENT_NAME : "   "}</p>
+              <p><span>환자명 : </span>{(outpatientDetail != null) ? outpatientDetail.PATIENT_NAME : ""}</p>
             </div>                    
             <div className='outpatient-info'>
-              <p><span>S/A : </span>{(outpatientDetail != null) ?  outpatientDetail.GENDER : "  "}/{(outpatientDetail != null) ?  outpatientDetail.PATIENT_AGE: ""}</p>
+              <p><span>S/A : </span>{(outpatientDetail != null) ?  outpatientDetail.GENDER : ""}/{(outpatientDetail != null) ?  outpatientDetail.PATIENT_AGE: ""}</p>
             </div>                    
             <div className='outpatient-info'>
-              <p><span>주치의 : </span>{(outpatientDetail != null) ? outpatientDetail.SPECIALITY_NAME: "  "}/{(outpatientDetail != null) ?  outpatientDetail.EMP_NAME : ""}</p>
+              <p><span>주치의 : </span>{(outpatientDetail != null) ? outpatientDetail.SPECIALITY_NAME: ""}/{(outpatientDetail != null) ?  outpatientDetail.EMP_NAME : ""}</p>
             </div>
             <div className='outpatient-info'>
               <p><span>입원일 : </span>{(outpatientDetail != null) ?  outpatientDetail.ADMISSION_DATE: ""}</p>
@@ -92,11 +92,18 @@ export default function WardMangeMentTap({setExcuteModal, excuteModal}) {
               
                 <div className='discharge-duedate'>
                 <span>퇴원 예정일 : </span>  
-                  <input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" value={(outpatientDetail != null) ?  (outpatientDetail.ADMISSION_DUEDATE+ " ").substring(0,4) : ""}></input>
+                 {(outpatientDetail != null) ? ( (outpatientDetail.ADMISSION_DUEDATE != null) ?<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(0,4)} readOnly></input>
+                 :<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" ></input>)
+                 :<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" ></input>}
                   -
-                  <input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" value={(outpatientDetail != null) ?  (outpatientDetail.ADMISSION_DUEDATE+ " ").substring(5,7): ""}></input>
+                  {(outpatientDetail != null) ? ((outpatientDetail.ADMISSION_DUEDATE != null) ? <input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(5,7)} readOnly></input>
+                 :<input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" ></input>)
+                 :<input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" ></input>}
                   -
-                  <input className = 'discharge-day'  type="text" minLength = "2" maxLength ="2"  value={(outpatientDetail != null) ? (outpatientDetail.ADMISSION_DUEDATE+ " ").substring(8,10): ""}></input>
+                  {(outpatientDetail != null) ? ((outpatientDetail.ADMISSION_DUEDATE != null) ? <input className = 'discharge-day'  type="text" minLength = "2" maxLength ="2"  value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(8,10)} readOnly></input>
+                 :<input className = 'discharge-day' type="text" minLength = "2" maxLength ="2" ></input>)
+                 :<input className = 'discharge-day' type="text" minLength = "2" maxLength ="2" ></input>}
+                  
                   <a href='#!' className='btn'>등록</a>      
                 </div>
             </div>                
@@ -105,7 +112,7 @@ export default function WardMangeMentTap({setExcuteModal, excuteModal}) {
       <OutpatientDetail/>
         </TabPanel>
       <TabPanel value={value} index={1}>
-        <CareInfo setExcuteModal={setExcuteModal} excuteModal={excuteModal}/>
+        <CareInfo/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <TakeMediCheck/>
