@@ -24,6 +24,7 @@ function EmpBar() {
       specialityName :specialityName,
       searchDate : realdata
     }
+
     dispatch(getSpecialityName(specialityElements))
     dispatch(getInpatientSchedules(specialityElements))
   
@@ -48,8 +49,8 @@ function EmpBar() {
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p><span>근무자</span>채송화</p>
-        </div>                    
+          <p><span>근무자</span>진료과 채송화</p>
+        </div>
       </div>
     </div>
   )

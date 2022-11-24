@@ -112,11 +112,7 @@ const Doctor = () => {
               </div>
             </div>
           </div>
-          {detail && (
-                      <Modal closeModal={() => setDetail(!detail)}>
-                        <PatientDetailModal pastTreatmentDetail={pastTreatmentDetail} />
-                      </Modal>
-                    )}
+      
           <table className='infoTable'>
             <tbody>
               <tr>
