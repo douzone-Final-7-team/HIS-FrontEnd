@@ -13,7 +13,7 @@ function PatientStatus() {
   const [speciality, setSpeciality] = useState('내과');
   const [patientStatus, setPatientStatus] = useState();
   useEffect(()=>{
-    axios.post("http://43.200.169.159:9090/outStatus/getdocpat", {
+    axios.post("http://localhost:9090/outStatus/getdocpat", {
       SPECIALITY_ID_FK: (speciality == '내과' ? 'N' : speciality == '이비인후과' ? 'E' : speciality == '정형외과' ? 'J' : ' ') 
       }).then((res)=>{
         // console.log(res.data)
