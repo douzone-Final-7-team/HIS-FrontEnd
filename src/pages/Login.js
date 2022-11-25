@@ -9,7 +9,7 @@ const Login = () => {
   const [inputPw, setInputPw] = useState("");
 
   const userLogin = () => {
-    axios.post("http://43.200.169.159:9090/login", {
+    axios.post("http://localhost:9090/login", {
     username: inputId,
     pw: inputPw
     })
@@ -18,7 +18,7 @@ const Login = () => {
       localStorage.setItem('jwt', res.headers.get('Authorization'))
     })
     .then(() => {
-      axios.post("http://43.200.169.159:9090/user/myPage", {}, {
+      axios.post("http://localhost:9090/user/myPage", {}, {
           headers : {'Authorization': localStorage.getItem('jwt')}
       })
       .then((res) => {
