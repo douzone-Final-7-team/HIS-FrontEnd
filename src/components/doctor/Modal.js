@@ -1,6 +1,6 @@
 import React from "react";
  
-import '../../components/doctor/pastTreatmentModal.scss';
+import '../../components/doctor/Modal.scss';
 
 function Modal(props) {
  

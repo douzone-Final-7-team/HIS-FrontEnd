@@ -5,12 +5,14 @@ import Calendar from 'react-calendar';
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
 import '../styles/Calendar.css';
-import '../components/doctor/pastTreatmentModal.scss';
+import '../components/doctor/PatientDetail.scss';
+import '../components/doctor/DoctorSchedule.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
-import Modal from '../components/doctor/pastTreatmentModal';
+import Modal from '../components/doctor/Modal';
 import PatientDetailModal from '../components/doctor/PatientDetailModal';
+import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
@@ -22,6 +24,8 @@ const Doctor = () => {
   const [visibleMedicineDiv, setVisibleMedicineDiv] = useState(false);
   const [visibleAdmissionDiv, setVisibleAdmissionDiv] = useState(false);
   const [detail, setDetail] = useState(false);
+  const [schedule, setSchedule] = useState(false);
+  const modalDate = useRef("");
   const diagnosis = useRef("");
   const treatmentMemo = useRef("");
   const treatmentOrder = useRef("");
@@ -68,7 +72,7 @@ const Doctor = () => {
       treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
-    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+    axios.post("http://localhost.159:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
     {
       headers: {
         "Content-Type" : `application/json`,
@@ -148,8 +152,18 @@ const Doctor = () => {
             formatDay={(locale, value) => 
               value.toLocaleDateString("en", {day: "numeric"})
             }
+            onClickDay={(value) => {
+              modalDate.current = value.toDateString()
+              console.log(modalDate)
+              setSchedule(!schedule)
+            }}
             />
           </div>
+          {schedule && (
+            <Modal closeModal={() => setSchedule(!schedule)}>
+              <DoctorScheduleModal modalDate={modalDate.current} />
+            </Modal>
+          )}
         </div>
         <div className='admissionBox'>
           <span className='admissionTitle'>입원 내역</span>
