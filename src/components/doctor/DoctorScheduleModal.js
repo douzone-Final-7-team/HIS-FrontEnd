@@ -2,19 +2,83 @@ import React from "react";
 // style
 import '../../styles/scss/reset.scss';
 import '../../components/doctor/DoctorSchedule.scss';
+import { CgCloseR } from "react-icons/cg";
 
 const DoctorScheduleModal = (props) => {
 
     console.log(props.modalDate);
     return(
-        <div>
-            <div className="schedule-box">
-                <main>
-                    <div>
+        <div className="schedule-box">
+            <main>
+                <div>
+                    <p>일정 관리</p>
+                    <hr />
+                    <br />
+                    <div className="schedule-div">
+                        <p className="date">{props.modalDate}</p>
+                        <button href="#!" className="btn">일정 추가</button>
+                        <div className="count">
+                            <span className="count-span">3개의 일정</span>
+                        </div>
+
+                        <div className="checkbox">
+                                <input type={"checkbox"} /> <span className="checkbox-span">개인 일정</span>
+                                <input type={"checkbox"} /> <span className="checkbox-span">병원 일정</span>
+                                <input type={"checkbox"} /> <span className="checkbox-span">의사 일정</span>
+                        </div>
+                        <div className="schedule-content">
+                            <div className="section1">
+                                <span className="category">병원 일정 </span> &nbsp; <span>어린이날 특별음악회</span> <CgCloseR className="icon" />
+                            </div>
+                            <div className="section2">
+                                <span>시간 : </span> <span className="content-span">11:00</span> &nbsp; <span>장소 : </span> <span className="content-span">1층 메인홀</span> <br/>
+                                <span>내용 : </span> <span className="content-span">어린이날을 맞이해 어린 환자들을 위한 특별음악회</span>
+                            </div>
+                        </div>
+
+                        <div className="schedule-content">
+                            <div className="section1">
+                                <span className="category">병원 일정 </span> &nbsp; <span>어린이날 특별음악회</span> <CgCloseR className="icon" />
+                            </div>
+                            <div className="section2">
+                                <span>시간 : </span> <span className="content-span">11:00</span> &nbsp; <span>장소 : </span> <span className="content-span">1층 메인홀</span> <br/>
+                                <span>내용 : </span> <span className="content-span">어린이날을 맞이해 어린 환자들을 위한 특별음악회</span>
+                            </div>
+                        </div>
+
+                        <div className="schedule-content">
+                            <div className="section1">
+                                <span className="category">병원 일정 </span> &nbsp; <span>어린이날 특별음악회</span> <CgCloseR className="icon" />
+                            </div>
+                            <div className="section2">
+                                <span>시간 : </span> <span className="content-span">11:00</span> &nbsp; <span>장소 : </span> <span className="content-span">1층 메인홀</span> <br/>
+                                <span>내용 : </span> <span className="content-span">어린이날을 맞이해 어린 환자들을 위한 특별음악회</span>
+                            </div>
+                        </div>
+
+                        <div className="schedule-content">
+                            <div className="section1">
+                                <span className="category">병원 일정 </span> &nbsp; <span>어린이날 특별음악회</span> <CgCloseR className="icon" />
+                            </div>
+                            <div className="section2">
+                                <span>시간 : </span> <span className="content-span">11:00</span> &nbsp; <span>장소 : </span> <span className="content-span">1층 메인홀</span> <br/>
+                                <span>내용 : </span> <span className="content-span">어린이날을 맞이해 어린 환자들을 위한 특별음악회</span>
+                            </div>
+                        </div>
+
+                        <div className="schedule-content">
+                            <div className="section1">
+                                <span className="category">병원 일정 </span> &nbsp; <span>어린이날 특별음악회</span> <CgCloseR className="icon" />
+                            </div>
+                            <div className="section2">
+                                <span>시간 : </span> <span className="content-span">11:00</span> &nbsp; <span>장소 : </span> <span className="content-span">1층 메인홀</span> <br/>
+                                <span>내용 : </span> <span className="content-span">어린이날을 맞이해 어린 환자들을 위한 특별음악회</span>
+                            </div>
+                        </div>
                         
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     )
 }

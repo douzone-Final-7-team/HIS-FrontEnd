@@ -72,7 +72,7 @@ const Doctor = () => {
       treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
-    axios.post("http://localhost.159:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
     {
       headers: {
         "Content-Type" : `application/json`,
