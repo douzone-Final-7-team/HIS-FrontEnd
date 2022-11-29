@@ -25,13 +25,27 @@ const Doctor = () => {
   const [visibleAdmissionDiv, setVisibleAdmissionDiv] = useState(false);
   const [detail, setDetail] = useState(false);
   const [schedule, setSchedule] = useState(false);
+  const [medicineOrder, setMedicineOrder] = useState([]);
+  const [diagnosisList, setDiagnosisList] = useState([{}]);
+  const [medicineList, setMedicineList] = useState([{}]);
   const modalDate = useRef("");
   const diagnosis = useRef("");
   const treatmentMemo = useRef("");
   const treatmentOrder = useRef("");
-  const medicineOrder = useRef("");
   const admissionOrder = useRef("");
   const admissionCheck = useRef(0);
+  const token = localStorage.getItem('jwt') || '';
+
+  const onCheckedElement = (checked, item) => {
+    if (checked) {
+      setMedicineOrder([...medicineOrder, item]);
+    } else if (!checked) {
+      setMedicineOrder(medicineOrder.filter(el => el !== item));
+    }
+  };
+
+  console.log(medicineOrder);
+  console.log(diagnosis);
 
   useEffect(() => {
 
@@ -58,7 +72,23 @@ const Doctor = () => {
         setInPatientList(res.data)
     });
 
-  }, []);
+    axios.get("http://localhost:9090/treatmentOrder/getDiagnosisList", {
+      headers : {'Authorization': token,}
+    })
+    .then((res) => {
+      setDiagnosisList(res.data)
+    })
+
+  }, [token]);
+
+  console.log(diagnosisList);
+
+  const getMedicineList = () => {
+    axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
+      .then((res) => {
+        setMedicineList(res.data)
+      })
+  }
 
   const sendMedicalCharts = () => {
 
@@ -66,9 +96,9 @@ const Doctor = () => {
       diagnosis: diagnosis.current,
       treatmentMemo: treatmentMemo.current,
       treatmentOrder: treatmentOrder.current,
-      medicineOrder: medicineOrder.current,
       admissionOrder: admissionOrder.current,
       admissionCheck: admissionCheck.current,
+      medicineOrder: medicineOrder,
       treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
@@ -203,12 +233,18 @@ const Doctor = () => {
 
                 <div className='diagnosis-div'>
                   <span className='diagnosis-title'>병 &nbsp;&nbsp;&nbsp; 명 : </span>
-                  <input 
-                      className='diagnosis-input' 
-                      placeholder='병명을 입력해주세요.' 
-                      onChange={(e) => {
-                        diagnosis.current = e.target.value;
-                      }} />
+                  <select 
+                    className='diagnosis-select' 
+                    name="diagnosis" 
+                    onChange={(e) => {
+                      diagnosis.current = e.target.value
+                      getMedicineList()
+                    }}>
+                    <option value={""}>병명 선택</option>
+                    {diagnosisList.map((data, index) => (
+                      <option key={index} value={data.DIAGNOSIS_CODE}>{data.DIAGNOSIS}</option>
+                    ))}
+                  </select>
                       <br />
                   <div className='order-div'>
                     <span>오 &nbsp;&nbsp;&nbsp; 더 : </span>
@@ -219,13 +255,7 @@ const Doctor = () => {
                         setVisibleTreatmentDiv(!visibleTreatmentDiv);
                       }}
                     /> <span>치료</span> 
-                    <input 
-                      className='medicine-checkbox' 
-                      type="checkbox" 
-                      onClick={() => {
-                        setVisibleMedicineDiv(!visibleMedicineDiv);
-                      }}
-                    /> <span>약</span>
+
                     <input 
                       className='admission-checkbox' 
                       type="checkbox" 
@@ -236,6 +266,14 @@ const Doctor = () => {
                         setVisibleAdmissionDiv(!visibleAdmissionDiv);
                       }}
                       /> <span>입원 여부</span>
+
+                    <input 
+                      className='medicine-checkbox' 
+                      type="checkbox" 
+                      onClick={() => {
+                        setVisibleMedicineDiv(!visibleMedicineDiv);
+                      }}
+                    /> <span>약</span>
                   </div>
                 </div>
 
@@ -248,15 +286,6 @@ const Doctor = () => {
                       }}
                     />
                   </div>}
-
-                  {visibleMedicineDiv && <div className='medicine-detail'>
-                    <span>약 처방</span> <br /> 
-                    <textarea 
-                      onChange={(e) => {
-                        medicineOrder.current = e.target.value;
-                      }}
-                    />
-                  </div>}
                   
                   {visibleAdmissionDiv && <div className='admission-detail'>
                     <span>입원 오더</span> <br /> 
@@ -265,6 +294,24 @@ const Doctor = () => {
                         admissionOrder.current = e.target.value;
                       }}
                     />
+                  </div>}
+
+                  {visibleMedicineDiv && <div className='medicine-detail'>
+                    <span>약 처방</span> <br /> 
+                    <div className='medicine-div'>
+                      <table className='medicine-table'>
+                          {medicineList.map((data, index) => (
+                            <tbody key={index}>
+                              <tr>
+                                <th>{data.MEDICINE}</th>
+                                <td>
+                                  <input type={"checkbox"} value={data.MEDICINE} onChange={(e) => onCheckedElement(e.target.checked, e.target.value)} />
+                                </td>
+                              </tr>
+                            </tbody>
+                          ))}
+                      </table>
+                    </div>
                   </div>}
                 </div>
 
