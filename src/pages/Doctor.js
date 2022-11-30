@@ -16,7 +16,7 @@ import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
-  const [pastTreatmentList, setPastTreatmentList] = useState([{}]);
+  const pastTreatmentList = useRef([{}]);
   const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
   const [inPatientList, setInPatientList] = useState([{}]);
   const [value, onChange] = useState(new Date());
@@ -36,39 +36,20 @@ const Doctor = () => {
   const admissionCheck = useRef(0);
   const token = localStorage.getItem('jwt') || '';
 
-  const onCheckedElement = (checked, item) => {
-    if (checked) {
-      setMedicineOrder([...medicineOrder, item]);
-    } else if (!checked) {
-      setMedicineOrder(medicineOrder.filter(el => el !== item));
-    }
-  };
-
-  console.log(medicineOrder);
-  console.log(diagnosis);
-
   useEffect(() => {
 
-    axios.get("http://localhost:9090/patient/treatmentPatientInfo")
+    axios.get("http://localhost:9090/patient/pastTreatmentList", {params : {patientPk: treatmentPatientInfo[0].PATIENT_ID_PK || ''}})
       .then((res) => {
-        console.log(res.data);
-        setTreatmentPatientInfo(res.data);
-      }); 
-
-    axios.get("http://localhost:9090/patient/pastTreatmentList")
-      .then((res) => {
-        setPastTreatmentList(res.data)
+        pastTreatmentList.current = res.data
       });
 
     axios.get("http://localhost:9090/patient/pastTreatmentDetail")
       .then((res) => {
-        console.log(res.data);
         setPastTreatmentDetail(res.data)
       });
 
     axios.get("http://localhost:9090/AdmissionFront/myInPatient")
       .then((res) => {
-        console.log(res.data)
         setInPatientList(res.data)
     });
 
@@ -79,16 +60,24 @@ const Doctor = () => {
       setDiagnosisList(res.data)
     })
 
-  }, [token]);
+  }, [token, treatmentPatientInfo]);
 
-  console.log(diagnosisList);
+  console.log(treatmentPatientInfo);
 
   const getMedicineList = () => {
     axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
       .then((res) => {
         setMedicineList(res.data)
       })
-  }
+  };
+
+  const onCheckedElement = (checked, item) => {
+    if (checked) {
+      setMedicineOrder([...medicineOrder, item]);
+    } else if (!checked) {
+      setMedicineOrder(medicineOrder.filter(el => el !== item));
+    }
+  };
 
   const sendMedicalCharts = () => {
 
@@ -112,8 +101,10 @@ const Doctor = () => {
       alert(res.data);
       window.location.reload();
     })
-  }
-
+  };
+  
+  console.log(treatmentPatientInfo);
+  
   return (
     <div className='doctor'>
       <main className='main'>
@@ -135,11 +126,11 @@ const Doctor = () => {
                       <th>처방 및 치료 내역</th>
                     </tr>
                   </thead>
-                  {pastTreatmentList.map((data, index)=> (
+                  {pastTreatmentList.current.map((data, index)=> (
                     <tbody key={index}>
                       <tr>
                         <td>{data.TREATMENT_DATE || ''}</td>
-                        <td>{data.DIAGNOSTIC_NAME || ''}</td>
+                        <td>{data.DIAGNOSIS || ''}</td>
                         <td><button onClick={() => setDetail(!detail)}>상세기록</button></td>
                       </tr>
                     </tbody>
@@ -341,7 +332,7 @@ const Doctor = () => {
 
             </form>
         </div>
-        <ReducedPatientStatus />
+        <ReducedPatientStatus setTreatmentPatientInfo={setTreatmentPatientInfo}/>
       </main>
     </div>
 
