@@ -5,13 +5,14 @@ import { API_URL } from '../../utils/constants/Config';
 import './receipt.scss';
 
 
-const Receipt = ({ test , setReRender }) => { //비구조할당
+const Receipt = ({ test , reRender ,setReRender }) => { //비구조할당
 
 
   let data = { ADMISSION_ID_PK: test };
 
   const [detail, setDetail] = useState([{}]);
-  // const detail = useRef([{}]);
+  
+  // console.log(typeof reRender);
 
   // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
 
@@ -80,11 +81,21 @@ const Receipt = ({ test , setReRender }) => { //비구조할당
   }
 
   function complete(){
+    let result = reRender;
+   console.log("resutl : "+ result); 
+    if(result === true){
+    // if(result.){
+      result = false;
+    }else if(result===false){
+      result = true;
+    } 
     // console.log(sunabList[index].ADMISSION_ID_PK);
     axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
+    .then(setReRender(()=>result));
+    
     // .then(res => setDetail(res.data))
     // 리턴으로 성공 실패 여부 받아서 다음 처리
-    setReRender(()=>false);
+    
   }
 
   return (
