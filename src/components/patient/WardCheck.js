@@ -17,14 +17,14 @@ let data = {
 }
 
 const WardOpions = [
-  { key:"1", value : "" , name : "병동선택"},
+  { key:"1", value : "100" , name : "병동선택"},
   { key:"2", value : "200" , name : "내과 : 200"},
   { key:"3", value : "300" , name : "정형외과 : 300"},
   { key:"4", value : "400" , name : "이빈후과 : 400"},
 ];
 
 const RoomOpions = [
-  { key:"1" , value : "" , name : "호실선택"},
+  { key:"1" , value : "0" , name : "호실선택"},
   { key:"2" , value : "1" , name : "1호실"},
   { key:"3" , value : "2" , name : "2호실"},
   { key:"4" , value : "3" , name : "3호실"},
@@ -86,13 +86,18 @@ const WardCheck = () => {
     
   
     useEffect(()=>{
-      axios.get(API_URL+"/admission/roominfos", {params : data})
+      axios.get(API_URL+"/wardCheck/roominfos", {params : data})
         .then(res => setRoomInfos(res.data));  
     },[selected]);
     
     const wardHandleChange = (e) => {
         
-      data.ward = e.target.value;
+      // console.log(e.target.value);
+      if(e.target.value === "100"){
+        delete data.ward;
+      }else{
+        data.ward = e.target.value;
+      }
       setWard(e.target.value);
       setSelected(e.target.value);
     }
@@ -115,9 +120,12 @@ const WardCheck = () => {
       )
     }
     const roomHandleChange = (e) => {
-        
-      // console.log(e.target.value);
-      data.roomNum = e.target.value;
+      
+      if(e.target.value === "0"){
+        delete data.roomNum;
+      }else{
+        data.roomNum = e.target.value;
+      }
       // console.log(data);
       setRoom(e.target.value);
       setSelected(e.target.value);
