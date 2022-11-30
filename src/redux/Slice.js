@@ -24,7 +24,6 @@ const searchSlice = createSlice({
   initialState,
   reducers: {
     find: (state, action) => {
-      // console.log(action)
       state.value = state.payload;
     }
   },

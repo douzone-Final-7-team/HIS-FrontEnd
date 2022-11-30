@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import '../styles/login.scss';
 import axios from 'axios';
 import logo from '../assets/DOUZONE.png';
@@ -9,19 +9,22 @@ const Login = () => {
   const [inputPw, setInputPw] = useState("");
 
   const userLogin = () => {
-    axios.post("http://43.200.169.159:9090/login", {
+    axios.post("http://localhost:9090/login", {
     username: inputId,
     pw: inputPw
     })
     .then((res)=>{
-      console.log(res.headers.get('Authorization'))
       localStorage.setItem('jwt', res.headers.get('Authorization'))
     })
     .then(() => {
-      axios.post("http://43.200.169.159:9090/user/myPage", {}, {
+      axios.post("http://localhost:9090/user/myPage", {}, {
           headers : {'Authorization': localStorage.getItem('jwt')}
       })
       .then((res) => {
+        localStorage.setItem('userName', res.data[0].USERNAME);
+        localStorage.setItem('empIdPk', res.data[0].EMP_ID_PK);
+        localStorage.setItem('name', res.data[0].EMP_NAME);
+        localStorage.setItem('specialityName', res.data[0].SPECIALITY_NAME);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
           window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
@@ -34,7 +37,6 @@ const Login = () => {
       }); 
     })
   }
-    
     return (
         <div className='wrap'>
           <div className='his'>
