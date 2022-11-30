@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import OutpatientDetail from './OutPatientDetail';
+import InpatientDetail from './InPatientDetail';
 import CareInfo from './CareInfo';
 import TakeMediCheck from './TakeMediCheck';
 import '../../styles/tab.scss'
@@ -12,7 +12,7 @@ import '../WardManagement2/wardMangementTab.scss';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import {getCareInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
+import {changeDischargeDueDate, getCareInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
 
 
 function TabPanel(props) {
@@ -28,7 +28,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -55,61 +55,87 @@ export default function WardMangeMentTap() {
     setValue(newValue);
   };
 
-  // 비동기 입원 환자 정보
-  const outpatientDetail = useSelector(state=>{
-    return state.outPatientInfo.value[1]
+  const dispatch = useDispatch();
+ 
+   
+  const [changeDischargeDate, setChangeDischargeDate] =React.useState("");
+  const [sendDischargeDate ,setSendDischargeDate]=React.useState({
+    dischargeDueDate: "",
+    admissionIdPk : "",
+    ward: "",
+    name: "",
+    roomNum: "",
+    bedNum: ""
+  });
+
+  const inpatientDetail = useSelector(state=>{
+    return state.inPatientInfo.value[1]
   })
 
-  // 비동기 입원 간호 기록
-  const dispatch = useDispatch();
-  const careElements = useSelector(state=>{
-    return state.outPatientInfo.value[0]
-  })  
+  React.useEffect(()=>{
+    if(inpatientDetail != null){
+      setChangeDischargeDate(inpatientDetail.DISCHARGE_DUEDATE)
+    }
+  },[inpatientDetail])
  
+  const careElements = useSelector(state=>{
+    return state.inPatientInfo.value[0]
+  })
+
+  const ChangeDueDate = (e) =>{
+        setChangeDischargeDate(e.target.value)
+  
+        setSendDischargeDate( {
+          dischargeDueDate: e.target.value,
+          admissionIdPk : inpatientDetail.ADMISSION_ID_PK,
+          ward: careElements.ward,
+          name: careElements.name,
+          roomNum: careElements.roomNum,
+          bedNum: careElements.bedNum
+        })
+  
+    }
+    React.useEffect(()=>{
+      const sendDischarge = document.getElementById('dischargeEnroll');
+      sendDischarge.addEventListener('click',
+      
+     (dispatch(changeDischargeDueDate(sendDischargeDate)))
+      )
+    },[dispatch, sendDischargeDate])
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
           <Tab label="환자 정보" {...a11yProps(0)} />
-          <Tab label="간호 기록" {...a11yProps(1)} onClick={() => { dispatch(getCareInfo(careElements))}}/>
-          <Tab label="처방 기록" {...a11yProps(2)} onClick={() => { dispatch(getMediRecords(careElements))}}/>
+          <Tab label="간호 기록" {...a11yProps(1)} onClick={() => { if(careElements){dispatch(getCareInfo(careElements))}}}/>
+          <Tab label="처방 기록" {...a11yProps(2)} onClick={() => { if(careElements){dispatch(getMediRecords(careElements))}}}/>
         </Tabs>
       </Box>
-      <div className='outpatient-info-wapper'>
-            <div className='outpatient-info'>
-              <p><span>환자명 : </span>{(outpatientDetail != null) ? outpatientDetail.PATIENT_NAME : ""}</p>
+      <div className='inpatient-info-wapper'>
+            <div className='inpatient-info'>
+              <p><span>환자명 : </span>{(inpatientDetail != null) ? inpatientDetail.PATIENT_NAME : ""}</p>
             </div>                    
-            <div className='outpatient-info'>
-              <p><span>S/A : </span>{(outpatientDetail != null) ?  outpatientDetail.GENDER : ""}/{(outpatientDetail != null) ?  outpatientDetail.PATIENT_AGE: ""}</p>
+            <div className='inpatient-info'>
+              <p><span>S/A : </span>{(inpatientDetail != null) ?  inpatientDetail.GENDER : ""}/{(inpatientDetail != null) ?  inpatientDetail.PATIENT_AGE: ""}</p>
             </div>                    
-            <div className='outpatient-info'>
-              <p><span>주치의 : </span>{(outpatientDetail != null) ? outpatientDetail.SPECIALITY_NAME: ""}/{(outpatientDetail != null) ?  outpatientDetail.EMP_NAME : ""}</p>
+            <div className='inpatient-info'>
+              <p><span>주치의 : </span>{(inpatientDetail != null) ? inpatientDetail.SPECIALITY_NAME: ""}/{(inpatientDetail != null) ?  inpatientDetail.EMP_NAME : ""}</p>
             </div>
-            <div className='outpatient-info'>
-              <p><span>입원일 : </span>{(outpatientDetail != null) ?  outpatientDetail.ADMISSION_DATE: ""}</p>
+            <div className='inpatient-info'>
+              <p><span>입원일 : </span>{(inpatientDetail != null) ?  inpatientDetail.ADMISSION_DATE: ""}</p>
             </div>
-            <div className='outpatient-info'>
-              
+            <div className='inpatient-info'>
+            
                 <div className='discharge-duedate'>
-                <span>퇴원 예정일 : </span>  
-                 {(outpatientDetail != null) ? ( (outpatientDetail.ADMISSION_DUEDATE != null) ?<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(0,4)} readOnly></input>
-                 :<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" ></input>)
-                 :<input className = 'discharge-year' type="text" minLength = "4" maxLength ="4" ></input>}
-                  -
-                  {(outpatientDetail != null) ? ((outpatientDetail.ADMISSION_DUEDATE != null) ? <input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(5,7)} readOnly></input>
-                 :<input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" ></input>)
-                 :<input className = 'discharge-month' type="text" minLength = "2" maxLength ="2" ></input>}
-                  -
-                  {(outpatientDetail != null) ? ((outpatientDetail.ADMISSION_DUEDATE != null) ? <input className = 'discharge-day'  type="text" minLength = "2" maxLength ="2"  value={(outpatientDetail.ADMISSION_DUEDATE+ " ").substring(8,10)} readOnly></input>
-                 :<input className = 'discharge-day' type="text" minLength = "2" maxLength ="2" ></input>)
-                 :<input className = 'discharge-day' type="text" minLength = "2" maxLength ="2" ></input>}
-                  
-                  <a href='#!' className='btn'>등록</a>      
+                <span>퇴원 예정일 : </span>
+                {(inpatientDetail != null) ? <input className = 'discharge-insert' type="date" value={inpatientDetail.DISCHARGE_DUEDATE ? changeDischargeDate || "": ""} onChange={ChangeDueDate}></input> : <input className = 'discharge-insert' type="date" value= ""></input> }    
+                  <a href='#!' id = "dischargeEnroll" className='btn'>등록</a>      
                 </div>
             </div>                
         </div>
       <TabPanel value={value} index={0}>
-      <OutpatientDetail/>
+      <InpatientDetail/>
         </TabPanel>
       <TabPanel value={value} index={1}>
         <CareInfo/>

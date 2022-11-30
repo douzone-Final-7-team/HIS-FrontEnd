@@ -6,9 +6,11 @@ import './wardCheck.scss';
 //redux
 import { useDispatch } from 'react-redux';
 import {getCareInfo, getInpatientInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
-import { selectPeople } from '../../redux/outPatientInfoSlice';
+import { selectPeople } from '../../redux/InPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 
+// const specialityName = window.localStorage.getItem('specialityName');
+const empIdPk = window.localStorage.getItem('empIdPk');
 
 let data = {
   empIdPk : 'O220019' //세션에 있는 사번
@@ -33,33 +35,8 @@ const RoomOpions = [
 
 
 const WardCheck = () => {
-
-  const selectedadPeople = [];
-
-  let selectedOutInfo;
-  const dispatch = useDispatch();
- 
-    const sendWardbasicData = () =>{
-      for(let i=0 ; i < document.getElementById('aaa').childNodes.length ; i++){
-        selectedadPeople[i] = document.getElementById('aaa').childNodes[i].innerText
-      }
-        selectedOutInfo = {
-        "name": selectedadPeople[2],
-        "ward" : selectedadPeople[1].substr(0,1)*100,
-        "roomNum" : selectedadPeople[1].substr(2,1),
-        "bedNum" : selectedadPeople[0]
-      }
-
-      
-      dispatch(selectPeople(selectedOutInfo))
-      selectedOutInfo = JSON.stringify(selectedOutInfo)
-     
-      // 비동기 정보
-      dispatch(getInpatientInfo(selectedOutInfo));
-      dispatch(getCareInfo(selectedOutInfo));
-      dispatch(getMediRecords(selectedOutInfo))
-    }
   
+
     // console.log(data.empIdPk);
     // data.ward = "200";
 
@@ -74,6 +51,40 @@ const WardCheck = () => {
   // }
 
 
+  let showWard =true;
+  
+  //ward 로컬 정보 수정한거 머지 되면 들고와서 사용
+  if(empIdPk.substring(0,1) === 'I'){
+    showWard=(false)
+    data.ward = '200';
+  }
+
+
+  let selectedInInfo;
+  const dispatch = useDispatch();
+
+    const sendWardbasicData = (e) =>{
+     
+        selectedInInfo = {
+        "name": roomInfos[e.target.id].PATIENT_NAME,
+        "ward" : (roomInfos[e.target.id].WARDROOM + "").substring(0,1)*100,
+        "roomNum" : (roomInfos[e.target.id].WARDROOM + "").substring(2),
+        "bedNum" : (roomInfos[e.target.id].BED_NUM)
+        }
+
+
+      dispatch(selectPeople(selectedInInfo))
+      selectedInInfo = JSON.stringify(selectedInInfo)
+     
+      // 비동기 정보
+      dispatch(getInpatientInfo(selectedInInfo));
+      dispatch(getCareInfo(selectedInInfo));
+      dispatch(getMediRecords(selectedInInfo))
+    }
+
+  
+    
+  
     useEffect(()=>{
       axios.get(API_URL+"/wardCheck/roominfos", {params : data})
         .then(res => setRoomInfos(res.data));  
@@ -128,8 +139,7 @@ const WardCheck = () => {
                   <option
                     defaultValue={props.defaultValue === option.value}
                     key={option.value}
-                    value={option.value}
-                    
+                    value={option.value}   
                   >
                     {option.name}
                     
@@ -141,12 +151,11 @@ const WardCheck = () => {
     }
 
     
-    
   return (
     <div className='ward-check'>
       <div className='filter'>
         {/* {data.empIdPk.indexOf("O") !== -1  ? <WardSelectBox options={WardOpions} defaultValue=''/> : <WardSelectBox options={WardOpions} defaultValue='200'/>} */}
-        <WardSelectBox options={WardOpions} defaultValue=''/>
+        {showWard && <WardSelectBox options={WardOpions} defaultValue=''/>}
         <RoomSelectBox options={RoomOpions} defaultValue=''/>
       </div>
       <div className='table-wrapper'>
@@ -160,18 +169,12 @@ const WardCheck = () => {
               </tr>
           </thead>
           <tbody>
-            {/* <tr>
-                <td>1</td>
-                <td>201</td>
-                <td onClick={sendWardbasicData}>배병서</td>
-                <td>홍길동</td>
-            </tr> */}
-            {roomInfos.map((wardNum) => (
-              <tr id ='aaa'>
-                <td onClick={sendWardbasicData}>{wardNum.BED_NUM}</td>
-                <td onClick={sendWardbasicData}>{wardNum.WARDROOM}</td>
-                <td onClick={sendWardbasicData}>{wardNum.PATIENT_NAME}</td>
-                <td onClick={sendWardbasicData}>{wardNum.EMP_NAME}</td>
+            {roomInfos.map((wardNum, index) => (
+              <tr key={index}>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.BED_NUM}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.WARDROOM}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.PATIENT_NAME}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.EMP_NAME}</td>
               </tr>
               
             ))}

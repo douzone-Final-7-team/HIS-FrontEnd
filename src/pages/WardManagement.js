@@ -30,19 +30,8 @@ const WardManagement = () => {
 
 
   let test = available;
-  
-
-  // console.log(getTest);
-
-  // useEffect(()=>{
-  //   dispatch(getTest());
     
-  // },[]);
 
-  
-
-  // console.log((getTest != null) && (getTest))
-  
   const [bedInfo, setBedInfo] = useState(false);
 
   useEffect(()=>{
