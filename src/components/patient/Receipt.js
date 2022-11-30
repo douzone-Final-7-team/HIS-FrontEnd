@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';

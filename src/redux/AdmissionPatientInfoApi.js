@@ -3,10 +3,10 @@ import axios from "axios";
 
 // 입원 환자 정보 Read
 export const getInpatientInfo = createAsyncThunk(
-    'outPatientInfoSlice/getInpatientInfo',
-    async(selectedOutInfo) => {
-        const resp = await axios.post("http://43.200.169.159:9090/patient/outInfo",
-        selectedOutInfo,
+    'inPatientInfoSlice/getInpatientInfo',
+    async(selectedInInfo) => {
+        const resp = await axios.post("http://localhost:9090/patient/outInfo",
+        selectedInInfo,
         {
           headers: {
             "Content-Type" : `application/json`,
@@ -16,12 +16,26 @@ export const getInpatientInfo = createAsyncThunk(
     }
 )
 
+// 입원 환자 퇴원 예정일 Update
+export const changeDischargeDueDate = createAsyncThunk(
+  'inPatientInfoSlice/changeDischargeDueDate',
+  async(dischargeDueDateElement) => {
+      const resp = await axios.put("http://localhost:9090/patient/dischargeDueDate",
+      dischargeDueDateElement,
+      {
+        headers: {
+          "Content-Type" : `application/json`,
+        },
+      });
+      return resp.data
+  }
+)
 
 // 특정 환자 간호기록 Read
 export const getCareInfo = createAsyncThunk(
-  'outPatientInfoSlice/getCareInfo',
+  'inPatientInfoSlice/getCareInfo',
   async(elements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/careInfos",
+      const resp = await axios.post("http://localhost:9090/admission/careInfos",
       elements,
       {
         headers: {
@@ -36,9 +50,9 @@ export const getCareInfo = createAsyncThunk(
 
 // 특정 환자 간호기록 create
 export const setCareInfo = createAsyncThunk(
-  'outPatientInfoSlice/setCareInfo ',
+  'inPatientInfoSlice/setCareInfo ',
   async(elements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/createdCareInfo",
+      const resp = await axios.post("http://localhost:9090/admission/createdCareInfo",
       elements,
       {
         headers: {
@@ -52,9 +66,9 @@ export const setCareInfo = createAsyncThunk(
 
 // 특정 환자 간호기록 UPDATE
 export const changeCareInfo = createAsyncThunk(
-  'outPatientInfoSlice/changedCareInfo ',
+  'inPatientInfoSlice/changedCareInfo ',
   async(elements) => {
-      const resp = await axios.put("http://43.200.169.159:9090/admission/changedCareInfo",
+      const resp = await axios.put("http://localhost:9090/admission/changedCareInfo",
       elements,
       {
         headers: {
@@ -70,9 +84,9 @@ export const changeCareInfo = createAsyncThunk(
 
 // 특정 환자 처방 기록 Read
 export const getMediRecords = createAsyncThunk(
-  'outPatientInfoSlice/getMediRecords',
+  'inPatientInfoSlice/getMediRecords',
   async(elements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/mediRecords",
+      const resp = await axios.post("http://localhost:9090/admission/mediRecords",
       elements,
       {
         headers: {
@@ -88,9 +102,9 @@ export const getMediRecords = createAsyncThunk(
 
 // 특정 환자 처방 기록 Create
 export const setMediRecord = createAsyncThunk(
-  'outPatientInfoSlice/setMediRecord',
+  'inPatientInfoSlice/setMediRecord',
   async(elements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/createdMediRecord",
+      const resp = await axios.post("http://localhost:9090/admission/createdMediRecord",
       elements,
       {
         headers: {
@@ -104,9 +118,9 @@ export const setMediRecord = createAsyncThunk(
 
 // 특정 환자 처방 기록 Update
 export const changeMediRecord = createAsyncThunk(
-  'outPatientInfoSlice/changedMediRecord',
+  'inPatientInfoSlice/changedMediRecord',
   async(elements) => {
-      const resp = await axios.put("http://43.200.169.159:9090/admission/changedMediRecord",
+      const resp = await axios.put("http://localhost:9090/admission/changedMediRecord",
       elements,
       {
         headers: {
@@ -120,9 +134,9 @@ export const changeMediRecord = createAsyncThunk(
 
 // 특정 환자 처방 기록 복약 여부 Update
 export const changeTakeMediStatus = createAsyncThunk(
-  'outPatientInfoSlice/changeTakeMediStatus',
+  'inPatientInfoSlice/changeTakeMediStatus',
   async(elements) => {
-      const resp = await axios.put("http://43.200.169.159:9090/admission/changedMediRecord/status",
+      const resp = await axios.put("http://localhost:9090/admission/changedMediRecord/status",
       elements,
       {
         headers: {
@@ -137,24 +151,25 @@ export const changeTakeMediStatus = createAsyncThunk(
 
 //병동 전체 오늘 일정 Read
 export const getInpatientSchedules = createAsyncThunk(
-  'outPatientInfoSlice/getInpatientSchedules',
+  'inPatientInfoSlice/getInpatientSchedules',
   async(specialityElements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/schedules",
+      const resp = await axios.post("http://localhost:9090/admission/schedules",
       specialityElements,
       {
         headers: {
           "Content-Type" : `application/json`,
         },
       });
+      // console.log(resp.data)
       return resp.data
   }
 )
 
 //병동 전체 일정 create
 export const setInpatientSchedule = createAsyncThunk(
-  'outPatientInfoSlice/setInpatientSchedule',
+  'inPatientInfoSlice/setInpatientSchedule',
   async(specialityElements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/createdSchedule",
+      const resp = await axios.post("http://localhost:9090/admission/createdSchedule",
       specialityElements,
       {
         headers: {
@@ -167,10 +182,10 @@ export const setInpatientSchedule = createAsyncThunk(
 
 
 //병동 전체 일정 update
-export const changeScheduleStatus = createAsyncThunk(
-  'outPatientInfoSlice/changeScheduleStatus',
+export const changeSchedule = createAsyncThunk(
+  'inPatientInfoSlice/changeSchedule',
   async(specialityElements) => {
-      const resp = await axios.put("http://43.200.169.159:9090/admission/changedSchedule",
+      const resp = await axios.put("http://localhost:9090/admission/changedSchedule",
       specialityElements,
       {
         headers: {
@@ -186,9 +201,9 @@ export const changeScheduleStatus = createAsyncThunk(
 
 //나에게 전달 된 인계사항 READ
 export const getReceiveHandOver = createAsyncThunk(
-  'outPatientInfoSlice/getReceiveHandOver',
+  'inPatientInfoSlice/getReceiveHandOver',
   async(specialityElements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/toMyHandOvers",
+      const resp = await axios.post("http://localhost:9090/admission/toMyHandOvers",
       specialityElements,
       {
         headers: {
@@ -202,9 +217,9 @@ export const getReceiveHandOver = createAsyncThunk(
 
 //내가 작성한 인계사항 READ
 export const getSendHandOver = createAsyncThunk(
-  'outPatientInfoSlice/getSendHandOver',
+  'inPatientInfoSlice/getSendHandOver',
   async(specialityElements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/fromMyHandOvers",
+      const resp = await axios.post("http://localhost:9090/admission/fromMyHandOvers",
       specialityElements,
       {
         headers: {
@@ -218,15 +233,16 @@ export const getSendHandOver = createAsyncThunk(
 
 //인계사항 Create
 export const setHandOver = createAsyncThunk(
-  'outPatientInfoSlice/setHandOver',
+  'inPatientInfoSlice/setHandOver',
   async(specialityElements) => {
-      const resp = await axios.post("http://43.200.169.159:9090/admission/handOver",
+      const resp = await axios.post("http://localhost:9090/admission/handOver",
       specialityElements,
       {
         headers: {
           "Content-Type" : `application/json`,
         },
       });
+      console.log(specialityElements)
       return resp.data
      
   }
@@ -235,9 +251,9 @@ export const setHandOver = createAsyncThunk(
 
 // 내가 작성한 인계사항 Update
 export const changeHandover = createAsyncThunk(
-  'outPatientInfoSlice/changeHandover',
+  'inPatientInfoSlice/changeHandover',
   async(elements) => {
-      const resp = await axios.put("http://43.200.169.159:9090/admission/myHandOver",
+      const resp = await axios.put("http://localhost:9090/admission/myHandOver",
       elements,
       {
         headers: {

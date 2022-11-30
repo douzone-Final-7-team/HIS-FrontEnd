@@ -5,25 +5,21 @@ import './patientStatus.scss';
 import DetailedStatus from './DetailedStatus';
 import axios from 'axios';
 import './detailedStatus.scss';
-import { useDispatch } from 'react-redux';
 
 function PatientStatus() {
-  const dispatch = useDispatch();
 
   const [speciality, setSpeciality] = useState('내과');
   const [patientStatus, setPatientStatus] = useState();
   useEffect(()=>{
-    axios.post("http://localhost:9090/outStatus/getdocpat", {
-      SPECIALITY_ID_FK: (speciality == '내과' ? 'N' : speciality == '이비인후과' ? 'E' : speciality == '정형외과' ? 'J' : ' ') 
+    axios.post("http://43.200.169.159:9090/outStatus/getdocpat", {
+      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ') 
       }).then((res)=>{
-        // console.log(res.data)
         setPatientStatus(res.data)
       });
   },[speciality]);
 
 
   // 혜지 환자현황 클릭 이벤트
-  let info;
   const handleClick = () => {
     // dispatch(readOutpatientInfo());
   }
@@ -44,7 +40,7 @@ function PatientStatus() {
       <div className='status'>
         <p>전체(n) 대기중(n) 진료중(n) 치료(n) 완료(n)</p>
         <div>
-          {patientStatus!=null && patientStatus!=undefined? patientStatus.map((data, index) => (
+          {patientStatus!==null && patientStatus!==undefined? patientStatus.map((data, index) => (
             <DetailedStatus key={index} data={data} index={index} onClick={handleClick}/>
           )):""}
         </div>

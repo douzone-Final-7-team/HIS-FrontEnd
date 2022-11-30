@@ -33,7 +33,6 @@ const Doctor = () => {
 
     axios.get("http://localhost:9090/patient/treatmentPatientInfo")
       .then((res) => {
-        console.log(res.data);
         setTreatmentPatientInfo(res.data);
       }); 
 
@@ -44,13 +43,11 @@ const Doctor = () => {
 
     axios.get("http://localhost:9090/patient/pastTreatmentDetail")
       .then((res) => {
-        console.log(res.data);
         setPastTreatmentDetail(res.data)
       });
 
     axios.get("http://localhost:9090/AdmissionFront/myInPatient")
       .then((res) => {
-        console.log(res.data)
         setInPatientList(res.data)
     });
 

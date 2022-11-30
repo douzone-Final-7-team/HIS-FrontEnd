@@ -29,11 +29,11 @@ text-rendering:optimizeLegibility;
 	width:100%;
 	margin:0 auto;
 	position:relative;
- 
+
     }
-	.outinfo-wapper{
+	.ininfo-wapper{
 		display: flex;
-		.outinfo{
+		.ininfo{
 			border:1px solid #CCC;
 			background:#FFF;
 			padding:10px;
@@ -141,3 +141,13 @@ fieldset {
  color:#888;
 }
 
+
+#suggestions-list{
+	margin-top: 20px;
+	background-color: #FFF;
+}
+
+#searchPatientInput-list{
+	margin-top: 20px;
+	background-color: #FFF;
+}

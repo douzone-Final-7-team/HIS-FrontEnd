@@ -48,7 +48,6 @@ const DischargeDue = () => {
 
     
 
-    // console.log(disChargeDueList.length);
 
     return (
         <div className='discharge-Due-wapper'>
