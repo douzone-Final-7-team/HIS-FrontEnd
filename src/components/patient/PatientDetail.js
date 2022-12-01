@@ -88,7 +88,7 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
             <td colSpan={9}>
               <input 
                 // value={symptom || ""} 
-                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:" "}
+                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:symptom || ""}
                 onChange={(e)=> {
                 setSymptom(e.target.value)
               }}/>

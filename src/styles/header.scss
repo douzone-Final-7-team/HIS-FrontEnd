@@ -30,15 +30,17 @@
     }
     .logout {
       text-align: center;
-      padding-top: 10px;
-      width: 70px;
+      width: 80px;
       height: 38px;
-      background-size: cover;
+      background-color: $primaryColor;
+      border: none;
+      border-radius: 7px;
       position: relative;
-      left: 88%;
+      left: 87%;
       cursor: pointer;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
+      color: $white;
     }
   }
   .emp-role {

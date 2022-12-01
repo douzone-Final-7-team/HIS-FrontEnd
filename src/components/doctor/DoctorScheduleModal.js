@@ -5,8 +5,7 @@ import '../../components/doctor/DoctorSchedule.scss';
 import { CgCloseR } from "react-icons/cg";
 
 const DoctorScheduleModal = (props) => {
-
-    console.log(props.modalDate);
+    
     return(
         <div className="schedule-box">
             <main>

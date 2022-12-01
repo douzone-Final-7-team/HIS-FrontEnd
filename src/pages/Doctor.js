@@ -17,7 +17,7 @@ import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
   const pastTreatmentList = useRef([{}]);
-  const [pastTreatmentDetail, setPastTreatmentDetail] = useState([{}]);
+  const treatmentDate = useRef("");
   const [inPatientList, setInPatientList] = useState([{}]);
   const [value, onChange] = useState(new Date());
   const [visibleTreatmentDiv, setVisibleTreatmentDiv] = useState(false);
@@ -43,11 +43,6 @@ const Doctor = () => {
         pastTreatmentList.current = res.data
       });
 
-    axios.get("http://localhost:9090/patient/pastTreatmentDetail")
-      .then((res) => {
-        setPastTreatmentDetail(res.data)
-      });
-
     axios.get("http://localhost:9090/AdmissionFront/myInPatient")
       .then((res) => {
         setInPatientList(res.data)
@@ -61,8 +56,6 @@ const Doctor = () => {
     })
 
   }, [token, treatmentPatientInfo]);
-
-  console.log(treatmentPatientInfo);
 
   const getMedicineList = () => {
     axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
@@ -79,6 +72,8 @@ const Doctor = () => {
     }
   };
 
+  console.log(treatmentPatientInfo);
+
   const sendMedicalCharts = () => {
 
     const data = {
@@ -88,7 +83,8 @@ const Doctor = () => {
       admissionOrder: admissionOrder.current,
       admissionCheck: admissionCheck.current,
       medicineOrder: medicineOrder,
-      treatmentNumPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
+      receivePk: treatmentPatientInfo[0].RECEIVE_ID_PK,
+      treatmentPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
     }
 
     axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
@@ -102,8 +98,6 @@ const Doctor = () => {
       window.location.reload();
     })
   };
-  
-  console.log(treatmentPatientInfo);
   
   return (
     <div className='doctor'>
@@ -131,7 +125,12 @@ const Doctor = () => {
                       <tr>
                         <td>{data.TREATMENT_DATE || ''}</td>
                         <td>{data.DIAGNOSIS || ''}</td>
-                        <td><button onClick={() => setDetail(!detail)}>상세기록</button></td>
+                        <td><button 
+                              onClick={() => {
+                                treatmentDate.current = data.TREATMENT_DATE
+                                setDetail(!detail)
+                              }}
+                            >상세기록</button></td>
                       </tr>
                     </tbody>
                   ))}
@@ -141,7 +140,10 @@ const Doctor = () => {
           </div>
           {detail && (
             <Modal closeModal={() => setDetail(!detail)}>
-              <PatientDetailModal pastTreatmentDetail={pastTreatmentDetail} />
+              <PatientDetailModal 
+                patientID = {treatmentPatientInfo[0].PATIENT_ID_PK}
+                treatmentDate = {treatmentDate.current}
+              />
             </Modal>
           )}
           <table className='infoTable'>
@@ -175,7 +177,6 @@ const Doctor = () => {
             }
             onClickDay={(value) => {
               modalDate.current = value.toDateString()
-              console.log(modalDate)
               setSchedule(!schedule)
             }}
             />
