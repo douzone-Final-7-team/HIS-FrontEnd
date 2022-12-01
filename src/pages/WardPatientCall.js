@@ -24,7 +24,9 @@ const WardPatientCall = () => {
     }
     },[room])
 
+    var click = true;
     const sendData = async() => {
+      if(click){
       let callTime = new Date()
       const messageData = {
         room: room,
@@ -46,6 +48,8 @@ const WardPatientCall = () => {
 
       await socket.emit("send_message", messageData )
 
+      console.log(savemassage)
+
     axios.put('http://localhost:9090/admission/InPatientReq',
       savemassage,
         {
@@ -53,7 +57,12 @@ const WardPatientCall = () => {
             "Content-Type" : `application/json`,
           },
         }).then(res=> console.log(res.data))
+        click = !click;
 
+        setTimeout(function () {
+          click = true;
+      }, 2000)
+      }
   }
   return (
     <div className='WardPatientCall-wapper'>

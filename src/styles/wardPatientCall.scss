@@ -6,19 +6,11 @@
   height: 100%;
 
   main {
-    display: grid;  
-    gap: 25px;
-    grid-template-columns: .5fr 1fr;
-    grid-template-rows: 75px 272px 415px;
     height: 100%;
     padding: 20px 35px;
-    .top {
-      grid-column-start: span 4;
-    }
+   
     .btn-wapper{
       margin: auto;
-      grid-column-start: span 2;
-      grid-row-start: span 2;
       .btn{
         width: 600px;
         height: 600px;
