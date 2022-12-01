@@ -12,10 +12,10 @@ import WardManagement from './WardManagement';
 import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
 import Login from './Login';
-import { RiTextDirectionL } from 'react-icons/ri';
+import WardPatientCall from './WardPatientCall';
 
 const PagiNavigation = () => {
-  
+
   return(
     <div className='view'>
       <BrowserRouter>
@@ -33,6 +33,7 @@ const PagiNavigation = () => {
                 <Route path='/ward-management' element={<WardManagement/>} />
                 <Route path='/ward-management2' element={<WardManagement2/>} />
                 <Route path='/my-page' element={<MyPage/>} />
+                <Route path='/test' element={<WardPatientCall/>} />
               </>
               :
               <>

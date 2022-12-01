@@ -6,7 +6,6 @@ import '../../components/Modal/PatientDetail.scss';
 
 const PatientDetailModal = (props) => {
 
-    console.log(props);
     return(
         <div className="detail-box">
             <main>

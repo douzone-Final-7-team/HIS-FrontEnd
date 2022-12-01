@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTakeMediStatus } from '../../redux/AdmissionPatientInfoApi';
-import { executeModal, modalMode, modifyElement } from '../../redux/outPatientInfoSlice';
+import { executeModal, modalMode, modifyElement } from '../../redux/InPatientInfoSlice';
 // style
 import './takeMediCheck.scss';
 
@@ -22,7 +22,7 @@ const TakeMediCheck = () => {
   }
 
     const getMediRecords = useSelector(state=>{
-      return state.outPatientInfo.value[3]
+      return state.inPatientInfo.value[3]
     }) 
 
     const selectRow = (e)=>{
@@ -37,7 +37,7 @@ const TakeMediCheck = () => {
 
 
     const patientElements = useSelector(state=>{
-      return state.outPatientInfo.value[0]
+      return state.inPatientInfo.value[0]
     }) 
 
     let takeMediStatus;
@@ -75,10 +75,10 @@ const TakeMediCheck = () => {
           <tbody>
             {getMediRecords != null ?
               getMediRecords.map((mediRecords, index)=>(
-                <tr>
-                  <td className='medi-fix' ><input type= "radio" name ="medi" id = {index} onClick={selectRow}/></td>
+                <tr key={index}>
+                  <td className='medi-fix' ><input type= "radio" name ="medi" id = {index} onClick={selectRow} readOnly/></td>
                   <td className='medi-date' >{(mediRecords.ORDER_DATE + "").substring(0,10)}</td>
-                  <td className='medi-check' id = {index}  onClick={confirmTaking} ><input type= "checkbox" id = {index} checked={mediRecords.TAKE_MEDICINE_STATUS}/></td>
+                  <td className='medi-check' id = {index}  onClick={confirmTaking} ><input type= "checkbox" id = {index} checked={mediRecords.TAKE_MEDICINE_STATUS} readOnly/></td>
                   <td className='medi-content' >{mediRecords.ORDER_CONTENT}</td>
                   <td className='medi-oderer' >{mediRecords.MEDICINE_NAME}</td>
                   <td className='medi-oderer' >{mediRecords.ORDERER}</td>
@@ -86,7 +86,7 @@ const TakeMediCheck = () => {
                 ))
               :  
                 <tr>
-                <td className='medi-fix'><input type= "radio" name ="medi"/></td>
+                <td className='medi-fix'><input type= "radio" name ="medi" readOnly/></td>
                 <td className='medi-date'></td>
                 <td className='medi-check'><input type= "checkbox"/></td>
                 <td className='medi-content'>빈 데이터 입니다 환자를 클릭 해 주세요</td>

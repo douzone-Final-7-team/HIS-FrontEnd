@@ -5,12 +5,14 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../styles/tab.scss'
-import Outpatientschedule from './Outpatientschedule';
+import Inpatientschedule from './Inpatientschedule';
 import HandOver from './HandOver';
 
 //redux
-import { getInpatientSchedules, getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
+import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
 import { useDispatch, useSelector } from 'react-redux';
+import { setStartDate } from '../../redux/InChangeDateSlice';
+import { parseISO } from 'date-fns';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -25,7 +27,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -54,24 +56,23 @@ export default function GlobalMangementTab() {
 
   const dispatch = useDispatch();
   const reloadElements = useSelector(state=>{
-    return state.outPatientInfo.value[5]
+    return state.inPatientInfo.value[5]
   }) 
   const reloadSchedule = () =>{
 
-    dispatch(getInpatientSchedules(reloadElements))
+    dispatch(setStartDate(parseISO(reloadElements.scheduleDate)))
   }
- 
-  const ToHandOver = () =>{
-   // 시큘리티 마무리 되면 userID얻어서 저장
-    let user = {
-      "userName" : "wjdgus"
-    }
+  const userName = window.localStorage.getItem('userName');
 
+  const ToHandOver = () =>{
+    let user = {
+      "userName" : userName
+    }
     let handOverElement = JSON.stringify(user)
 
     dispatch(getReceiveHandOver(handOverElement));
   }
-  
+
   
   return (
     <Box sx={{ width: '100%' }}>
@@ -83,7 +84,7 @@ export default function GlobalMangementTab() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Outpatientschedule/>
+        <Inpatientschedule/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <HandOver/>

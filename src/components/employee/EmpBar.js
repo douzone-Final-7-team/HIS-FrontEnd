@@ -7,62 +7,50 @@ import './empComponents.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-// import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
-import { getEmpName, getSpecialityName } from '../../redux/outPatientInfoSlice';
-import axios from 'axios';
+import { getEmpName, getSpecialityName } from '../../redux/InPatientInfoSlice';
 
 function EmpBar() {
   
-  const [empBar, setEmpBar] = useState([{}]);
-  const token = localStorage.getItem('jwt') || '';
   const dispatch = useDispatch();
+  const name = window.localStorage.getItem('name');
+  const specialityName = window.localStorage.getItem('specialityName');
+
   const newDate = new Date();
   let today = newDate;
-  today = today.getFullYear()+"-"+ (today.getMonth()+1)+"-" + today.getDate();
+  today = today.getFullYear()+"-"+ ("00" + (today.getMonth()+1)).slice(-2)+ "-" + ("00" + today.getDate()).slice(-2);
 
   useEffect(()=>{
-
-    axios.get("http://localhost:9090/user/headerInfo", {
-      headers: {'Authorization': token,}
-    })
-    .then((res) => {
-      console.log(res.data)
-      setEmpBar(res.data);
-    })
 
     const specialityName = document.getElementById("speciality").innerText.substring(4)
     const empName = document.getElementById("empName").innerText.substring(3)
     let specialityElements = {
       specialityName :specialityName,
-      searchDate :today
+      scheduleDate :today
     }
-
     dispatch(getSpecialityName(specialityElements))
-    // dispatch(getInpatientSchedules(specialityElements))
     dispatch(getEmpName(empName))
-  
-  },[dispatch, today, token])
+  },[dispatch, today])
 
 
   return (
     <div className='emp-info'>
       <div className='emp-location'>
         <AiFillHome />
-        <p>&nbsp;/ {empBar[0].SPECIALITY_NAME} / {empBar[0].WORK}</p>
+        <p>&nbsp;/ / </p>
       </div>
 
       <div className='emp-bar'>
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p id= "speciality"><span>근무부서</span>{empBar[0].SPECIALITY_NAME}</p>
+          <p id= "speciality"><span>근무부서</span>{specialityName}</p>
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p><span>근무일자</span>{empBar[0].WORKING_DATE} [{empBar[0].WORKING_DAY}]</p>
+          <p><span>근무일자</span>{today != null && today}</p>
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p id= "empName"><span>근무자</span>{empBar[0].EMP_NAME}</p>
+          <p id= "empName"><span>근무자</span>{name}</p>
         </div>                    
       </div>
     </div>

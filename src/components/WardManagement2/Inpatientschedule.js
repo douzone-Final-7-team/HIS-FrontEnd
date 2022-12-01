@@ -3,52 +3,48 @@ import React, { useEffect, useRef } from 'react'
 // style
 import  "react-datepicker/dist/react-datepicker.css" ;
 import DatePicker from "react-datepicker";
-import './outpatientschedule.scss';
+import './Inpatientschedule.scss';
 //redux
 import {  useDispatch, useSelector } from 'react-redux';
 import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
-import { executeModal, modalMode, globalmodifyElement} from '../../redux/outPatientInfoSlice';
-import { setStartDate } from '../../redux/outChangeDateSlice';
+import { executeModal, modalMode, globalmodifyElement} from '../../redux/InPatientInfoSlice';
+import { setStartDate } from '../../redux/InChangeDateSlice';
 
 
-const OutDatePicker = () => {
+const InDatePicker = () => {
 
   const startDate = useSelector(state=>{
-    return state.outChangeDate.value
-  }) 
-
-  console.log(startDate)
-  // const [changeDate ,setchangeDate] = useState()
+    return state.inChangeDate.value[0]
+  })
   const changeDate = useRef("")
+  changeDate.current = startDate;
   const dispatch = useDispatch();
 
   const scheduleInfoEelement = useSelector(state=>{
-    return state.outPatientInfo.value[5]
+    return state.inPatientInfo.value[5]
   }) 
-
+  
   useEffect(()=>{
 
-    changeDate.current = (startDate.getFullYear().toString() +"-"+ `${startDate.getUTCMonth()+ 1}`.toString() +"-"+startDate.getDate().toString())
-
+    changeDate.current = (startDate.getFullYear().toString() +"-"+
+    ("00" + `${startDate.getMonth()+ 1}`.toString()).slice(-2) +"-"+("00" + startDate.getDate()).slice(-2));
+    
     let changedScheduleElement = (scheduleInfoEelement != null) && {
       specialityName :scheduleInfoEelement.specialityName,
-        searchDate : changeDate.current
+      scheduleDate : changeDate.current
     }
-    dispatch(getInpatientSchedules(changedScheduleElement))
-
-  },[dispatch, startDate, changeDate, scheduleInfoEelement])
-  
-
-  
-
+    if(changedScheduleElement){
+      dispatch(getInpatientSchedules(changedScheduleElement))
+    }
+  },[dispatch, startDate,scheduleInfoEelement])
 
   return (
     
-    <DatePicker selected={startDate} onChange={date => dispatch(setStartDate(date))} dateFormat="yyyy년 MM월 dd일"/>
+    <DatePicker id = "datePicker" selected={changeDate.current} onChange={date => dispatch(setStartDate(date))} dateFormat="yyyy년 MM월 dd일"/>
   );
 };
 
-const Outpatientschedule = () => {
+const Inpatientschedule = () => {
   const dispatch = useDispatch();
 
 
@@ -66,7 +62,7 @@ const Outpatientschedule = () => {
   }
 
   const scheduleInfo = useSelector(state=>{
-    return state.outPatientInfo.value[4]
+    return state.inPatientInfo.value[4]
   })
     
   const selectRow = (e)=>{
@@ -74,15 +70,17 @@ const Outpatientschedule = () => {
       scheduleIdPk : scheduleInfo[e.target.id].SCHEDULE_ID_PK,
       scheduleContent : scheduleInfo[e.target.id].SCHEDULE_CONTENT,
       schedulePlace:scheduleInfo[e.target.id].SCHEDULE_PLACE,
-      scheduleDate:scheduleInfo[e.target.id].SCHEDULE_DATE
+      scheduleDate:scheduleInfo[e.target.id].SCHEDULE_DATE,
+      scheduleStatus:scheduleInfo[e.target.id].PS_CODE_NAME
     }
     dispatch(globalmodifyElement(changescheduleInfo))
   }
 
+
  
   return (
     <div className='schedule-container'>
-      <OutDatePicker/>
+      <InDatePicker/>
       <div className='schedule-wapper'>
         <table>
           <thead>
@@ -109,9 +107,9 @@ const Outpatientschedule = () => {
           }
             </thead>
             <tbody>
-            {scheduleInfo != null && scheduleInfo[0] != null && ((scheduleInfo[0].errorCode == null ?
+            {scheduleInfo != null && scheduleInfo[0] != null && ((scheduleInfo[0].errorCode == null &&
               (scheduleInfo.map((scheduleInfo, index)=>(
-                <tr>
+                <tr key={index}>
                 <td className='schedule-fix'><input type= "radio" name= "schedule" id = {index} onClick={selectRow}/></td>
                 <td>{(scheduleInfo.SCHEDULE_DATE).substring(11,16)}</td>
                 <td>{scheduleInfo.SCHEDULE_PLACE}</td>
@@ -119,8 +117,7 @@ const Outpatientschedule = () => {
                 <td >{scheduleInfo.PATIENT_NAME}</td>
                 <td>{scheduleInfo.PS_CODE_NAME}</td>
               </tr>
-            ))):<div className='schedule-error'>존재하지 않는 환자 정보입니다. 확인 후 입력 해주세요</div>
-          ))}
+            )))))}
           </tbody>
         </table>
       </div>
@@ -132,4 +129,4 @@ const Outpatientschedule = () => {
   )
 }
 
-export default Outpatientschedule ;
+export default Inpatientschedule ;
