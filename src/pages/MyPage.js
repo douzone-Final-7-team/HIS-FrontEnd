@@ -14,7 +14,7 @@ const MyPage = () => {
     const newPwd = useRef("");
     const newAddr = useRef("");
     const token = localStorage.getItem('jwt') || '';
-    console.log(token)
+
 
     useEffect(() => {
 
@@ -41,7 +41,7 @@ const MyPage = () => {
             }
         })
         .then((res) => {
-            console.log(res)
+
             alert(res.data)
             window.location.reload();
         })
@@ -61,7 +61,6 @@ const MyPage = () => {
             }
         })
         .then((res) => {
-            console.log(res);
             alert(res.data);
             window.location.reload();
         })

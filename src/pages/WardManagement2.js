@@ -17,7 +17,7 @@ const WardManagement2 = () => {
   
 
   const showModal = useSelector(state=>{
-    return state.outPatientInfo.value[7]
+    return state.inPatientInfo.value[7]
   })
 
   return (
@@ -30,7 +30,7 @@ const WardManagement2 = () => {
           <WardCheck/>
         </div>
         <div className='item2'>
-        <div className='outpatientDetail-wapper'>
+        <div className='inpatientDetail-wapper'>
           <WardMangeMentTap/>
         </div>
       </div>

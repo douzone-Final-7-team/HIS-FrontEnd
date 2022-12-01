@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import outPatientInfoSlice from './outPatientInfoSlice';
-import outChangeDateSlice from './outChangeDateSlice';
+import inPatientInfoSlice from './InPatientInfoSlice';
+import inChangeDateSlice from './InChangeDateSlice';
 import outpatientPageInfoSlice from './outpatientPageInfoSlice';
 
 // store : 모든 slice를 통합
@@ -9,8 +9,8 @@ const store = configureStore({
     changePatientCode: outpatientPageInfoSlice.reducer,
     readPatientRegistrationInfo: outpatientPageInfoSlice.reducer,
     readOutpatientInfo: outpatientPageInfoSlice.reducer,
-    outPatientInfo:outPatientInfoSlice.reducer,
-    outChangeDate:outChangeDateSlice.reducer
+    inPatientInfo:inPatientInfoSlice.reducer,
+    inChangeDate:inChangeDateSlice.reducer
     // 모든 reducer를 통합하여 store에 하나의 reducer로 저장
   },
   middleware: getDefaultMiddleware =>

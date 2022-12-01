@@ -38,6 +38,8 @@
       border: solid 1px #a2a9ac;
       background-color: $white;
       font-size: 15px;
+      cursor: pointer;
+
       .medical-hours {
         padding-left: 8px;
       }
@@ -54,6 +56,9 @@
           color: #a2a9ac;
         }
       }
+    }
+    .waiting-order:hover {
+      border: solid 2px black;
     }
   }
 }

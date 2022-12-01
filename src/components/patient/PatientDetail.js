@@ -79,8 +79,8 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
           <tr>
             <th colSpan={3}>주소</th>
             <td colSpan={9}>
-              {data!=null && data!==undefined? data.PATIENT_ADDR:" "}
-              {patientDetails!=null && patientDetails!==undefined? patientDetails.PATIENT_ADDR:" "}
+              {data!==null && data!==undefined? data.PATIENT_ADDR:" "}
+              {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_ADDR:" "}
             </td>
           </tr>
           <tr>
@@ -88,7 +88,7 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
             <td colSpan={9}>
               <input 
                 // value={symptom || ""} 
-                value = {patientDetails!=null && patientDetails!==undefined? patientDetails.SYMPTOM:" "}
+                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:" "}
                 onChange={(e)=> {
                 setSymptom(e.target.value)
               }}/>

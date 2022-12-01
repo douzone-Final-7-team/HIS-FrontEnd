@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 // icon
 import { AiFillHome } from "react-icons/ai";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
@@ -7,29 +7,28 @@ import './empComponents.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-// import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
-import { getEmpName, getSpecialityName } from '../../redux/outPatientInfoSlice';
+import { getEmpName, getSpecialityName } from '../../redux/InPatientInfoSlice';
 
 function EmpBar() {
   
   const dispatch = useDispatch();
+  const name = window.localStorage.getItem('name');
+  const specialityName = window.localStorage.getItem('specialityName');
 
   const newDate = new Date();
   let today = newDate;
-  today = today.getFullYear()+"-"+ (today.getMonth()+1)+"-" + today.getDate();
+  today = today.getFullYear()+"-"+ ("00" + (today.getMonth()+1)).slice(-2)+ "-" + ("00" + today.getDate()).slice(-2);
 
   useEffect(()=>{
+
     const specialityName = document.getElementById("speciality").innerText.substring(4)
     const empName = document.getElementById("empName").innerText.substring(3)
     let specialityElements = {
       specialityName :specialityName,
-      searchDate :today
+      scheduleDate :today
     }
-
     dispatch(getSpecialityName(specialityElements))
-    // dispatch(getInpatientSchedules(specialityElements))
     dispatch(getEmpName(empName))
-  
   },[dispatch, today])
 
 
@@ -37,21 +36,21 @@ function EmpBar() {
     <div className='emp-info'>
       <div className='emp-location'>
         <AiFillHome />
-        <p>&nbsp;/ 진료과 / 업무내용</p>
+        <p>&nbsp;/ / </p>
       </div>
 
       <div className='emp-bar'>
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p id= "speciality"><span>근무부서</span>내과</p>
+          <p id= "speciality"><span>근무부서</span>{specialityName}</p>
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p><span>근무일자</span>yyyy-mm-dd [월]</p>
+          <p><span>근무일자</span>{today != null && today}</p>
         </div>                    
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
-          <p id= "empName"><span>근무자</span>채송화</p>
+          <p id= "empName"><span>근무자</span>{name}</p>
         </div>                    
       </div>
     </div>

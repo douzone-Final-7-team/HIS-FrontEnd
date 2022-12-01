@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import {getInpatientInfo, getCareInfo, getMediRecords,getInpatientSchedules
         , getReceiveHandOver, getSendHandOver, setCareInfo,
         setMediRecord, setInpatientSchedule, setHandOver, changeCareInfo, changeMediRecord,
-        changeHandover,changeScheduleStatus, changeTakeMediStatus} from './AdmissionPatientInfoApi';
+        changeHandover,changeSchedule, changeTakeMediStatus, changeDischargeDueDate} from './AdmissionPatientInfoApi';
 
 
-const outPatientInfoSlice = createSlice({
-    name: 'outPatientInfoSlice',
+const InPatientInfoSlice = createSlice({
+    name: 'inPatientInfoSlice',
     initialState: {value:[]},
     reducers:{
         selectPeople: (state, action) => {
@@ -33,15 +33,17 @@ const outPatientInfoSlice = createSlice({
         },
         globalmodifyElement: (state, action) => {
             state.value[11] = action.payload;     
-        }  
+        },
     },
 
     extraReducers: (builder) => {
         builder.addCase(getInpatientInfo.fulfilled, (state, action)=>{
-            
                 state.value[1] = action.payload 
             })
-
+        builder.addCase(changeDischargeDueDate.fulfilled,(state, action)=>{
+              
+                state.value[1] = action.payload
+            })     
         builder.addCase(getCareInfo.fulfilled,(state, action)=>{
                 state.value[2] = action.payload
             })
@@ -64,14 +66,14 @@ const outPatientInfoSlice = createSlice({
             })
         builder.addCase(changeTakeMediStatus.fulfilled,(state, action)=>{
                 state.value[3] = action.payload
-                })
+            })
         builder.addCase(getInpatientSchedules.fulfilled,(state, action)=>{
                 state.value[4] = action.payload
             })
         builder.addCase(setInpatientSchedule.fulfilled,(state, action)=>{
                 state.value[4] = action.payload
             })
-        builder.addCase(changeScheduleStatus.fulfilled,(state, action)=>{
+        builder.addCase(changeSchedule.fulfilled,(state, action)=>{
                 state.value[4] = action.payload
             })     
         builder.addCase(getReceiveHandOver.fulfilled,(state, action)=>{
@@ -89,9 +91,7 @@ const outPatientInfoSlice = createSlice({
         builder.addCase(changeHandover.fulfilled,(state, action)=>{
               
                 state.value[6] = action.payload
-            })
-       
-                            
+            })              
     }
 
 });
@@ -99,7 +99,7 @@ const outPatientInfoSlice = createSlice({
 
 
 
-export default outPatientInfoSlice;
+export default InPatientInfoSlice;
 export const {selectPeople, getSpecialityName, executeModal, modalMode, 
-    getEmpName, modifyElement,globalmodifyElement} = outPatientInfoSlice.actions;
+    getEmpName, modifyElement,globalmodifyElement} = InPatientInfoSlice.actions;
 

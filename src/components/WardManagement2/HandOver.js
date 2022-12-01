@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getReceiveHandOver, getSendHandOver } from '../../redux/AdmissionPatientInfoApi';
-import {executeModal, globalmodifyElement, modalMode} from '../../redux/outPatientInfoSlice';
+import {executeModal, globalmodifyElement, modalMode} from '../../redux/InPatientInfoSlice';
 // style
 import './handOver.scss';
 
@@ -23,8 +23,10 @@ const HandOver = () => {
   }
 
     // 시큘리티 마무리 되면 userID얻어서 저장
+    const userName = window.localStorage.getItem('userName');
+
   let user = {
-    "userName" : "wjdgus"
+    "userName" : userName
   }
 
   let handOverElement = JSON.stringify(user)
@@ -54,7 +56,7 @@ const HandOver = () => {
    }
 
   const handOverInfo = useSelector(state=>{
-    return state.outPatientInfo.value[6]
+    return state.inPatientInfo.value[6]
   })
 
   const selectRow = (e)=>{
@@ -62,19 +64,20 @@ const HandOver = () => {
       handOverPK : handOverInfo[e.target.id].HANDOVER_ID_PK,
       handOverContent : handOverInfo[e.target.id].HANDOVER_CONTENT,
       handOverTarget:handOverInfo[e.target.id].HANDOVER_TARGET,
-      userName: handOverInfo[e.target.id].EMP_NAME
+      empName: handOverInfo[e.target.id].EMP_NAME
     }
     dispatch(globalmodifyElement(changeHandOverInfo))
   }
+
 
   return (
     <div className='handOver-container'>
       <div className='checkBox-container'>
         <div id='handover-radio1' onClick={ToHandOver}>
-          <input type='radio' name ='handover-radio' checked={radioChecked}></input><span>TO ME</span>
+          <input type='radio' name ='handover-radio' checked={radioChecked} readOnly></input><span>TO ME</span>
         </div>
         <div id='handover-radio2' onClick={FromHanover}>
-        <input type='radio' name ='handover-radio' checked={!radioChecked} /><span>FROM ME</span>
+        <input type='radio' name ='handover-radio' checked={!radioChecked} readOnly /><span>FROM ME</span>
         </div>
       </div>
         <div className='handOver-wapper'>
@@ -95,7 +98,7 @@ const HandOver = () => {
             <tbody>
             {handOverInfo != null && handOverInfo[0] != null && ( (handOverInfo[0].errorCode == null ?
               (handOverInfo.map((HandOverInfo, index)=>(
-              <tr>
+              <tr key ={index}>
                 <td className='handOver-fix'><input type= "radio" name= "handOver" id = {index} onClick={selectRow}/></td>
                 <td className='handOver-date'>{(HandOverInfo.HANDOVER_DATE + " ").substring(0,10)}</td>
                 <td className='handOver-from' >{HandOverInfo.EMP_NAME}</td>

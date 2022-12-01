@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 
@@ -19,6 +19,63 @@ const AdmissionOrder = () => {
             .then(res => setAdmissionOrderList(res.data));
     
     },[]);
+    const inputData = useRef("");
+
+    function putOrderDate(admissionIdPk, bedInfo, btnState){
+        const reg = /([2-4])([0])([1-5])[-]([1-6])/g;
+        if(btnState === "assign"){
+            if(reg.test(bedInfo)){
+                alert("만족 여부");
+                let ward = (bedInfo+"").substring(0,1)*100;
+                let roomNum = (bedInfo+"").substring(2,3);
+                let bedNum = (bedInfo+"").substring(5,4);
+
+                let data = {
+                            ADMISSION_ID_PK: admissionIdPk,
+                            WARD : ward,
+                            ROOM_NUM : roomNum,
+                            BED_NUM : bedNum,
+                            BTN_STATE : btnState
+                    };
+
+                axios.post(API_URL+"/admissionReq/admissionAccept", JSON.stringify(data),
+                {
+                    headers: {
+                    "Content-Type" : `application/json`,
+                    },
+                })
+                // .then((res)=>{
+                //  소켓
+                // })
+
+            }else{
+                alert("호실 및 병상 입력 양식이 틀렸습니다. 다시 입력해 주십시오.\n예) 201-1");
+                // inputData.current.focus();
+            }
+        }else{
+            if(bedInfo === null){
+                alert("반려 사유를 입력해주세요.");
+            }else{
+                let data = {
+                            ADMISSION_ID_PK: admissionIdPk,
+                            REJECT_REASON : bedInfo,
+                            BTN_STATE : btnState
+                        };
+                
+                axios.post(API_URL+"/admissionReq/admissionAccept", JSON.stringify(data),
+                {
+                    headers: {
+                    "Content-Type" : `application/json`,
+                    },
+                })
+                // .then((res)=>{
+                //  소켓
+                // })
+            }
+            
+        }
+        
+    }
 
     
   
@@ -34,11 +91,16 @@ const AdmissionOrder = () => {
                                                                         <span className='c'>{v.SPECIALITY_NAME}</span>
                                                                         <span className='d'>{v.EMP_NAME}</span>
                                                                         <span className='e'>{v.TREATMENT_MEMO}</span>
-                                                                        <input className='f' type='text' value = "호실입력"/>
+                                                                        {/* <input className='f' type='text' value = "호실입력"/> */}
+                                                                        <input className='f' 
+                                                                               placeholder='호실 또는 반려사유 입력' 
+                                                                               onChange={(e) => {
+                                                                                    inputData.current = e.target.value;
+                                                                                }} />
                                                                         <span className='g'>
-                                                                            <input type="hidden" value={index} />
-                                                                            <input className='assign' type='button' value = "수락"/>
-                                                                            <input className='unassign'type='button' value = "반려"/>
+                                                                            
+                                                                            <input className='assign' type='button' value = "수락" onClick={() => {putOrderDate(v.ADMISSION_ID_PK , inputData.current , "assign");}}/>
+                                                                            <input className='unassign'type='button' value = "반려"onClick={() => {putOrderDate(v.ADMISSION_ID_PK , inputData.current , "reject");}}/>
                                                                         </span>
                                                                     </p>
                                                                 </li>
