@@ -25,7 +25,7 @@ const Reception = (props) => {
   const [specialityName, setSpecialityName] = useState('내과');
   const empIdTemp = empId!==null && empId!==undefined?empId.substring(4,11):' ';
   const [waitingReceipt, setWaitingReceipt] = useState([]);
-  const [acceptance, setAcceptance] = useState("");
+  const [acceptance, setAcceptance] = useState([{}]);
   const [outStatusReRender, setOutStatusReRender] = useState(true);
   const [wait4payReRender, setWait4payReRender] = useState(true);
 

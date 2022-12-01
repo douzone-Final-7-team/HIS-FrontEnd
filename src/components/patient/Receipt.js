@@ -11,8 +11,8 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
 
 
   let data = { ADMISSION_ID_PK: test };
-  let patientIdPk = acceptance.PATIENT_ID_PK;
-  let treatmentNumPk = acceptance.TREATMENT_NUM_PK;
+  let patientIdPk = acceptance!==null && acceptance!==undefined?acceptance.PATIENT_ID_PK:' ';
+  let treatmentNumPk = acceptance!==null && acceptance!==undefined?acceptance.TREATMENT_NUM_PK:' ';
 
   const [detail, setDetail] = useState([{}]);
   const [acceptanceDetail, setAcceptanceDetail] = useState([{}]);
