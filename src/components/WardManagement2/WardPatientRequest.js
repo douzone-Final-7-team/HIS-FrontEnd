@@ -21,16 +21,14 @@ const WardPatientRequest = () => {
   let updateNurseReq ;
   const handleClick = (e) => {        
    updateNurseReq = {
-      // callTime : messageList[e.target.id].callTime,
-      callTime : null,
+      callTime : new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 19).replace('T', ' ') ,
       ward : messageList[e.target.id].ward,
       roomNum : messageList[e.target.id].roomNum,
       bedNum : messageList[e.target.id].bedNum,
       specialityName:specialityName
     }
 
-    setSendChangeReqStat(updateNurseReq)
- 
+    setSendChangeReqStat(updateNurseReq);
 
     setAnchorEl(e.currentTarget);
   };
@@ -88,7 +86,6 @@ const WardPatientRequest = () => {
 
     },[])
 
-    
 
   return (
     
@@ -98,7 +95,6 @@ const WardPatientRequest = () => {
       <p className='filtering'><span>총 호출 수({messageList.length})</span></p>
       <div className='status-wrapper' >
         {messageList.map((callContent,index)=>(
-        
           <div className='waiting-order'
           key ={index}
           id={index}
@@ -125,6 +121,7 @@ const WardPatientRequest = () => {
           }}
           style={{left:"350px" , top:"-20px"}}
         >
+          <MenuItem id="확인" onClick={(e)=>{handleClose(); handleStatus(e);}}>확인</MenuItem>
           <MenuItem id="완료" onClick={(e)=>{handleClose(); handleStatus(e);}}>완료</MenuItem>
         </Menu>
       </div>

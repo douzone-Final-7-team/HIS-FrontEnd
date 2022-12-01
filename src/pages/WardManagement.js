@@ -9,8 +9,7 @@ import WardCheck from '../components/patient/WardCheck';
 import AdmissionSunab from '../components/employee/admissionSunab';
 import axios from 'axios';
 import { API_URL } from '../utils/constants/Config';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTest } from '../redux/WardManagementApi';
+
 
 const WardManagement = () => {
 
@@ -29,7 +28,6 @@ const WardManagement = () => {
   },[]);
 
 
-  let test = available;
     
 
   const [bedInfo, setBedInfo] = useState(false);

@@ -1,14 +1,17 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // style
 import  "react-datepicker/dist/react-datepicker.css" ;
 import DatePicker from "react-datepicker";
 import './Inpatientschedule.scss';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 //redux
 import {  useDispatch, useSelector } from 'react-redux';
-import { getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
+import { changeScheduleStatus, getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
 import { executeModal, modalMode, globalmodifyElement} from '../../redux/InPatientInfoSlice';
 import { setStartDate } from '../../redux/InChangeDateSlice';
+import { parseISO } from 'date-fns';
 
 
 const InDatePicker = () => {
@@ -46,8 +49,7 @@ const InDatePicker = () => {
 
 const Inpatientschedule = () => {
   const dispatch = useDispatch();
-
-
+  const specialityName = window.localStorage.getItem('specialityName');
   const ModalMode = (e)=>{
     let selectMode = e.target.id
     dispatch(executeModal(true))
@@ -76,7 +78,31 @@ const Inpatientschedule = () => {
     dispatch(globalmodifyElement(changescheduleInfo))
   }
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const [sendChangeStat ,setSendChangeStat] =useState()
 
+  let updateScheduleStat ;
+  const handleClick = (e) => {         
+     setAnchorEl(e.currentTarget);
+     updateScheduleStat={
+      scheduleIdPk : scheduleInfo[e.target.id].SCHEDULE_ID_PK,
+      specialityName : specialityName,
+      scheduleDate : parseISO(scheduleInfo[e.target.id].SCHEDULE_DATE)
+     }
+     setSendChangeStat(updateScheduleStat)
+   };
+
+   const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleStatus = (e)=>{
+
+    setSendChangeStat(sendChangeStat.scheduleStatus = e.target.id)
+    
+    updateScheduleStat = JSON.stringify(sendChangeStat)
+    dispatch(changeScheduleStatus(updateScheduleStat))
+  };
  
   return (
     <div className='schedule-container'>
@@ -115,11 +141,32 @@ const Inpatientschedule = () => {
                 <td>{scheduleInfo.SCHEDULE_PLACE}</td>
                 <td className='schedule-content'>{scheduleInfo.SCHEDULE_CONTENT}</td>
                 <td >{scheduleInfo.PATIENT_NAME}</td>
-                <td>{scheduleInfo.PS_CODE_NAME}</td>
+                <td
+                  id={index}
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onContextMenu={handleClick}
+                  >{scheduleInfo.PS_CODE_NAME}</td>
               </tr>
             )))))}
           </tbody>
         </table>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+          style={{left:"28px" , top:"-25px"}}
+        >
+          <MenuItem id="예정" onClick={(e)=>{handleClose(); handleStatus(e);}}>예정</MenuItem>
+          <MenuItem id="진행" onClick={(e)=>{handleClose(); handleStatus(e);}}>진행</MenuItem>
+          <MenuItem id="취소" onClick={(e)=>{handleClose(); handleStatus(e);}}>취소</MenuItem>
+          <MenuItem id="완료" onClick={(e)=>{handleClose(); handleStatus(e);}}>완료</MenuItem>
+        </Menu>
       </div>
       <div className='btn-wapper' >
         <a href='#!' className='btn' id='schedule-modify' onClick={ModalMode}>수정</a> 

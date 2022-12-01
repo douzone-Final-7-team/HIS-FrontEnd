@@ -160,7 +160,6 @@ export const getInpatientSchedules = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      // console.log(resp.data)
       return resp.data
   }
 )
@@ -196,6 +195,22 @@ export const changeSchedule = createAsyncThunk(
       return resp.data
   }
 )
+
+//병동 일정 상태 update
+export const changeScheduleStatus = createAsyncThunk(
+  'inPatientInfoSlice/changeScheduleStatus',
+  async(data) => {
+      const resp = await axios.put("http://localhost:9090/admission/changedSchedule/status",
+      data,
+      {
+        headers: {
+          "Content-Type" : `application/json`,
+        },
+      });
+      return resp.data
+  }
+)
+
 
 
 
@@ -243,7 +258,6 @@ export const setHandOver = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      console.log(specialityElements)
       return resp.data
      
   }

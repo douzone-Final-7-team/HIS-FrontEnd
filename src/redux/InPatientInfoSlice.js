@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {getInpatientInfo, getCareInfo, getMediRecords,getInpatientSchedules
         , getReceiveHandOver, getSendHandOver, setCareInfo,
         setMediRecord, setInpatientSchedule, setHandOver, changeCareInfo, changeMediRecord,
-        changeHandover,changeSchedule, changeTakeMediStatus, changeDischargeDueDate} from './AdmissionPatientInfoApi';
+        changeHandover,changeSchedule, changeTakeMediStatus, changeDischargeDueDate,changeScheduleStatus} from './AdmissionPatientInfoApi';
 
 
 const InPatientInfoSlice = createSlice({
@@ -75,7 +75,10 @@ const InPatientInfoSlice = createSlice({
             })
         builder.addCase(changeSchedule.fulfilled,(state, action)=>{
                 state.value[4] = action.payload
-            })     
+            })
+        builder.addCase(changeScheduleStatus.fulfilled,(state, action)=>{
+                state.value[4] = action.payload
+            })
         builder.addCase(getReceiveHandOver.fulfilled,(state, action)=>{
               
                 state.value[6] = action.payload

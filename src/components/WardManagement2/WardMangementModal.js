@@ -132,7 +132,7 @@ const WardMangementModal = () => {
       })
 
       useEffect(()=>{
-        axios.get('http://localhost:9090/admission/ocuupiedList', {params : {
+        axios.get('http://localhost:9090/wardCheck/ocuupiedList', {params : {
           ward : "200"
         }})
         .then(res=> setInPatientWardList(res.data))
