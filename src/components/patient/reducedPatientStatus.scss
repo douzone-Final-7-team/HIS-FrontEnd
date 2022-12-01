@@ -1,7 +1,7 @@
 @import '../../styles/scss/elements';
 @import '../../styles/scss/variables';
 
-.reduced-patient-status {
+.doctor-patient-status {
   @extend %contentBox;
   display: flex;
   flex-direction: column;

@@ -29,7 +29,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   } 
 
   return (
-    <div className='reduced-patient-status'>
+    <div className='doctor-patient-status'>
       <p className='section-title'>환자현황</p>
       <div className='line'></div>
       <p className='filtering'><span className='the-whole-waiting-list'>전체(n)</span> 대기(n) 진찰중(n) 완료(n)</p>

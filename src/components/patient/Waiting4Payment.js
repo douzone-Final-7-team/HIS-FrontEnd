@@ -2,7 +2,7 @@ import React from 'react'
 // style
 import './waiting4Payment.scss';
 
-let pageId = {pageId : "1111"};
+let pageId = {pageId : "12312321"};
 
 const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, wait4payReRender, setWait4payReRender}) => { // 비구조할당
   

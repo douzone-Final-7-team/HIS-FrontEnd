@@ -29,7 +29,7 @@ const MedicalHistory = ({registrationInfo, data}) => {
               <td>{data.TREATMENT_DATE}</td>
               <td>{data.DIAGNOSIS_CODE}</td>
               <td>{data.TREATMENT_MEMO}</td>
-              <td><a href='#!' className='btn'>상세기록</a></td>
+              <td><p className='btn-detail' onClick={() => setDetail(!detail)}>상세기록</p></td>
             </tr>
           )) : <>
           <tr>

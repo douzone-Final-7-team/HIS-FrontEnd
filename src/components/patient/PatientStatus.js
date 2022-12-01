@@ -5,10 +5,8 @@ import './patientStatus.scss';
 import DetailedStatus from './DetailedStatus';
 import axios from 'axios';
 import './detailedStatus.scss';
-import { useDispatch } from 'react-redux';
 
-function PatientStatus() {
-  const dispatch = useDispatch();
+function PatientStatus({outStatusReRender, setOutStatusReRender}) {
 
   const [speciality, setSpeciality] = useState('내과');
   const [patientStatus, setPatientStatus] = useState();
@@ -17,20 +15,21 @@ function PatientStatus() {
 
 
   useEffect(()=>{
-    axios.post("http://43.200.169.159:9090/outStatus/getdocpat", {
-      SPECIALITY_ID_FK: (speciality == '내과' ? 'N' : speciality == '이비인후과' ? 'E' : speciality == '정형외과' ? 'J' : ' ') 
+    axios.post("http://localhost:9090/outStatus/getdocpat", {
+      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
       }).then((res)=>{
-        // console.log(res.data)
         setPatientStatus(res.data)
       });
   },[speciality]);
 
-
-  // 혜지 환자현황 클릭 이벤트
-  let info;
-  const handleClick = () => {
-    // dispatch(readOutpatientInfo());
-  }
+  useEffect(()=>{
+    axios.post("http://localhost:9090/outStatus/getdocpat", {
+      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
+      }).then((res)=>{
+        setPatientStatus(res.data);
+        setOutStatusReRender(()=>true);
+      });
+  },[outStatusReRender]);
 
   
   return (
@@ -46,10 +45,52 @@ function PatientStatus() {
         </select>
       </div>
       <div className='status'>
-        <p>전체(n) 대기중(n) 진료중(n) 치료(n) 완료(n)</p>
+        <p>
+        {data.map((item, idx) => {
+        return (
+          <>
+            <button key={idx}
+              value={idx}
+              className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
+              onClick={(e) => {
+                setBtnActive(() => {
+                  return (e.target.value);
+                });
+                if(idx === 0) {
+                  axios.post("http://localhost:9090/outStatus/getdocpat", {
+                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
+                    }).then((res)=>{setPatientStatus(res.data)});
+                } else if (idx === 1) {
+                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
+                    OUTPATIENT_STATUS_CODE: 'OC'
+                  }).then((res)=>{setPatientStatus(res.data)});
+                } else if (idx === 2) {
+                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
+                    OUTPATIENT_STATUS_CODE: 'OA'
+                  }).then((res)=>{setPatientStatus(res.data)});
+                } else if (idx === 3) {
+                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
+                    OUTPATIENT_STATUS_CODE: 'OB'
+                  }).then((res)=>{setPatientStatus(res.data)});
+                } else if (idx === 4) {
+                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
+                    OUTPATIENT_STATUS_CODE: 'OD'
+                  }).then((res)=>{setPatientStatus(res.data)});
+                }
+              }}
+            >
+              {item}
+            </button>
+          </>
+        );
+      })}</p>
         <div>
-          {patientStatus!=null && patientStatus!=undefined? patientStatus.map((data, index) => (
-            <DetailedStatus key={index} data={data} index={index} onClick={handleClick}/>
+          {patientStatus!==null && patientStatus!==undefined? patientStatus.map((data, index) => (
+            <DetailedStatus key={index} data={data} index={index}/>
           )):""}
         </div>
       </div>
