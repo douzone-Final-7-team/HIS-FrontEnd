@@ -12,7 +12,7 @@ import WardManagement from './WardManagement';
 import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
 import Login from './Login';
-import { RiTextDirectionL } from 'react-icons/ri';
+// import { RiTextDirectionL } from 'react-icons/ri';
 
 const PagiNavigation = () => {
   

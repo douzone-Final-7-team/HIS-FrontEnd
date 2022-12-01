@@ -1,6 +1,15 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
-const TreatmentOrder = () => {
+const TreatmentOrder = ({ patientDetails }) => {
+  const dispatch = useDispatch();
+  
+  const receiveId =  patientDetails.RECEIVE_ID_PK;
+  const changePatientCode = () => {
+    dispatch(changePatientCode(receiveId)); 
+  }
+  console.log(patientDetails)
+
   return (
     <div>
       <div id="tab-treatment-order">
@@ -10,40 +19,23 @@ const TreatmentOrder = () => {
         <table className='styled-table'>
           <thead>
             <tr>
-              <th></th>
               <th>체크</th>
-              <th>분류</th>
               <th>처방내역</th>
               <th>비고</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td>
-                <input type="checkbox"/>
-              </td>
-              <td>기본</td>
-              <td>경구식이 시작</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>2</td>
               <td><input type="checkbox"/></td>
-              <td>주사/수액</td>
-              <td>수액 뭐머 놔주세요</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td><input type="checkbox" /></td>
-              <td>내복약</td>
-              <td>경구식이 시작</td>
+              {patientDetails!==null && patientDetails!==undefined ?
+              <td>{patientDetails.TREATMENT_ORDER}</td>
+              :
+              <td></td>}
               <td>-</td>
             </tr>
           </tbody>
         </table>
-        <p className='btn-tbl'><a href='#!' className='btn'>완료</a></p>
+        <p className='btn-tbl'><a href='#!' className='btn' onClick={changePatientCode}>완료</a></p>
       </div>
     </div>
   )

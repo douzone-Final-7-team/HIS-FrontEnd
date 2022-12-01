@@ -27,7 +27,7 @@ const Reception = (props) => {
 
   function patientInfo() {
     if(window.event.keyCode === 13){
-      axios.post("http://43.200.169.159:9090/patient/regInfo", {
+      axios.post("http://localhost:9090/patient/regInfo", {
       PATIENT_NAME: name.current,
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
@@ -43,7 +43,7 @@ const Reception = (props) => {
   }
 
   function receipt() {
-      axios.post("http://43.200.169.159:9090/outStatus/receipt", {
+      axios.post("http://localhost:9090/outStatus/receipt", {
       EMP_ID_PK: empIdTemp,
       SPECIALITY: specialityName,
       SYMPTOM: symptom!==null && symptom!==undefined? symptom : alert('증상 입력하세요.'),
