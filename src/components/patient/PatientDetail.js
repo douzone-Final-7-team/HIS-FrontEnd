@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react'
 import './patientDetail.scss';
 
 
-const PDetail = ({patient, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
+const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
   const [doctorList, setDoctorList] = useState();
   const [speciality, setSpeciality] = useState('내과');
 
   useEffect(()=>{
-    axios.post("http://43.200.169.159:9090/outStatus/doctorList", {
+    axios.post("http://localhost:9090/outStatus/doctorList", {
       SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ') 
       }).then((res)=>{
         setDoctorList(res.data);
@@ -25,9 +25,24 @@ const PDetail = ({patient, data, setEmpId, symptom, setSymptom, setSpecialityNam
           <tr>
             <th className='devide1 border-left'>S/A</th>
             {/* <td className='devide1'>{patient.}</td> */}
-            <td className='devide1'>{data!=null && data!== undefined? data.GENDER:" "} / {data!=null && data!==undefined? data.PATIENT_AGE:" "}</td>
+            <td className='devide1'>
+              <span>
+              {/* 원무수납_환자정보 */}
+                {data!==null && data!==undefined? data.GENDER:" "}
+              {/* 외래간호_환자정보 */}
+                {patientDetails!==null && patientDetails!==undefined? patientDetails.GENDER:" "}
+              </span>
+              &nbsp; / 
+              <span>
+                {data!==null && data!==undefined? data.PATIENT_AGE:" "}
+                {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_AGE:" "}
+              </span>
+            </td>
             <th className='devide1'>Tel</th>
-            <td>{data!=null && data!==undefined? data.PATIENT_TEL:" "}</td>
+            <td>
+              {data!==null && data!==undefined? data.PATIENT_TEL:" "}
+              {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_TEL:" "}
+            </td>
             <th className='devide1'>진료과</th>
             <td>
               <select onChange={(e) => {
@@ -44,27 +59,40 @@ const PDetail = ({patient, data, setEmpId, symptom, setSymptom, setSpecialityNam
               <select onChange={(e) => {
                 setEmpId(e.target.value);
               }}>
-              {doctorList!=null && doctorList!==undefined? doctorList.map((data, index) => (
+              {doctorList!==null && doctorList!==undefined? doctorList.map((data, index) => (
                   <option defaultValue={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
             )) : 
-             ''
+            ''
             }
               </select>
             </td>
             <th className='devide1'>보험유무</th>
-            <td className='devide1'>{data!=null && data!==undefined? (data.INSURANCE === 0 ? 'X':'O') : " "}</td>
+            <td className='devide1'>
+              {data!==null && data!==undefined? (data.INSURANCE === 0 ? 'X':'O') : " "}
+              {patientDetails!==null && patientDetails!==undefined? (patientDetails.INSURANCE === 0 ? 'X':'O') : " "}
+            </td>
             <th className='devide1'>진료구분</th>
-            <td className='devide1'>{data!=null && data!==undefined? (data.treatmentInfo.length === 0 ? '초진':'재진') : " "}</td>
+            <td className='devide1'>
+              {data!==null && data!==undefined? (data.treatmentInfo.length === 0 ? '초진':'재진') : " "}
+            </td>
           </tr>
           <tr>
             <th colSpan={3}>주소</th>
-            <td colSpan={9}>{data!==null && data!==undefined? data.PATIENT_ADDR:" "}</td>
+            <td colSpan={9}>
+              {data!==null && data!==undefined? data.PATIENT_ADDR:" "}
+              {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_ADDR:" "}
+            </td>
           </tr>
           <tr>
             <th colSpan={3}>증상</th>
-            <td colSpan={9}><input value={symptom || ""} onChange={(e)=> {
-              setSymptom(e.target.value)
-            }}/></td>
+            <td colSpan={9}>
+              <input 
+                // value={symptom || ""} 
+                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:" "}
+                onChange={(e)=> {
+                setSymptom(e.target.value)
+              }}/>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 import MedicalNote from './MedicalNote';
 import TreatmentOrder from './TreatmentOrder';
 
-const Order = () => {
+const Order = ({ patientDetails }) => {
   
   const [ active, setActive ] = useState(true);
 
   const menuList = {
-    true: <MedicalNote/>,
-    false: <TreatmentOrder/>
+    true: <MedicalNote patientDetails={patientDetails} />,
+    false: <TreatmentOrder patientDetails={patientDetails} />
   };
 
   const changeMenu = () => {
