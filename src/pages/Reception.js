@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // style
 import '../styles/scss/reset.scss';
 import '../styles/reception.scss';
@@ -6,7 +6,7 @@ import '../styles/reception.scss';
 import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
 import PatientStatus from '../components/patient/PatientStatus';
-// import Waiting4Payment from '../components/patient/Waiting4Payment';
+import Waiting4Payment from '../components/patient/Waiting4Payment';
 import Receipt from '../components/patient/Receipt';
 import MedicalHistory from '../components/patient/MedicalHistory';
 import Modal from '../components/modalReception/Modal';
@@ -24,10 +24,21 @@ const Reception = (props) => {
   const [symptom, setSymptom] = useState();
   const [specialityName, setSpecialityName] = useState('내과');
   const empIdTemp = empId!==null && empId!==undefined?empId.substring(4,11):' ';
+  const [waitingReceipt, setWaitingReceipt] = useState([]);
+  const [acceptance, setAcceptance] = useState("");
+  const [outStatusReRender, setOutStatusReRender] = useState(true);
+  const [wait4payReRender, setWait4payReRender] = useState(true);
+
+  useEffect(()=>{
+    axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+         .then((res) => setWaitingReceipt(res.data));
+  },[]);
+
+  
 
   function patientInfo() {
     if(window.event.keyCode === 13){
-      axios.post("http://43.200.169.159:9090/patient/regInfo", {
+      axios.post("http://localhost:9090/patient/regInfo", {
       PATIENT_NAME: name.current,
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
@@ -37,13 +48,12 @@ const Reception = (props) => {
           setdata(res.data);
           setPatientId(res.data.PATIENT_ID_PK);
         }
-
       });
     }
   }
 
   function receipt() {
-      axios.post("http://43.200.169.159:9090/outStatus/receipt", {
+      axios.post("http://localhost:9090/outStatus/receipt", {
       EMP_ID_PK: empIdTemp,
       SPECIALITY: specialityName,
       SYMPTOM: symptom!==null && symptom!==undefined? symptom : alert('증상 입력하세요.'),
@@ -52,7 +62,7 @@ const Reception = (props) => {
         if(symptom!==null && symptom!==undefined) {
           alert("접수 완료")
         }
-        window.location.href="http://localhost:3000/reception";
+        setOutStatusReRender(()=>false);
       });
   }
 
@@ -93,9 +103,9 @@ const Reception = (props) => {
           <PatientDetail data={data} setEmpId={setEmpId} symptom={symptom} setSymptom={setSymptom} setSpecialityName={setSpecialityName}/>
           <MedicalHistory data={data}/>
         </div>
-        <PatientStatus className='bottom1'/>
-        {/* <Waiting4Payment/> */}
-        <Receipt/>
+        <PatientStatus className='bottom1' outStatusReRender={outStatusReRender} setOutStatusReRender={setOutStatusReRender}/>
+        <Waiting4Payment waitingReceipt={waitingReceipt} setAcceptance={setAcceptance} wait4payReRender={wait4payReRender} setWait4payReRender={setWait4payReRender}/>
+        <Receipt acceptance={acceptance} setOutStatusReRender={setOutStatusReRender} setWait4payReRender={setWait4payReRender}/>
       </main>
     </div>
   )

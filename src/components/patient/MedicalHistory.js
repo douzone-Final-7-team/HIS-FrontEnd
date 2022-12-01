@@ -15,7 +15,7 @@ const MedicalHistory = ({data}) => {
             <th>처방 및 치료내역</th>
             <th>상세정보</th>
           </tr>
-            {data!=null && data!=undefined? data.treatmentInfo.map((data, index) => (
+            {data!==null && data!==undefined? data.treatmentInfo.map((data, index) => (
               <tr key={index}>
                 <td>{data.TREATMENT_DATE}</td>
                 <td>{data.DIAGNOSTIC_NAME}</td>
