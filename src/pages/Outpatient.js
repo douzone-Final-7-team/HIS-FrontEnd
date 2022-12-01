@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-
+import React from 'react'
+import { useSelector } from 'react-redux';
 // style
 import '../styles/scss/reset.scss';
 import '../styles/outpatient.scss';
@@ -8,29 +8,14 @@ import EmpBar from '../components/employee/EmpBar';
 import PatientDetail from '../components/patient/PatientDetail';
 import PatientStatus from '../components/patient/PatientStatus';
 import MedicalHistory from '../components/patient/MedicalHistory';
-import { useDispatch, useSelector } from 'react-redux';
-import PatientAction from '../redux/modules/patient/PatientAction';
-// components
 import Order from '../components/outpatient/Order';
 
 
 const Outpatient = () => {
-
-  const patient = useSelector(state => state.value);
-
-  let dispatch = useDispatch();
-  
-  const [ inputValue, setInputValue ] = useState('');
-
-  const handleInputChange = useCallback((e) => {
-    setInputValue(inputValue);
-  }, [inputValue]);
-
-  const onEnter = useCallback((e) => {
-    if(e.key === 'Enter') {
-      dispatch(PatientAction.getTest(inputValue));
-    }
-  }, [dispatch, inputValue]);
+  // 진료메모 / 치료오더 SELECT 
+  const patientDetails = useSelector(state => state.readOutpatientInfo.value[0]);
+  // 환자 과거병력 조회 SELECT
+  const registrationInfo = useSelector(state => state.readPatientRegistrationInfo.value[1]);
 
   return (
     <div className='outpatient'>
@@ -43,21 +28,17 @@ const Outpatient = () => {
             <div className='input-patient'>
               <form action=''>
                 <label>이름</label>
-                <input 
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyUp={onEnter}
-                />
+                <input value={patientDetails!=null && patientDetails!==undefined? patientDetails.PATIENT_NAME:" "}/>
                 <label>주민등록번호</label>
-                <input type='number'/> - <input type='number'/>
+                <input value={patientDetails!=null && patientDetails!==undefined? patientDetails.PATIENT_SSN:" "} />
               </form>
             </div>
           </div>
-          <PatientDetail patient={patient}/>
-          <MedicalHistory />
+          <PatientDetail patientDetails={patientDetails}/>
+          <MedicalHistory registrationInfo={registrationInfo} />
         </div>
         <PatientStatus className='bottom1'/>
-        <Order/>
+        <Order patientDetails={patientDetails}/>
       </main>
     </div>
   )

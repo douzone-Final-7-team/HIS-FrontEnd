@@ -192,6 +192,7 @@ export const changeSchedule = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
+      console.log(specialityElements)
       return resp.data
   }
 )

@@ -8,7 +8,7 @@
   table {
     width: 100%;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
     th,
     td {padding: 3px 0 3px 10px; border: 1px solid $tblBorder;
     }
@@ -19,5 +19,14 @@
     td {
       input {width: 100%; border: none; outline: none;}
     }
+  }
+  .btn-detail {
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 4px;
+    line-height: 20px;
+    background-color: $primaryColor;
+    color: $white;
+    cursor: pointer;
   }
 }
