@@ -21,7 +21,8 @@ const WardPatientRequest = () => {
   let updateNurseReq ;
   const handleClick = (e) => {        
    updateNurseReq = {
-      callTime : messageList[e.target.id].callTime,
+      // callTime : messageList[e.target.id].callTime,
+      callTime : null,
       ward : messageList[e.target.id].ward,
       roomNum : messageList[e.target.id].roomNum,
       bedNum : messageList[e.target.id].bedNum,

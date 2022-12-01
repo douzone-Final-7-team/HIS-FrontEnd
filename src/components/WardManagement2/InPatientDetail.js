@@ -34,7 +34,7 @@ const InpatientDetail = () => {
             <th children='devide2'>진료과</th>
             <td>{(inpatientDetail != null) ? inpatientDetail.SPECIALITY_NAME: "  "}</td>
             <th className='devide3'>진단명</th>
-            <td className='devide4'>{(inpatientDetail != null) ?  inpatientDetail.DIAGNOSTIC_NAME : "  "}</td>           
+            <td className='devide4'>{(inpatientDetail != null) ?  inpatientDetail.DIAGNOSIS : "  "}</td>           
           </tr>
         </tbody>
       </table>
