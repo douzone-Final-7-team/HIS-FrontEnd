@@ -1,4 +1,5 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import '../styles/header.scss';
 
 function Header() {
@@ -11,6 +12,7 @@ function Header() {
     localStorage.removeItem('specialityName')
     window.location.href='http://localhost:3000/';
   }
+
   return (
     <div className='header'>
       <div className='profile'>
@@ -19,7 +21,7 @@ function Header() {
         <div className='emp-name'>{specialityName} {name}</div>
         <btn className='logout' onClick={logout}>로그아웃</btn>
       </div>
-      <div className='emp-role'>업무내용</div>
+      <div className='emp-role'></div>
     </div>
   )
 }

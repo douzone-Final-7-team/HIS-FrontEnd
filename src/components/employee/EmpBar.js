@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 // icon
 import { AiFillHome } from "react-icons/ai";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
@@ -20,6 +20,7 @@ function EmpBar() {
   today = today.getFullYear()+"-"+ ("00" + (today.getMonth()+1)).slice(-2)+ "-" + ("00" + today.getDate()).slice(-2);
 
   useEffect(()=>{
+
     const specialityName = document.getElementById("speciality").innerText.substring(4)
     const empName = document.getElementById("empName").innerText.substring(3)
     let specialityElements = {
@@ -35,7 +36,7 @@ function EmpBar() {
     <div className='emp-info'>
       <div className='emp-location'>
         <AiFillHome />
-        <p>&nbsp;/ 진료과 / 업무내용</p>
+        <p>&nbsp;/ / </p>
       </div>
 
       <div className='emp-bar'>
