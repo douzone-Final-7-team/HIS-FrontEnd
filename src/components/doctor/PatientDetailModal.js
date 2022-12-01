@@ -6,7 +6,6 @@ import '../../components/doctor/PatientDetail.scss';
 
 const PatientDetailModal = (props) => {
 
-    console.log(props);
     return(
         <div className="detail-box">
             <main>
@@ -86,7 +85,7 @@ const PatientDetailModal = (props) => {
                         <tbody>
                             <tr>
                                 <th>약 처방</th>
-                                <td colSpan={10}><input readOnly value={props.pastTreatmentDetail[0].PRESCRIPTION || ''} /></td>
+                                <td colSpan={10}><input readOnly value={props.pastTreatmentDetail[0].MEDICINE || ''} /></td>
                             </tr>
                         </tbody>
                         <tbody>

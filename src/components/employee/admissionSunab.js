@@ -13,10 +13,6 @@ import DischargeDue from './dischargeDue';
 import axios from 'axios';
 import { API_URL } from '../../utils/constants/Config';
 
-// style
-
-// components
-
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -52,33 +48,86 @@ function TabPanel(props) {
   }
 
   
-  let sunabInfo = {filter : "All"};
+  // 
   
-  export default function AdmissionSunab() {
+
+  export default function AdmissionSunab({setBedInfo, bedInfo}) {
     const [value, setValue] = React.useState(0);
     const [sunabList, setSunabList] = React.useState([]);
     const [test,setTest] = React.useState("");
     const [reRender , setReRender] = React.useState(true);
+    const [sunabInfo , setSunabInfo] = React.useState(false);
+    const [checkedList, setCheckedList] = React.useState([]);
+    //middlePayment , All , today
+
+    // console.log(sunabInfo);
+    // console.log(sunabInfo2);
+
+    let sunabInfoTest = {filter : checkedList};
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
       };
-    
-    
 
     React.useEffect(()=>{
-      axios.put(API_URL+"/AdmissionReceipt/changeStateList");
-    },[]);
-
-
-    React.useEffect(()=>{
-      axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", JSON.stringify(sunabInfo), {headers:{"Content-Type" : `application/json`},})
-        .then(res => setSunabList(res.data));  
+      setTimeout(() => 
+      axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", JSON.stringify(sunabInfoTest), {headers:{"Content-Type" : `application/json`},})
+        .then(res => setSunabList(res.data))
+        ,50);
         setTest("");
-        setReRender(()=>true);
+        
+
     },[reRender]);
- 
 
 
+    React.useEffect(()=>{
+      if(reRender===true){setReRender(false);
+      }else if(reRender===false){setReRender(true);}
+    },[checkedList]);
+    
+    /*-------------------------------------------------------------*/
+    const CATEGORY_LIST = [
+      { id: 0, value: 'today' , data: '금일 퇴원 환자' },
+      { id: 1, value: 'middlePayment' , data: '중간 정산 환자' }
+    ];
+
+    function ProdBasicInfo() {
+      // 데이터를 넣을 빈배열
+
+      // 1️⃣ onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
+      const onCheckedElement = (checked, item) => {
+        if (checked) {
+          setCheckedList([...checkedList, item]);
+        } else if (!checked) {
+          setCheckedList(checkedList.filter(el => el !== item));
+        }
+      };
+      console.log(checkedList);
+      return (
+        <div>
+            {CATEGORY_LIST.map(item => {
+              return (
+                <li key={item.id}>
+                  <input
+                    type="checkbox"
+                // 이때 value값으로 data를 지정해준다.
+                    value={item.value}
+               // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
+                    onChange={e => {
+                      onCheckedElement(e.target.checked, e.target.value);
+                    }}
+               // 3️⃣ 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
+                    checked={checkedList.includes(item.value) ? true : false}
+                  />{item.data}
+                </li>
+                
+              );
+            })}
+          </div>
+
+      )
+    }
+    /*-------------------------------------------------------------*/
     return (
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -92,15 +141,14 @@ function TabPanel(props) {
             <div className='qwer'>
                 <div className='a'>
                     <ul className = 'filter'>
-                        <li>일 퇴원 환자</li>
-                        <li>익일 퇴원 환자</li>
+                      <ProdBasicInfo />
                     </ul>
                 </div>
                 <div className='b'>
                     <Waiting4Payment sunabList={sunabList} setTest={setTest}/>
                 </div>
                 <div className='c'>
-                    <Receipt test={test} setReRender={setReRender}/>
+                    <Receipt test={test} reRender={reRender} setReRender={setReRender}/>
                 </div>
             </div>
         </TabPanel>
@@ -111,7 +159,7 @@ function TabPanel(props) {
         </TabPanel>
         <TabPanel value={value} index={2}>
             <div className='asdf'>
-                <DischargeDue />
+                <DischargeDue bedInfo={bedInfo} setBedInfo = {setBedInfo} />
             </div>
         </TabPanel>
       </Box>

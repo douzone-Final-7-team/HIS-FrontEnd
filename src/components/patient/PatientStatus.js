@@ -5,7 +5,6 @@ import './patientStatus.scss';
 import DetailedStatus from './DetailedStatus';
 import axios from 'axios';
 import './detailedStatus.scss';
-import { useDispatch } from 'react-redux';
 
 function PatientStatus({outStatusReRender, setOutStatusReRender}) {
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
 
 
   // 혜지 환자현황 클릭 이벤트
-  let info;
   const handleClick = () => {
     // dispatch(readOutpatientInfo());
   }

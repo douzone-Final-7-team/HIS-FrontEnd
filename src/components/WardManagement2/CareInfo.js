@@ -2,7 +2,7 @@
 // style
 import './careInfo.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import {executeModal, modalMode, modifyElement } from '../../redux/outPatientInfoSlice';
+import {executeModal, modalMode, modifyElement } from '../../redux/InPatientInfoSlice';
 
 
 
@@ -25,7 +25,7 @@ const CareInfo = () => {
   
   
   const getCareInfo = useSelector(state=>{
-    return state.outPatientInfo.value[2]
+    return state.inPatientInfo.value[2]
   })
 
   const selectRow = (e)=>{
@@ -40,9 +40,8 @@ const CareInfo = () => {
 
 
   const checkedStatus = useSelector(state=>{
-    return state.outPatientInfo.value[11]
+    return state.inPatientInfo.value[11]
   }) 
-
 
   return (
     <div className='care-info-container'>
@@ -59,7 +58,7 @@ const CareInfo = () => {
           <tbody>
           {getCareInfo != null ?
           getCareInfo.map((careInfo, index)=>(
-            <tr>
+            <tr key={index}>
               <td className='careInfo-fix'><input type= "radio" name= "careInfo" id = {index} onClick={selectRow} checked={checkedStatus}/></td>
               <td className='careInfo-date'>{(careInfo.CARE_DATE + "").substring(0,10)}</td>
               <td className='careInfo-content'>{careInfo.CARE_CONTENT}</td>
