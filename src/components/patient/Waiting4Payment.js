@@ -2,10 +2,11 @@ import React from 'react'
 // style
 import './waiting4Payment.scss';
 
-let pageId = {pageId : "qwer"};
+let pageId = {pageId : "1111"};
 
-const Waiting4Payment = ({sunabList,setTest}) => { // 비구조할당
-
+const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, wait4payReRender, setWait4payReRender}) => { // 비구조할당
+  
+  
   const AdmissionList = () =>{
 
     function sunabDetail(index){
@@ -30,18 +31,24 @@ const Waiting4Payment = ({sunabList,setTest}) => { // 비구조할당
   }
 
   const OutList = () =>{
-
+    function waitingReceiptDetail(index){
+      // console.log(sunabList[index].ADMISSION_ID_PK);
+      setAcceptance(waitingReceipt[index]);
+    }
     
     return (
       <div className='waited-people'>
-                <div className='waiting-order'>
-                    <p className='waiting-name'>
-                    김민욱
-                      <span className='medical-hours'>11:46</span>
-                    </p>
-                  <p className='status-value'>수납대기</p>
-                </div>
-            </div> 
+        {waitingReceipt[0] === undefined ? "수납대기 환자가 없습니다." : ""}
+        {waitingReceipt.map((data, index) => (
+        <div key={index} className='waiting-order' onClick={() => waitingReceiptDetail(index)}>
+          <p className='waiting-name'>
+          {data.PATIENT_NAME}
+            <span className='medical-hours'>{data.REGISTRATION_TIME}</span>
+          </p>
+          <p className='status-value'>{data.OP_CODE_NAME}</p>
+        </div>
+        ))}
+      </div> 
     )
   }
 
