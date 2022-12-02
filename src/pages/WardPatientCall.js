@@ -11,9 +11,13 @@ import axios from 'axios';
 const socket = io.connect('http://localhost:3001')
 
 
-const WardPatientCall = () => {
+const WardPatientCall = ({setShowNav}) => {
   
   const [room, setRoom] = useState("");
+  const [viewNotice, setViewNotice] = useState(false);
+  useEffect(()=>{
+    setShowNav(false)
+  },[setShowNav])
 
     useEffect(()=>{
       setRoom("내과")
@@ -32,10 +36,10 @@ const WardPatientCall = () => {
         room: room,
         patientName: "배병서",
         callTime: callTime.getHours() + ":" + callTime.getMinutes() + ":" + callTime.getSeconds(),
-        callStatus : "",
         ward: 200,
         roomNum: 1,
-        bedNum: 1
+        bedNum: 1,
+        callStatus : "호출"
       };
 
       const savemassage = {
@@ -64,6 +68,29 @@ const WardPatientCall = () => {
       }, 2000)
       }
   }
+
+  useEffect(()=>{
+    socket.on("call_message", (data)=>{
+      setViewNotice(data.go)
+    })
+
+  },[])
+
+
+  const emergency = async()=> {
+    if(click){
+      let emergencyData ={
+        room : room,
+        notice : true,
+        wardRoom: 201
+      }
+      await socket.emit("send_emergencyMessage", emergencyData )
+      click = !click;
+        setTimeout(function () {
+          click = true;
+      }, 2000)
+    }
+  }
   return (
     <div className='WardPatientCall-wapper'>
       <main className='WardPatientCall-container'>
@@ -71,7 +98,31 @@ const WardPatientCall = () => {
           <InPatientBar />
         </div>
         <div className='btn-wapper' >
-        <a href='#!' className='btn' id='handover-modify' onClick={sendData}>호출</a> 
+          <div id="success-box">
+            <div class="dot"></div>
+            <div class="dot two"></div>
+            <div class="message"><h2 class="alert">도움 필요 시 눌러주세요</h2></div>
+            <button class="button-box"  onClick={sendData}><h1 class="green">호 출</h1></button>
+        </div>
+        <div id="error-box">
+          <div class="dot"></div>
+          <div class="dot two"></div>
+          <div class="message"><h2 class="alert">응급 상황 시 눌러주세요</h2></div>
+          <button class="button-box" onClick={emergency}><h1 class="red">긴 급</h1></button>
+        </div>
+        <div id="notice-box">
+          <div class="dot"></div>
+          <div class="dot two"></div>
+          <div class="notice-message"><h2 class="notice">Notice</h2></div>
+          <div class="notice-box">
+           { viewNotice && 
+           <div class="notice-context-wppper">
+              <p class="notice-context">간호사가 가고 있습니다.</p>
+              <p class="notice-context">조금만 기다려 주세요.</p>
+            </div>
+            }
+          </div>
+        </div>   
       </div>
       </main>
 

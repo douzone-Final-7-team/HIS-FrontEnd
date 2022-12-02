@@ -4,13 +4,15 @@ import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';
 
-let pageId = {pageId : "1111"};
+const role = window.localStorage.getItem('role');
+
+// let pageId = {pageId : "qwer"};
 
 
 const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender }) => { //비구조할당
 
 
-  let data = { ADMISSION_ID_PK: test };
+  let data = test;
   let patientIdPk = acceptance!==null && acceptance!==undefined?acceptance.PATIENT_ID_PK:' ';
   let treatmentNumPk = acceptance!==null && acceptance!==undefined?acceptance.TREATMENT_NUM_PK:' ';
 
@@ -27,10 +29,10 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
 
   useEffect(() => {
-    axios.post(API_URL+"/AdmissionReceipt/AdReceipt", JSON.stringify(data), { headers: { "Content-Type": `application/json` }, })
+    axios.post(API_URL+"/AdmissionReceipt/AdReceipt", {ADMISSION_ID_PK : data}, { headers: { "Content-Type": `application/json` }, })
       .then(res => setDetail(res.data));
       // .then(res => detail.current = res.data);
-  }, [data.ADMISSION_ID_PK]);
+  }, [data]);
 
   // console.log((detail.current));
   // console.log("0번째 : "+detail.current[0]);
@@ -41,7 +43,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
       PATIENT_ID_PK: patientIdPk,
       TREATMENT_NUM_PK: treatmentNumPk
       }).then((res) => setAcceptanceDetail(res.data));
-  },[patientIdPk, treatmentNumPk]);
+  },[patientIdPk,treatmentNumPk]);
   
 
   const AdmissionList = () => {
@@ -219,7 +221,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
     <div className='receipt'>
       <p className='section-title'>수납</p>
       <div className='content-box'>
-        {pageId.pageId === "qwer"?
+        {role === "ROLE_INRECEIPT" ?
         <>
           <AdmissionList /> 
           {detail.length === 0 ? "" : <button onClick={() => {complete()}} className='btn'>수납</button>}

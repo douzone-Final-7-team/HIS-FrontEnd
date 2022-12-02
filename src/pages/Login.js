@@ -25,14 +25,17 @@ const Login = () => {
         localStorage.setItem('empIdPk', res.data[0].EMP_ID_PK);
         localStorage.setItem('name', res.data[0].EMP_NAME);
         localStorage.setItem('specialityName', res.data[0].SPECIALITY_NAME);
+        localStorage.setItem('role', res.data[0].ROLE);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
           window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
           window.location.href = 'http://localhost:3000/ward-management2';
         } else if (res.data[0].ROLE === 'ROLE_OUTNURSE') {
           window.location.href = 'http://localhost:3000/outpatient';
-        } else if (res.data[0].ROLE === 'ROLE_RECEIPT') {
+        } else if (res.data[0].ROLE === 'ROLE_OUTRECEIPT') {
           window.location.href = 'http://localhost:3000/reception';
+        } else if (res.data[0].ROLE === 'ROLE_INRECEIPT') {
+          window.location.href = 'http://localhost:3000/ward-management';
         }
       }); 
     })

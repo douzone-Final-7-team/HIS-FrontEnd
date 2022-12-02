@@ -49,23 +49,21 @@
       .medical-hours {
         padding-left: 8px;
       }
-      .status-value {
+      .status-value-call {
         font-size: 14px;
         color: $primaryColor;
         
       }
-      &.completion {
-        background-color: #d9d9d9;
-        .status-value {
-          color: #a2a9ac;
-          
-        }
+      .status-value-ok {
+        font-size: 14px;
+        color: orange;
+        
       }
       overflow-y: auto;
     }
-    :hover{
-      background-color: #e0e5ec;
-    }
-
   }
+  .waiting-order:hover {
+    border: 2px solid black;
+  }
+
 }
