@@ -2,7 +2,8 @@ import React from 'react'
 // style
 import './waiting4Payment.scss';
 
-let pageId = {pageId : "qwer"};
+// let pageId = {pageId : "qwer"};
+const role = window.localStorage.getItem('role');
 
 const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, wait4payReRender, setWait4payReRender}) => { // 비구조할당
   
@@ -60,7 +61,8 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, wait
     <div className='waiting-4-payment'>
       <p className='section-title'>수납 대기 인원</p>
       <div className='content-box'>
-          {pageId.pageId === "qwer" ? 
+          {role === "ROLE_INRECEIPT" ?
+          
               <AdmissionList sunabList={sunabList}/> : <OutList />
               
               }

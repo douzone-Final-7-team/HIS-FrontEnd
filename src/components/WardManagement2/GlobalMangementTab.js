@@ -13,6 +13,7 @@ import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setStartDate } from '../../redux/InChangeDateSlice';
 import { parseISO } from 'date-fns';
+import AdmissionDue from './AdmissionDue';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -90,7 +91,7 @@ export default function GlobalMangementTab() {
         <HandOver/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        동석이꺼 참고해서 수정
+        <AdmissionDue />
       </TabPanel>
     </Box>
   );

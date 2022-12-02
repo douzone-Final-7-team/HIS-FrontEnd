@@ -4,7 +4,9 @@ import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';
 
-let pageId = {pageId : "qwer"};
+const role = window.localStorage.getItem('role');
+
+// let pageId = {pageId : "qwer"};
 
 
 const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender }) => { //비구조할당
@@ -202,7 +204,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
     <div className='receipt'>
       <p className='section-title'>수납</p>
       <div className='content-box'>
-        {pageId.pageId === "qwer"?
+        {role === "ROLE_INRECEIPT" ?
         <>
           <AdmissionList /> 
           {detail.length === 0 ? "" : <button onClick={() => {complete()}} className='btn'>수납</button>}
