@@ -26,12 +26,12 @@ const Outpatient = () => {
         <div className='middle'>
           <div className='search-info'>
             <div className='input-patient'>
-              <form action=''>
-                <label>이름</label>
-                <input value={patientDetails!=null && patientDetails!==undefined? patientDetails.PATIENT_NAME:" "}/>
-                <label>주민등록번호</label>
-                <input value={patientDetails!=null && patientDetails!==undefined? patientDetails.PATIENT_SSN:" "} />
-              </form>
+              <div>
+                <span>이름</span>
+                <span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_NAME:" "}</span>
+                <span>주민등록번호</span>
+                <span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_SSN:" "}</span>
+              </div>
             </div>
           </div>
           <PatientDetail patientDetails={patientDetails}/>

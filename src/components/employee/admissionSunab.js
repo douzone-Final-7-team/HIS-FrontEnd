@@ -48,8 +48,6 @@ function TabPanel(props) {
   }
 
   
-  // 
-  
 
   export default function AdmissionSunab({setBedInfo, bedInfo}) {
     const [value, setValue] = React.useState(0);

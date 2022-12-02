@@ -11,7 +11,7 @@ function InPatientBar() {
   
 
   return (
-    <div className='emp-info'>
+    <div className='emp-info2'>
       <div className='emp-bar'>
         <div className='test2'>
           <BsFillArrowRightCircleFill className='icon'/>
