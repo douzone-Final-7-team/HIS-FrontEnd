@@ -48,8 +48,8 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
         <p>
         {data.map((item, idx) => {
         return (
-          <>
-            <button key={idx}
+          <span key={idx}>
+            <button
               value={idx}
               className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
               onClick={(e) => {
@@ -85,7 +85,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
             >
               {item}
             </button>
-          </>
+          </span>
         );
       })}</p>
         <div>

@@ -133,19 +133,36 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
     setWait4payReRender(()=>false);
   }
 
+
+  // 처방전 인쇄 후 수납 로직 마무리
+  // function preSuccess() { 
+
+  //   axios.post("http://localhost:9090/outStatus/insertReceipt", {
+  //     TREATMENT_NUM_FK: treatmentNumPk,
+  //     TREAT_COST: treatCost,
+  //     INSURANCE_COST: insuranceCost,
+  //     CARE_COST: careCost,
+  //     TIME_COST: timeCost,
+  //     PRESCRIPTION_COST: insuranceCost,
+  //     TOTAL_COST: totalCost
+  //     })
+  //   setOutStatusReRender(()=>false);
+  //   setWait4payReRender(()=>false);
+  // }
+
   const OutPatReceipt = () => {
 
     return (
       <table className="styled-table">
         <thead>
-          <tr>
+          <tr> 
             <th>처방 내역</th>
             <th>상세 내역</th>
             <th>금 액</th>
           </tr>
         </thead>
-        {acceptanceDetail.map((data) => (
-          <tbody>
+        {acceptanceDetail.map((data, index) => (
+          <tbody key={index}>
             <tr>
               <td>기본 진료비</td>
               <td>-</td>
@@ -159,7 +176,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
               {setCareCost(data.TREATMENT_ORDER === null ? 0 : 10000)}
             </tr>
             <tr>
-              <td>약처방</td>
+              <td>처방전</td>
               <td>-</td>
               <td>{data.MEDICINE === null ? 0 : (data.VISIT === '재진' ? 3000 : 5000)}</td>
               {setPrescriptionCost(data.MEDICINE === null ? 0 : (data.VISIT === '재진' ? 3000 : 5000))}
