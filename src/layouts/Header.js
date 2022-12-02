@@ -6,7 +6,9 @@ function Header({showNav}) {
 
   function logout() {
     localStorage.removeItem('jwt')
+    localStorage.removeItem('role')
     localStorage.removeItem('name')
+    localStorage.removeItem('empIdPk')
     localStorage.removeItem('userName')
     localStorage.removeItem('specialityName')
     window.location.href='http://localhost:3000/';
@@ -31,8 +33,6 @@ function Header({showNav}) {
         {/* <img src='https://mv.amaranth10.co.kr/custom/img/labal_pic_.png' /> */}
         <div className='emp-name'>{headerInfo[0].SPECIALITY_NAME} {headerInfo[0].EMP_NAME}</div>
         <button className='logout' onClick={logout}>LogOut</button>
-        <div className='emp-name'>{specialityName} {name}</div>
-        <p className='logout' onClick={logout}>로그아웃</p>
       </div>
       :
       <div className='profile'>
