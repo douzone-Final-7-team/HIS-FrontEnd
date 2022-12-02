@@ -6,23 +6,20 @@ import './reducedPatientStatus.scss';
 const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
   const myPatientList = useRef([{}]);
+  const doctorID = localStorage.getItem('empIdPk') || '';
 
   useEffect(() => {
 
-    axios.get("http://localhost:9090/outStatus/MyPatient")
+    axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
       .then((res) => {
-        console.log(res.data)
         myPatientList.current = res.data
       });
-  }, [])
+  }, [doctorID])
 
   const getMyPatientInfo = (receivePk) => {
 
-    console.log(receivePk);
-
     axios.get("http://localhost:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
     .then((res) => {
-      console.log(res.data)
       setTreatmentPatientInfo(res.data)
     }); 
 
