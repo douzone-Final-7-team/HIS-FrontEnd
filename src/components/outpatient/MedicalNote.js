@@ -1,7 +1,6 @@
 import React from 'react'
 
 const MedicalNote = ({ patientDetails }) => {
-console.log(patientDetails)
   return (
     <div id="tab-medical-note">
         <div className="medicine">
