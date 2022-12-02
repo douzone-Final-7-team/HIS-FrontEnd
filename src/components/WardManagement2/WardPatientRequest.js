@@ -7,11 +7,11 @@ import MenuItem from '@mui/material/MenuItem';
 //soket.io
 import io from 'socket.io-client';
 import axios from 'axios';
+import EmergencyModal from './EmergencyModal';
 
 const socket = io.connect('http://localhost:3001')
 // const name = window.localStorage.getItem('name');
 const specialityName = window.localStorage.getItem('specialityName');
-
 
 const WardPatientRequest = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,25 +36,40 @@ const WardPatientRequest = () => {
     setAnchorEl(null);
   };
 
-  const handleStatus = (e)=>{
+  const handleStatus = async(e)=>{
 
     setSendChangeReqStat(sendChangeReqStat.callStatus = e.target.id)
     
     updateNurseReq = JSON.stringify(sendChangeReqStat)
 
-    axios.put('http://localhost:9090/admission/InPatientReq',
+     axios.put('http://localhost:9090/admission/InPatientReq',
           updateNurseReq,
         {
           headers: {
             "Content-Type" : `application/json`,
           },
         }).then(res=> setMessageList(res.data))
-   
+
+        let going;
+        if(e.target.id ==="확인"){
+           going= {
+            room : room,
+            go : true
+          }
+          await socket.emit("send_message", going )
+        }else if(e.target.id ==="완료"){
+          going= {
+            room : room,
+            go : false
+          }
+          await socket.emit("send_message", going )
+        }
   };
 
 
   const [messageList , setMessageList] = useState([])
-
+  const [showEmergency , setShowEmergency] = useState(false)
+  const [showWardRoom , setshowWardRoom] = useState("")
   const [room, setRoom] = useState("");
 
   useEffect(()=>{
@@ -83,7 +98,10 @@ const WardPatientRequest = () => {
       socket.on("call_message", (data)=>{
         setMessageList((list)=>[data, ...list])
       })
-
+      socket.on("call_emergencyMessage", (data)=>{
+        setShowEmergency(data.notice)
+        setshowWardRoom(data.wardRoom)
+      })
     },[])
 
 
@@ -103,12 +121,12 @@ const WardPatientRequest = () => {
           aria-expanded={open ? 'true' : undefined}
           onContextMenu={handleClick}
         >
-            <p className='waiting-name'>
+            <p className='waiting-name'id={index}>
               {callContent.patientName}
-              <span className='medical-hours'>{(callContent.callTime)}</span>
-              <span className='medical-hours'>{callContent.ward*1 + callContent.roomNum*1}호실</span>
+              <span className='medical-hours'id={index}>{(callContent.callTime)}</span>
+              <span className='medical-hours'id={index}>{callContent.ward*1 + callContent.roomNum*1}호실</span>
             </p>
-          <p className='status-value'>{callContent.callStatus}</p>
+          <p className={callContent.callStatus ==='호출'?'status-value-call':'status-value-ok'} id={index}>{callContent.callStatus}</p>
         </div>
         ))}
           <Menu
@@ -125,6 +143,7 @@ const WardPatientRequest = () => {
           <MenuItem id="완료" onClick={(e)=>{handleClose(); handleStatus(e);}}>완료</MenuItem>
         </Menu>
       </div>
+      {showEmergency &&<EmergencyModal setShowEmergency={setShowEmergency} showWardRoom={showWardRoom}></EmergencyModal>}
     </div>
   )
 }

@@ -48,22 +48,19 @@ function TabPanel(props) {
   }
 
   
-  // 
-  
 
   export default function AdmissionSunab({setBedInfo, bedInfo}) {
     const [value, setValue] = React.useState(0);
     const [sunabList, setSunabList] = React.useState([]);
     const [test,setTest] = React.useState("");
     const [reRender , setReRender] = React.useState(true);
-    const [sunabInfo , setSunabInfo] = React.useState(false);
     const [checkedList, setCheckedList] = React.useState([]);
     //middlePayment , All , today
 
     // console.log(sunabInfo);
     // console.log(sunabInfo2);
 
-    let sunabInfoTest = {filter : checkedList};
+    let sunabInfo = checkedList;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -71,19 +68,11 @@ function TabPanel(props) {
 
     React.useEffect(()=>{
       setTimeout(() => 
-      axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", JSON.stringify(sunabInfoTest), {headers:{"Content-Type" : `application/json`},})
+      axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", {filter : sunabInfo}, {headers:{"Content-Type" : `application/json`},})
         .then(res => setSunabList(res.data))
         ,50);
         setTest("");
-        
-
-    },[reRender]);
-
-
-    React.useEffect(()=>{
-      if(reRender===true){setReRender(false);
-      }else if(reRender===false){setReRender(true);}
-    },[checkedList]);
+    },[reRender,sunabInfo]);
     
     /*-------------------------------------------------------------*/
     const CATEGORY_LIST = [
@@ -94,12 +83,14 @@ function TabPanel(props) {
     function ProdBasicInfo() {
       // 데이터를 넣을 빈배열
 
-      // 1️⃣ onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
+      // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
       const onCheckedElement = (checked, item) => {
         if (checked) {
           setCheckedList([...checkedList, item]);
+          setReRender(!reRender);
         } else if (!checked) {
           setCheckedList(checkedList.filter(el => el !== item));
+          setReRender(!reRender);
         }
       };
       console.log(checkedList);
@@ -116,7 +107,7 @@ function TabPanel(props) {
                     onChange={e => {
                       onCheckedElement(e.target.checked, e.target.value);
                     }}
-               // 3️⃣ 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
+               // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
                     checked={checkedList.includes(item.value) ? true : false}
                   />{item.data}
                 </li>
