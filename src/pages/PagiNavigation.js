@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // style
 import '../styles/body.scss';
@@ -16,12 +16,14 @@ import WardPatientCall from './WardPatientCall';
 
 const PagiNavigation = () => {
 
+  const [showNav, setShowNav] =useState(true)
+
   return(
     <div className='view'>
       <BrowserRouter>
         <div className='layout'>
-          <header><Header /></header>
-          <nav><Nav /></nav>
+          <header><Header showNav={showNav}/></header>
+          {showNav && <nav><Nav /></nav>}
           <div>
             <Routes>
               <Route path="/" element={<Login/>} />
@@ -33,7 +35,7 @@ const PagiNavigation = () => {
                 <Route path='/ward-management' element={<WardManagement/>} />
                 <Route path='/ward-management2' element={<WardManagement2/>} />
                 <Route path='/my-page' element={<MyPage/>} />
-                <Route path='/test' element={<WardPatientCall/>} />
+                <Route path='/ward' element={<WardPatientCall setShowNav={setShowNav}/>} />
               </>
               :
               <>
@@ -42,7 +44,8 @@ const PagiNavigation = () => {
                 <Route path='/outpatient' element={<Navigate replace to="/"/>} />
                 <Route path='/ward-management' element={<Navigate replace to="/"/>} />
                 <Route path='/ward-management2' element={<Navigate replace to="/"/>} />
-                <Route path='/my-page' element={<Navigate replace to="/"/>} />
+                <Route path='/my-page' element={<Navigate replace to="/"/>}/>
+                <Route path='/ward' element={<WardPatientCall setShowNav={setShowNav}/>} />
               </>}
             </Routes>
           </div>

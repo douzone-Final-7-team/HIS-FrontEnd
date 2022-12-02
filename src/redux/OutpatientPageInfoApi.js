@@ -51,7 +51,7 @@ export const changeOutpatientStatus = createAsyncThunk(
         "Content-Type" : `application/json`,
       },
     });
-    console.log(receiveId)
+ 
     return resp.data
   }
 );
