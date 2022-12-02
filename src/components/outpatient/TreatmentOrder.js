@@ -1,14 +1,14 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { changeOutpatientStatus } from '../../redux/OutpatientPageInfoApi';
 
 const TreatmentOrder = ({ patientDetails }) => {
   const dispatch = useDispatch();
   
   const receiveId =  patientDetails.RECEIVE_ID_PK;
   const changePatientCode = () => {
-    dispatch(changePatientCode(receiveId)); 
+    dispatch(changeOutpatientStatus(receiveId)); 
   }
-  console.log(patientDetails)
 
   return (
     <div>

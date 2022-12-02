@@ -86,12 +86,12 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
           <tr>
             <th colSpan={3}>증상</th>
             <td colSpan={9}>
-              <input 
-                // value={symptom || ""} 
-                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:symptom || ""}
-                onChange={(e)=> {
-                setSymptom(e.target.value)
-              }}/>
+              
+              {patientDetails!==null && patientDetails!==undefined ? 
+                <span>{patientDetails.SYMPTOM}</span> : 
+                <input 
+                value={symptom || ""} 
+                onChange={(e)=> {setSymptom(e.target.value)}}/>}
             </td>
           </tr>
         </tbody>

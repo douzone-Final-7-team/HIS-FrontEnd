@@ -42,7 +42,7 @@ const WardManagement = () => {
   },[bedInfo]);
 
   // console.log("bedInfobedInfobedInfobedInfo:"+bedInfo);
-  console.log("와라라락:"+ (available!=null)&& (available));
+  // console.log("와라라락:"+ (available!=null)&& (available));
 
   return (
     <div className='ward-management'>
