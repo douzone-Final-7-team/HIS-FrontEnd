@@ -14,7 +14,6 @@ const DetailedStatus = ({data, index}) => {
     const { receiveId } = data;
     const { patName } = data;
     const { PATIENT_SSN } = data;
-    console.log(receiveId, patName, PATIENT_SSN)
       dispatch(getTreatmentInfo(receiveId));
       dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
     }

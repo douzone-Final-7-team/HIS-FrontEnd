@@ -11,7 +11,7 @@ const PatientRegistrationModal = () => {
   const [tel, setTel] = useState();
   const [ssn, setSsn] = useState();
   const [insurance, setInsurance] = useState();
-
+ 
   function patientReg() {
       axios.post("http://localhost:9090/patient/insert", {
       PATIENT_NAME: name,

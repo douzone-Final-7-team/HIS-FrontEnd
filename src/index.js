@@ -61,7 +61,7 @@ $(document).on("submit", "form", function () {
 
 // toDoWhenClosing 함수를 통해 window가 닫히면 토큰 관련 값 전부 삭제
 var toDoWhenClosing = function () {
-  // localStorage.removeItem('jwt')
+  localStorage.removeItem('jwt')
   return;
 };
 

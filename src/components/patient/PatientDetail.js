@@ -15,9 +15,8 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
         setDoctorList(res.data);
         setEmpId(res.data[0].EMP_NAME+'('+res.data[0].EMP_ID_PK+')');
       });
-  },[speciality]);
-
-
+  },[speciality, setEmpId]);
+  
   return (
     <div className='patient-detail'>
       <table>
@@ -88,7 +87,7 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
             <td colSpan={9}>
               <input 
                 // value={symptom || ""} 
-                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:" "}
+                value = {patientDetails!==null && patientDetails!==undefined? patientDetails.SYMPTOM:symptom || ""}
                 onChange={(e)=> {
                 setSymptom(e.target.value)
               }}/>

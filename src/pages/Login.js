@@ -30,7 +30,7 @@ const Login = () => {
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
           window.location.href = 'http://localhost:3000/ward-management2';
         } else if (res.data[0].ROLE === 'ROLE_OUTNURSE') {
-          window.location.href = 'http://localhost:3000/ward-management';
+          window.location.href = 'http://localhost:3000/outpatient';
         } else if (res.data[0].ROLE === 'ROLE_RECEIPT') {
           window.location.href = 'http://localhost:3000/reception';
         }

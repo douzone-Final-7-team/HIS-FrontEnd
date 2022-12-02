@@ -19,7 +19,7 @@ function Header() {
         <div className='profile-img'></div>
         {/* <img src='https://mv.amaranth10.co.kr/custom/img/labal_pic_.png' /> */}
         <div className='emp-name'>{specialityName} {name}</div>
-        <btn className='logout' onClick={logout}>로그아웃</btn>
+        <p className='logout' onClick={logout}>로그아웃</p>
       </div>
       <div className='emp-role'></div>
     </div>
