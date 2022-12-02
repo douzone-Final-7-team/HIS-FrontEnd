@@ -13,7 +13,7 @@ import Modal from '../components/modalReception/Modal';
 import PatientRegistrationModal from '../components/modalReception/PatientRegistrationModal';
 import axios from 'axios';
 
-const Reception = (props) => {
+const Reception = () => {
   const [registration, setRegistration] = useState(false);
   const [data, setdata] = useState();
   const name = useRef("");
@@ -31,10 +31,13 @@ const Reception = (props) => {
 
   useEffect(()=>{
     axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
-         .then((res) => setWaitingReceipt(res.data));
-  },[]);
+         .then((res) => {
+          setWaitingReceipt(res.data);
+          setWait4payReRender(()=>true)
+        });
+  },[wait4payReRender]);
 
-  
+   
 
   function patientInfo() {
     if(window.event.keyCode === 13){
@@ -104,7 +107,7 @@ const Reception = (props) => {
           <MedicalHistory data={data}/>
         </div>
         <PatientStatus className='bottom1' outStatusReRender={outStatusReRender} setOutStatusReRender={setOutStatusReRender}/>
-        <Waiting4Payment waitingReceipt={waitingReceipt} setAcceptance={setAcceptance} wait4payReRender={wait4payReRender} setWait4payReRender={setWait4payReRender}/>
+        <Waiting4Payment waitingReceipt={waitingReceipt} setAcceptance={setAcceptance} acceptance={acceptance}/>
         <Receipt acceptance={acceptance} setOutStatusReRender={setOutStatusReRender} setWait4payReRender={setWait4payReRender}/>
       </main>
     </div>
