@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 // style
 import '../../styles/scss/reset.scss';
 import '../../components/doctor/DoctorSchedule.scss';
+import '../../components/doctor/ScheduleModal.scss';
 import { CgCloseR } from "react-icons/cg";
 
+//component
+import ScheduleModal from "./ScheduleModal";
+import AddModal from "./AddModal";
+
 const DoctorScheduleModal = (props) => {
+
+    const [addSchedule, setAddSchedule] = useState(false);
     
     return(
         <div className="schedule-box">
@@ -15,7 +22,12 @@ const DoctorScheduleModal = (props) => {
                     <br />
                     <div className="schedule-div">
                         <p className="date">{props.modalDate}</p>
-                        <button href="#!" className="btn">일정 추가</button>
+                        <button className="btn" onClick={() => setAddSchedule(!addSchedule)}>일정 추가</button>
+                        {addSchedule && (
+                        <ScheduleModal closeModal={() => setAddSchedule(!addSchedule)}>
+                            <AddModal />
+                        </ScheduleModal>
+                        )}
                         <div className="count">
                             <span className="count-span">3개의 일정</span>
                         </div>

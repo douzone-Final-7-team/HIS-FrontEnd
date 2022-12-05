@@ -72,8 +72,6 @@ const Doctor = () => {
     }
   };
 
-  console.log(treatmentPatientInfo);
-
   const sendMedicalCharts = () => {
 
     const data = {
