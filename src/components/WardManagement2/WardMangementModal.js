@@ -12,11 +12,14 @@ const WardMangementModal = () => {
 
   const dispatch = useDispatch()
   const userName = window.localStorage.getItem('userName');
-    
+  const specialityName = window.localStorage.getItem('specialityName');
+  const getEmpName = window.localStorage.getItem('name');
+  const ward = window.localStorage.getItem('ward');
+  
   const ModalMode = ()=>{
       dispatch(executeModal(false));
-      dispatch(modifyElement(null))
-      dispatch(globalmodifyElement(null))
+      dispatch(modifyElement(null));
+      dispatch(globalmodifyElement(null));
 
     }
 
@@ -24,20 +27,17 @@ const WardMangementModal = () => {
       return state.inPatientInfo.value[0]
     }) 
     const getModalMode = useSelector(state=>{
-      return state.inPatientInfo.value[8]
-    })
-
-    const getEmpName = useSelector(state=>{
-      return state.inPatientInfo.value[9]
+      return state.inPatientInfo.value[2]
     })
 
     const modifyElements = useSelector(state=>{
-      return state.inPatientInfo.value[10]
+      return state.inPatientInfo.value[3]
     })
 
     const globalModifyElements = useSelector(state=>{
-      return state.inPatientInfo.value[11]
+      return state.inPatientInfo.value[4]
     })
+
       
     const saveContent = useRef("")
     const saveForthContent = useRef("")
@@ -45,10 +45,7 @@ const WardMangementModal = () => {
     const saveScheduleDate = useRef("")
     const serachInPatient = useRef("")
 
-    const specialityName = useSelector(state=>{
-      return state.inPatientInfo.value[5]
-    }) 
-
+   
 
 
   // 직원 검색 기능
@@ -133,10 +130,10 @@ const WardMangementModal = () => {
 
       useEffect(()=>{
         axios.get('http://localhost:9090/wardCheck/ocuupiedList', {params : {
-          ward : "200"
+          ward : ward
         }})
         .then(res=> setInPatientWardList(res.data))
-      },[])
+      },[ward])
 
       useEffect(()=>{
         const searchInput = document.getElementById("searchPatientInput")
@@ -207,10 +204,10 @@ const WardMangementModal = () => {
   let addInput=false
   let thirdTitle = '환자명'
   let literate=true
-  let thirdPlaceholder;
+  let thirdDefaultValue = "";
   let NewScheduleDate = true;
-  let ModalContentPlaceholder = "내용을 작성하세요";
-  let forthPlaceholder = "약명을 작성하세요";
+  let ModalContentdefaultValue = "";
+  let forthdefaultValue = "";
   let insertPatientInfo = true;
   let search = true;
   // 간호기록 Update
@@ -219,7 +216,7 @@ const WardMangementModal = () => {
     modalBtn = '수정'  
     if(modifyElements !=null){
       if(modifyElements.nurseName === getEmpName){
-        ModalContentPlaceholder = modifyElements.careContent
+        ModalContentdefaultValue = modifyElements.careContent
       if(saveContent.current===""){
         saveContent.current = (modifyElements.careContent)
         }
@@ -281,8 +278,8 @@ const WardMangementModal = () => {
     modalContentTitle = '처방 기록'
     if(modifyElements !=null){
       if(modifyElements.oderer === getEmpName){
-        ModalContentPlaceholder = modifyElements.orderContent
-        forthPlaceholder = modifyElements.medicineName
+        ModalContentdefaultValue = modifyElements.orderContent
+        forthdefaultValue = modifyElements.medicineName
         addInput = true
         if(saveContent.current===""){
           saveContent.current= (modifyElements.orderContent)
@@ -354,14 +351,17 @@ else if(getModalMode === 'medi-check-create'){
     if(globalModifyElements !=null){
       // 이부분 아래계정이름으로 구분 하도록 나중에 변경 현제는 이름이 달라도 일단 눌러진다
       //getEmpName 으로 대체 준비
-      if(globalModifyElements.empName === '최정현'){
-        thirdPlaceholder = globalModifyElements.handOverTarget
-        ModalContentPlaceholder = globalModifyElements.handOverContent
+      if(globalModifyElements.empName === getEmpName){
+        thirdDefaultValue = globalModifyElements.handOverTarget
+        ModalContentdefaultValue = globalModifyElements.handOverContent
         if(saveContent.current===""){
           saveContent.current= globalModifyElements.handOverContent
           }
         if(saveThirdContent.current === ""){
+          setTimeout(() => {
             saveThirdContent.current= globalModifyElements.handOverTarget
+            console.log(saveThirdContent.current)
+          }, 100);
           }else{
             saveThirdContent.current = inNurse.name
           }
@@ -372,6 +372,7 @@ else if(getModalMode === 'medi-check-create'){
             "handOverContent" : saveContent.current,
             "handOverPK" : globalModifyElements.handOverPK
             }
+
           sendElements = JSON.stringify(sendElements)
           let confirmValue = window.confirm("수정 하시겠습니까 ?");
           if(confirmValue){
@@ -391,7 +392,7 @@ else if(getModalMode === 'medi-check-create'){
   else if(getModalMode === 'handover-create'){
     modalTitle= 'Create HandOver';
     thirdTitle = '인계자';
-    thirdPlaceholder = '직원 검색';
+    thirdDefaultValue = '';
     modalContentTitle = '인계 사항';
     literate =false;
     search = false;
@@ -420,15 +421,15 @@ else if(getModalMode === 'medi-check-create'){
     modalTitle= 'Modify Schedule'
     modalBtn = '수정'
     thirdTitle = '위치'
-    thirdPlaceholder = '위치를 작성하세요'
+    thirdDefaultValue = ''
     modalContentTitle = '일정 내용'
     literate =false
     NewScheduleDate=false
   
 
     if(globalModifyElements !=null){
-        thirdPlaceholder = globalModifyElements.schedulePlace
-        ModalContentPlaceholder = globalModifyElements.scheduleContent
+        thirdDefaultValue = globalModifyElements.schedulePlace
+        ModalContentdefaultValue = globalModifyElements.scheduleContent
         if(saveContent.current===""){
           saveContent.current= (globalModifyElements.scheduleContent)
           }
@@ -444,7 +445,7 @@ else if(getModalMode === 'medi-check-create'){
             "schedulePlace" : saveThirdContent.current,
             "scheduleContent" : saveContent.current,
             "scheduleIdPk" : globalModifyElements.scheduleIdPk,
-            "specialityName":specialityName.specialityName,
+            "specialityName":specialityName,
             "LastModifier": getEmpName
               }
             let newdate = parseISO(saveScheduleDate.current)
@@ -468,7 +469,7 @@ else if(getModalMode === 'medi-check-create'){
     modalContentTitle = '일정 내용'
     modalWriter= '환자 정보'
     thirdTitle = '위치'
-    thirdPlaceholder = '위치를 작성하세요'
+    thirdDefaultValue = ''
     literate =false
     NewScheduleDate = false
     insertPatientInfo = false
@@ -482,7 +483,7 @@ else if(getModalMode === 'medi-check-create'){
       "schedulePlace" : saveThirdContent.current,
       "scheduleContent" :  saveContent.current,
       "scheduleDate" : saveScheduleDate.current,
-      "specialityName" : specialityName.specialityName,
+      "specialityName" : specialityName,
       "LastModifier": getEmpName
     }
     
@@ -539,12 +540,12 @@ return(
             ( search ?
             <fieldset>
                 <h5>{thirdTitle}</h5>
-                <input id ='searchInput' type="text" tabindex="3" placeholder={thirdPlaceholder} onChange={(e)=>saveThirdContent.current=(e.target.value)}/>
+                <input id ='searchInput' type="text" tabindex="3" placeholder= {thirdDefaultValue} defaultValue={thirdDefaultValue} onChange={(e)=>saveThirdContent.current=(e.target.value)}/>
             </fieldset>
             : 
             <fieldset>
                 <h5>{thirdTitle}</h5>
-                <input id ='searchInput' type="text" tabindex="3" placeholder={thirdPlaceholder} defaultValue={inNurse.name} onChange={(e)=>saveThirdContent.current=(e.target.value)}/>
+                <input id ='searchInput' type="text" tabindex="3" placeholder={thirdDefaultValue} defaultValue={inNurse.name} onChange={(e)=>saveThirdContent.current=(e.target.value)}/>
                 <div id="suggestions-container">
                   <ul id="suggestions-list"></ul>
                 </div>
@@ -552,11 +553,11 @@ return(
               )}
             {addInput && <fieldset>
                 <h5>{addContentTitle}</h5>
-                <input type="text" placeholder={forthPlaceholder} tabindex="4" onChange={(e)=>saveForthContent.current=e.target.value}/>
+                <input type="text" defaultValue={forthdefaultValue} tabindex="4" onChange={(e)=>saveForthContent.current=e.target.value}/>
             </fieldset>}
             <fieldset>
                 <h5>{modalContentTitle}</h5>
-                <textarea placeholder= {ModalContentPlaceholder} tabindex="5" required onChange={(e)=>saveContent.current= e.target.value}></textarea>
+                <textarea defaultValue= {ModalContentdefaultValue} tabindex="5" required onChange={(e)=>saveContent.current= e.target.value}></textarea>
             </fieldset>
             <fieldset>
               <button name="submit" type="btn" id="contact-submit" data-submit="...Sending" onClick={treatData}>{modalBtn}</button>

@@ -10,7 +10,6 @@ const disChargeSlice =
                     reducers:{},
                     extraReducers: (builder) => {
                         builder.addCase(getTest.fulfilled, (state, action)=>{
-                                // console.log(action.payload)
                             state.value[0] = action.payload 
                         })
                     }

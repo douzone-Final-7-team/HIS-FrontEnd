@@ -13,6 +13,7 @@ import WardManagement2 from './WardManagement2';
 import MyPage from './MyPage';
 import Login from './Login';
 import WardPatientCall from './WardPatientCall';
+import Stastic from './Stastic';
 
 const PagiNavigation = () => {
 
@@ -36,6 +37,7 @@ const PagiNavigation = () => {
                 <Route path='/ward-management2' element={<WardManagement2/>} />
                 <Route path='/my-page' element={<MyPage/>} />
                 <Route path='/ward' element={<WardPatientCall setShowNav={setShowNav}/>} />
+                <Route path='/stastic' element={<Stastic/>} />
               </>
               :
               <>
@@ -46,6 +48,7 @@ const PagiNavigation = () => {
                 <Route path='/ward-management2' element={<Navigate replace to="/"/>} />
                 <Route path='/my-page' element={<Navigate replace to="/"/>}/>
                 <Route path='/ward' element={<WardPatientCall setShowNav={setShowNav}/>} />
+                <Route path='/stastic' element={<Stastic/>} />
               </>}
             </Routes>
           </div>

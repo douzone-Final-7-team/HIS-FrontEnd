@@ -23,23 +23,23 @@ const InDatePicker = () => {
   changeDate.current = startDate;
   const dispatch = useDispatch();
 
-  const scheduleInfoEelement = useSelector(state=>{
-    return state.inPatientInfo.value[5]
-  }) 
+ 
+
+  const specialityName = window.localStorage.getItem('specialityName');
   
   useEffect(()=>{
 
     changeDate.current = (startDate.getFullYear().toString() +"-"+
     ("00" + `${startDate.getMonth()+ 1}`.toString()).slice(-2) +"-"+("00" + startDate.getDate()).slice(-2));
     
-    let changedScheduleElement = (scheduleInfoEelement != null) && {
-      specialityName :scheduleInfoEelement.specialityName,
+    let changedScheduleElement ={
+      specialityName :specialityName,
       scheduleDate : changeDate.current
     }
     if(changedScheduleElement){
       dispatch(getInpatientSchedules(changedScheduleElement))
     }
-  },[dispatch, startDate,scheduleInfoEelement])
+  },[dispatch, startDate, specialityName])
 
   return (
     
@@ -64,7 +64,7 @@ const Inpatientschedule = () => {
   }
 
   const scheduleInfo = useSelector(state=>{
-    return state.inPatientInfo.value[4]
+    return state.inPatientInfo.value[8]
   })
     
   const selectRow = (e)=>{

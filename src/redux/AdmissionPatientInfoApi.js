@@ -191,7 +191,6 @@ export const changeSchedule = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      console.log(specialityElements)
       return resp.data
   }
 )
@@ -275,7 +274,6 @@ export const changeHandover = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      
       return resp.data
   }
 )

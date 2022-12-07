@@ -6,7 +6,6 @@ export const getTest = createAsyncThunk(
     'disChargeSlice/getTest',
     async() => {
         const resp = await axios.get(API_URL+"/AdmissionFront/test");
-        // console.log(resp.data)
         return resp.data
     }
 )

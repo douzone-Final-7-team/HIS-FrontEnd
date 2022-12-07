@@ -30,8 +30,6 @@ function Header({showNav}) {
         <div className='profile-img'></div>
         {/* <img src='https://mv.amaranth10.co.kr/custom/img/labal_pic_.png' /> */}
         <div className='emp-name'>{headerInfo[0].SPECIALITY_NAME} {headerInfo[0].EMP_NAME}</div>
-        <button className='logout' onClick={logout}>LogOut</button>
-        <div className='emp-name'>{specialityName} {name}</div>
         <p className='logout' onClick={logout}>로그아웃</p>
       </div>
       :
