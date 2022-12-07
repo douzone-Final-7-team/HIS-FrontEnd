@@ -9,7 +9,7 @@ window.$ = $;
 
 // 브라우저 종료 시 로그인한 유저의 토큰값 로컬 스토리지에서 삭제
 // 유저가 window 사용 시에는 window가 닫힌 것이 아니다.
-let closing_window = false;
+var closing_window = false;
 $(window).on('focus', function () {
   closing_window = false;
 });
@@ -62,6 +62,11 @@ $(document).on("submit", "form", function () {
 // toDoWhenClosing 함수를 통해 window가 닫히면 토큰 관련 값 전부 삭제
 var toDoWhenClosing = function () {
   localStorage.removeItem('jwt')
+  localStorage.removeItem('role')
+  localStorage.removeItem('name')
+  localStorage.removeItem('empIdPk')
+  localStorage.removeItem('userName')
+  localStorage.removeItem('specialityName')
   return;
 };
 

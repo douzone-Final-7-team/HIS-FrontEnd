@@ -29,7 +29,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
         setPatientStatus(res.data);
         setOutStatusReRender(()=>true);
       });
-  },[outStatusReRender,setOutStatusReRender, speciality]);
+  },[outStatusReRender, setOutStatusReRender, speciality]);
 
   
   return (
