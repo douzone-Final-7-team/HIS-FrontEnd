@@ -3,6 +3,7 @@ import React, { useEffect, useState} from 'react'
 // icon
 import { AiFillHome } from "react-icons/ai";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+
 // style
 import './empComponents.scss';
 
@@ -13,15 +14,14 @@ function EmpBar() {
   const [empBarInfo, setEmpBarInfo] = useState([{}]);
 
   useEffect(()=>{
-
+    if(token !== '') {
     axios.get("http://localhost:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setEmpBarInfo(res.data)
     })
-
+  }
   }, [token])
-
 
   return (
     <div className='emp-info'>

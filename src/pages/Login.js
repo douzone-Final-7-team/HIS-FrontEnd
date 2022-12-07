@@ -26,6 +26,7 @@ const Login = () => {
         localStorage.setItem('name', res.data[0].EMP_NAME);
         localStorage.setItem('specialityName', res.data[0].SPECIALITY_NAME);
         localStorage.setItem('role', res.data[0].ROLE);
+        localStorage.setItem('ward', res.data[0].WARD);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
           window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {

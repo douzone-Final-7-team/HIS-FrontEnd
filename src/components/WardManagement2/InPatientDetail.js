@@ -6,7 +6,7 @@ import './inpatientDetail.scss';
 const InpatientDetail = () => {
 
   const inpatientDetail = useSelector(state=>{
-    return state.inPatientInfo.value[1]
+    return state.inPatientInfo.value[5]
   })
   return (
     <div className='inpatient-detail'>

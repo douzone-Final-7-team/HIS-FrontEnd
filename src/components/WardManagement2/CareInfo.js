@@ -25,7 +25,7 @@ const CareInfo = () => {
   
   
   const getCareInfo = useSelector(state=>{
-    return state.inPatientInfo.value[2]
+    return state.inPatientInfo.value[6]
   })
 
   const selectRow = (e)=>{
@@ -40,8 +40,9 @@ const CareInfo = () => {
 
 
   const checkedStatus = useSelector(state=>{
-    return state.inPatientInfo.value[11]
+    return state.inPatientInfo.value[4]
   }) 
+
 
   return (
     <div className='care-info-container'>

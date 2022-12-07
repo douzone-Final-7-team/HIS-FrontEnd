@@ -72,31 +72,35 @@ const Doctor = () => {
     }
   };
 
-  console.log(treatmentPatientInfo);
 
   const sendMedicalCharts = () => {
 
-    const data = {
-      diagnosis: diagnosis.current,
-      treatmentMemo: treatmentMemo.current,
-      treatmentOrder: treatmentOrder.current,
-      admissionOrder: admissionOrder.current,
-      admissionCheck: admissionCheck.current,
-      medicineOrder: medicineOrder,
-      receivePk: treatmentPatientInfo[0].RECEIVE_ID_PK,
-      treatmentPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
-    }
+    if(diagnosis.current === '') {
+      alert("병명을 선택해주세요.");
+    } else{
 
-    axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
-    {
-      headers: {
-        "Content-Type" : `application/json`,
-      },
-    })
-    .then((res)=>{
-      alert(res.data);
-      window.location.reload();
-    })
+      const data = {
+        diagnosis: diagnosis.current,
+        treatmentMemo: treatmentMemo.current,
+        treatmentOrder: treatmentOrder.current,
+        admissionOrder: admissionOrder.current,
+        admissionCheck: admissionCheck.current,
+        medicineOrder: medicineOrder,
+        receivePk: treatmentPatientInfo[0].RECEIVE_ID_PK,
+        treatmentPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
+      }
+
+      axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+      {
+        headers: {
+          "Content-Type" : `application/json`,
+        },
+      })
+      .then((res)=>{
+        alert(res.data);
+        window.location.reload();
+      })
+    }
   };
   
   return (
@@ -232,7 +236,7 @@ const Doctor = () => {
                       diagnosis.current = e.target.value
                       getMedicineList()
                     }}>
-                    <option value={""}>병명 선택</option>
+                    <option name="diagnosisOption" value={""}>병명 선택</option>
                     {diagnosisList.map((data, index) => (
                       <option key={index} value={data.DIAGNOSIS_CODE}>{data.DIAGNOSIS}</option>
                     ))}
@@ -262,8 +266,13 @@ const Doctor = () => {
                     <input 
                       className='medicine-checkbox' 
                       type="checkbox" 
+                      name='medicineCheckbox'
                       onClick={() => {
-                        setVisibleMedicineDiv(!visibleMedicineDiv);
+                        if(diagnosis.current === '') {
+                          alert('병명을 선택해주세요.')
+                        } else {
+                          setVisibleMedicineDiv(!visibleMedicineDiv);
+                        }
                       }}
                     /> <span>약</span>
                   </div>
@@ -280,7 +289,7 @@ const Doctor = () => {
                   </div>}
                   
                   {visibleAdmissionDiv && <div className='admission-detail'>
-                    <span>입원 오더</span> <br /> 
+                    <span>입원 날짜</span> <br /> 
                     <textarea 
                       onChange={(e) => {
                         admissionOrder.current = e.target.value;
@@ -297,7 +306,7 @@ const Doctor = () => {
                               <tr>
                                 <th>{data.MEDICINE}</th>
                                 <td>
-                                  <input type={"checkbox"} value={data.MEDICINE} onChange={(e) => onCheckedElement(e.target.checked, e.target.value)} />
+                                  <input type={"checkbox"} value={data.MEDICINE || ''} onChange={(e) => onCheckedElement(e.target.checked, e.target.value)} />
                                 </td>
                               </tr>
                             </tbody>

@@ -56,7 +56,7 @@ const HandOver = () => {
    }
 
   const handOverInfo = useSelector(state=>{
-    return state.inPatientInfo.value[6]
+    return state.inPatientInfo.value[9]
   })
 
   const selectRow = (e)=>{

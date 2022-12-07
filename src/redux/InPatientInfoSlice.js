@@ -12,88 +12,80 @@ const InPatientInfoSlice = createSlice({
         selectPeople: (state, action) => {
             state.value[0] = action.payload;     
         },
-        getSpecialityName: (state, action) => {
-         
-            state.value[5] = action.payload;     
-        },
         executeModal: (state, action) => {
          
-            state.value[7] = action.payload;     
+            state.value[1] = action.payload;     
         },
         modalMode: (state, action) => {
          
-            state.value[8] = action.payload;     
-        },
-        getEmpName: (state, action) => {
-         
-            state.value[9] = action.payload;     
+            state.value[2] = action.payload;     
         },
         modifyElement: (state, action) => {
-            state.value[10] = action.payload;     
+            state.value[3] = action.payload;     
         },
         globalmodifyElement: (state, action) => {
-            state.value[11] = action.payload;     
+            state.value[4] = action.payload;     
         },
     },
 
     extraReducers: (builder) => {
         builder.addCase(getInpatientInfo.fulfilled, (state, action)=>{
-                state.value[1] = action.payload 
+                state.value[5] = action.payload 
             })
         builder.addCase(changeDischargeDueDate.fulfilled,(state, action)=>{
               
-                state.value[1] = action.payload
+                state.value[5] = action.payload
             })     
         builder.addCase(getCareInfo.fulfilled,(state, action)=>{
-                state.value[2] = action.payload
+                state.value[6] = action.payload
             })
         builder.addCase(setCareInfo.fulfilled,(state, action)=>{
               
-                state.value[2] = action.payload
+                state.value[6] = action.payload
             })
         builder.addCase(changeCareInfo.fulfilled,(state, action)=>{
               
-                state.value[2] = action.payload
+                state.value[6] = action.payload
             })
         builder.addCase(getMediRecords.fulfilled,(state, action)=>{
-                state.value[3] = action.payload
+                state.value[7] = action.payload
             })
         builder.addCase(setMediRecord.fulfilled,(state, action)=>{
-                state.value[3] = action.payload
+                state.value[7] = action.payload
             })
         builder.addCase(changeMediRecord.fulfilled,(state, action)=>{
-                state.value[3] = action.payload
+                state.value[7] = action.payload
             })
         builder.addCase(changeTakeMediStatus.fulfilled,(state, action)=>{
-                state.value[3] = action.payload
+                state.value[7] = action.payload
             })
         builder.addCase(getInpatientSchedules.fulfilled,(state, action)=>{
-                state.value[4] = action.payload
+                state.value[8] = action.payload
             })
         builder.addCase(setInpatientSchedule.fulfilled,(state, action)=>{
-                state.value[4] = action.payload
+                state.value[8] = action.payload
             })
         builder.addCase(changeSchedule.fulfilled,(state, action)=>{
-                state.value[4] = action.payload
+                state.value[8] = action.payload
             })
         builder.addCase(changeScheduleStatus.fulfilled,(state, action)=>{
-                state.value[4] = action.payload
+                state.value[8] = action.payload
             })
         builder.addCase(getReceiveHandOver.fulfilled,(state, action)=>{
               
-                state.value[6] = action.payload
+                state.value[9] = action.payload
             })
         builder.addCase(getSendHandOver.fulfilled,(state, action)=>{
               
-                state.value[6] = action.payload
+                state.value[9] = action.payload
             })
         builder.addCase(setHandOver.fulfilled,(state, action)=>{
               
-                state.value[6] = action.payload
+                state.value[9] = action.payload
             })
         builder.addCase(changeHandover.fulfilled,(state, action)=>{
               
-                state.value[6] = action.payload
+                state.value[9] = action.payload
             })              
     }
 
@@ -103,6 +95,5 @@ const InPatientInfoSlice = createSlice({
 
 
 export default InPatientInfoSlice;
-export const {selectPeople, getSpecialityName, executeModal, modalMode, 
-    getEmpName, modifyElement,globalmodifyElement} = InPatientInfoSlice.actions;
+export const {selectPeople, executeModal, modalMode,modifyElement,globalmodifyElement} = InPatientInfoSlice.actions;
 
