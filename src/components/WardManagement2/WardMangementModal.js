@@ -57,7 +57,7 @@ const WardMangementModal = () => {
       })
 
   useEffect(()=>{
-    axios.post('http://localhost:9090/admission/inNurseList')
+    axios.post('http://192.168.0.195:9090/admission/inNurseList')
     .then(res=>setInNurseList(res.data))
 
   },[])
@@ -129,7 +129,7 @@ const WardMangementModal = () => {
       })
 
       useEffect(()=>{
-        axios.get('http://localhost:9090/wardCheck/ocuupiedList', {params : {
+        axios.get('http://192.168.0.195:9090/wardCheck/ocuupiedList', {params : {
           ward : ward
         }})
         .then(res=> setInPatientWardList(res.data))

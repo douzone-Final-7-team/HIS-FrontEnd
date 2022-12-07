@@ -145,7 +145,7 @@ function TabPanel(props) {
         </TabPanel>
         <TabPanel value={value} index={1}>
             <div className='asdf'>
-                <AdmissionOrder />
+                <AdmissionOrder bedInfo={bedInfo} setBedInfo={setBedInfo}/>
             </div>
         </TabPanel>
         <TabPanel value={value} index={2}>

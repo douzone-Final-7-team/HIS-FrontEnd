@@ -1,16 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { API_URL } from '../../utils/constants/Config';
+import io from 'socket.io-client';
 // style
 import './receipt.scss';
 import '../modalReception/PrescriptionPrint';
 import PrescriptionPrint from '../modalReception/PrescriptionPrint';
 import Modal from '../modalReception/Modal';
 
+const socket = io.connect('http://192.168.0.195:3001');
+
 const role = window.localStorage.getItem('role');
-
-// let pageId = {pageId : "qwer"};
-
 
 const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
 
@@ -19,10 +19,19 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   const [detail, setDetail] = useState([{}]);
   const [prescriptionPrint, setPrescriptionPrint] = useState(false);
   const btnChange = useRef();
+  const [specialityId ,  setSpecialityId] = useState("");
   const [prescriptionData, setPrescriptionData] = useState([{}]);
-  // const detail = useRef([{}]);
+  const [room, setRoom] = useState("");
 
-  // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
+  useEffect(()=>{
+    setRoom("out")
+
+    if (room !== "") {
+      // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+      // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+      socket.emit("join_room", room);
+  }
+  },[room])
 
   useEffect(() => {
     axios.post(API_URL+"/AdmissionReceipt/AdReceipt", {ADMISSION_ID_PK : data}, { headers: { "Content-Type": `application/json` }, })
@@ -33,6 +42,12 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   // console.log((detail.current));
   // console.log("0번째 : "+detail.current[0]);
 
+  useEffect(()=> {
+    if(role !== "ROLE_INRECEIPT" && acceptance.SPECIALITY !== undefined && acceptance.SPECIALITY !== null && acceptance.SPECIALITY !== '') {
+    setSpecialityId(acceptance.SPECIALITY === '내과' ? 'N' : acceptance.SPECIALITY === '이비인후과' ? 'E' : acceptance.SPECIALITY === '정형외과' ? 'J' : ' ');
+  }
+   
+},[acceptance])
 
   const AdmissionList = () => {
 
@@ -45,7 +60,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
             <th>금 액</th>
           </tr>
         </thead>
-        {detail.map((detailEle) => (
+        {detail.length!==0 && detail.map((detailEle) => (
           <tbody>
             <tr>
               <td>입원시작일</td>
@@ -107,7 +122,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   }
 
   function success() {
-    axios.post("http://localhost:9090/outStatus/insertReceipt", {
+    axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
       TREAT_COST: acceptance.treatCost,
       INSURANCE_COST: acceptance.insuranceCost,
@@ -117,18 +132,19 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
       TOTAL_COST: acceptance.totalCost
       })
     setOutStatusReRender(()=>false);
-    setWait4payReRender(()=>false);
+    // setWait4payReRender(()=>false);
     setAcceptance([{}]);
+    socket.emit("sunab_complete" , {outpatient : room , SPECIALITY_ID_PK : specialityId});
   }
 
   
   function successNprint() {
     if(btnChange.current.value === "처방전") {
-      axios.post("http://localhost:9090/outStatus/getPrescription", {
+      axios.post("http://192.168.0.195:9090/outStatus/getPrescription", {
         TREATMENT_NUM_PK: treatmentNumPk
       }).then((res)=>setPrescriptionData(res.data[0]));
 
-      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+      axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
         TREATMENT_NUM_FK: treatmentNumPk,
         TREAT_COST: acceptance.treatCost,
         INSURANCE_COST: acceptance.insuranceCost,

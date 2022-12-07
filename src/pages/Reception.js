@@ -12,6 +12,9 @@ import MedicalHistory from '../components/patient/MedicalHistory';
 import Modal from '../components/modalReception/Modal';
 import PatientRegistrationModal from '../components/modalReception/PatientRegistrationModal';
 import axios from 'axios';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://192.168.0.195:3001');
 
 const Reception = () => {
   const [registration, setRegistration] = useState(false);
@@ -29,18 +32,62 @@ const Reception = () => {
   const [outStatusReRender, setOutStatusReRender] = useState(true);
   const [wait4payReRender, setWait4payReRender] = useState(true);
   const [treatmentNumPk, setTreatmentNumPk] = useState("");
+  const [room, setRoom] = useState("");
 
   useEffect(()=>{
-    axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+    setRoom("out")
+
+    if (room !== "") {
+      // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+      // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+      socket.emit("join_room", room);
+  }
+  },[room])
+
+
+
+  useEffect(()=>{
+    axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
          .then((res) => {
           setWaitingReceipt(res.data);
           setWait4payReRender(()=>true)
         });
   },[wait4payReRender]);
+
+  useEffect(()=> 
+    setTimeout(() => 
+        socket.on("doctor_render", ()=>{
+        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
+        .then((res) => {
+         setWaitingReceipt(res.data);
+        //  setWait4payReRender(()=>true)
+       })}),50)
+  ,[])
+
+  useEffect(()=> 
+    setTimeout(() => 
+        socket.on("change_state", ()=> {console.log("김민욱민욱")
+        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
+        .then((res) => {
+         setWaitingReceipt(res.data);
+        //  setWait4payReRender(()=>true)
+       })}),100)
+  ,[])
+
+  
+  useEffect(()=> 
+    setTimeout(() => 
+        socket.on("sunab_render", ()=>
+        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
+        .then((res) => {
+        setWaitingReceipt(res.data);
+        //  setWait4payReRender(()=>true)
+      })),50)
+  ,[])
   
   function patientInfo() {
     if(window.event.keyCode === 13){
-      axios.post("http://localhost:9090/patient/regInfo", {
+      axios.post("http://192.168.0.195:9090/patient/regInfo", {
       PATIENT_NAME: name.current,
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
@@ -56,13 +103,14 @@ const Reception = () => {
 
   function receipt() {
     if(symptom.current!==null && symptom.current!==undefined && symptom.current!=='') {
-      axios.post("http://localhost:9090/outStatus/receipt", {
+      axios.post("http://192.168.0.195:9090/outStatus/receipt", {
         EMP_ID_PK: empIdTemp,
         SPECIALITY: specialityName,
         SYMPTOM: symptom.current,
         PATIENT_ID_PK: patientId
         }).then(() => {
           alert('접수 완료');
+          socket.emit("receipt_complete" , {outpatient:room});
           setOutStatusReRender(()=>false);
         });
       } else {

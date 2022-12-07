@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
+import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux'
 import { changeOutpatientStatus } from '../../redux/OutpatientPageInfoApi';
+import axios from 'axios';
+
+const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
+
+const socket = io.connect('http://192.168.0.195:3001');
 
 const TreatmentOrder = ({ patientDetails }) => {
+  /*-소켓-*/
+  const [room, setRoom] = useState("");
+
+  useEffect(()=>{
+    setRoom("out")
+
+    if (room !== "") {
+      // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+      // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+      socket.emit("join_room", room);
+  }
+  },[room])
+
   console.log(patientDetails)
 
   const dispatch = useDispatch();
@@ -19,11 +38,37 @@ const TreatmentOrder = ({ patientDetails }) => {
   } else if(opStatusInfo === '수납완료') {
     completionStatus = true;
   }
+
+
   
+  // console.log();
   const receiveId =  patientDetails.RECEIVE_ID_PK;
+  console.log(receiveId);
+  console.log(SPECIALITY_ID_FK);
   const changePatientCode = () => {
     const opStatusCode = 'OD';
-    dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
+    // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
+    axios.post('http://192.168.0.195:9090/outStatus/putChangeState',
+      {
+        RECEIVE_ID_PK : receiveId,
+        SPECIALITY_ID_FK : SPECIALITY_ID_FK,
+        status : opStatusCode
+      },
+      {
+        headers: {
+          "Content-Type" : `application/json`,
+        },
+      })
+      // .then(res=> {setPatientStatus(res.data)})
+
+      let change;
+      change = {outpatient : room,
+                RECEIVE_ID_PK : receiveId,
+                SPECIALITY_ID_FK : SPECIALITY_ID_FK,
+                status : opStatusCode
+                }
+      socket.emit("click_change_state", change );
+
   }
 
   return (

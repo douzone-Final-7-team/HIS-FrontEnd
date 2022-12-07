@@ -4,7 +4,7 @@ import { API_URL } from '../../utils/constants/Config';
 import './admissionDue.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://192.168.0.195:3001')
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>
@@ -57,7 +57,7 @@ const AdmissionDue = () => {
 
     function complete (admissionIdPk,WARDROOM,BED_NUM) {
         alert("입원완료");
-
+        socket.emit("send_bedInfoChange", {admission : room});
     
 
         // let ward = (WARDROOM+"").substring(0,1)*100;
@@ -134,7 +134,7 @@ export default AdmissionDue
 // const [room, setRoom] = useState("");
 
 // useEffect(()=>{
-//   axios.post('http://localhost:9090/admission/allInPatientReqs',
+//   axios.post('http://192.168.0.195:9090/admission/allInPatientReqs',
 //   {specialityName:specialityName},
 //       {
 //         headers: {

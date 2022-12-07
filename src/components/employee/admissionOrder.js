@@ -4,9 +4,9 @@ import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://192.168.0.195:3001')
 
-const AdmissionOrder = () => {
+const AdmissionOrder = ({bedInfo , setBedInfo}) => {
 
     const [admissionOrderList, setAdmissionOrderList] = useState([{
         ADMISSION_ID_PK : "",
@@ -22,6 +22,7 @@ const AdmissionOrder = () => {
         WARD : ""
     }]);
     const [room, setRoom] = useState("");
+    const [room2, setRoom2] = useState("");
     const [admissionFinish, setAdmissionFinish] = useState(false);
     const inputData = useRef("");
 
@@ -35,12 +36,26 @@ const AdmissionOrder = () => {
     },[room])
 
     useEffect(()=>{
+        setRoom2("out") //=> 현재 부분에서 room 입장 두개하면 무한으로 입장된다.
+      if (room2 !== "") {
+        // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+        // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+        socket.emit("join_room", room2);
+    }
+    },[room2]);
+
+    useEffect(()=>{
         
         setTimeout(() => 
         axios.post(API_URL+"/admissionReq/admissionOrder")
             .then(res => setAdmissionOrderList(res.data))
         ,50);
     },[admissionFinish]);
+
+    socket.on("doctor_render", ()=> {console.log("소켓소켓")
+    axios.post(API_URL+"/admissionReq/admissionOrder")
+        .then(res => setAdmissionOrderList(res.data))
+    })
 
     const sendData = async(admissionIdPk, admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn) => {
         const messageData = {
@@ -55,7 +70,7 @@ const AdmissionOrder = () => {
           PATIENT_SSN: patientSsn
         };
   
-        await socket.emit("send_message", messageData );
+        await socket.emit("admissionOrder", messageData );
 
         let changeState = admissionFinish;
         if(changeState === false){
@@ -97,7 +112,13 @@ const AdmissionOrder = () => {
                     },
                 })
                 .then(sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn));
-                
+                let bedInfoState = bedInfo;
+                if(bedInfoState === false){
+                    bedInfoState = true;
+                }else if(bedInfoState === true){
+                    bedInfoState = false;
+                }
+                setBedInfo(()=>bedInfoState);
 
             }else{
                 alert("호실 및 병상 입력 양식이 틀렸습니다. 다시 입력해 주십시오.\n예) 201-1");
@@ -129,7 +150,7 @@ const AdmissionOrder = () => {
 
     
   
-    const oderListData = admissionOrderList.map((v,index) => (
+    const OrderListData = () => {return(admissionOrderList.map((v,index) => (
                                                         <div className='admission-order-small-square'>
                                                             <ul>
                                                                 <li>
@@ -155,13 +176,13 @@ const AdmissionOrder = () => {
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        ))
+                                                        )))}
     
 
     return (
         <div className='admission-order-wapper'>
             <div className='admission-order-big-square'>
-                {oderListData}
+                {admissionOrderList.length !== 0 ? <OrderListData /> : '' }
             </div>
         </div>
     )
