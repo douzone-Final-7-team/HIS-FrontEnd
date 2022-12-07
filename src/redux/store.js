@@ -6,6 +6,10 @@ import outpatientPageInfoSlice from './outpatientPageInfoSlice';
 // store : 모든 slice를 통합
 const store = configureStore({
   reducer: {
+    readDetailedMedicalHistory: outpatientPageInfoSlice.reducer,
+    selectEmpName: outpatientPageInfoSlice.reducer,
+    selectSpeciality: outpatientPageInfoSlice.reducer,
+    checkOpStatusCode:outpatientPageInfoSlice.reducer,
     changePatientCode: outpatientPageInfoSlice.reducer,
     readPatientRegistrationInfo: outpatientPageInfoSlice.reducer,
     readOutpatientInfo: outpatientPageInfoSlice.reducer,

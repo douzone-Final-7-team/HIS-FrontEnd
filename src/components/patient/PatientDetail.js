@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 // style
 import './patientDetail.scss';
 
 
-const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) => {
+const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
   const [doctorList, setDoctorList] = useState();
   const [speciality, setSpeciality] = useState('내과');
 
@@ -16,14 +17,18 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) =
         setEmpId(res.data[0].EMP_NAME+'('+res.data[0].EMP_ID_PK+')');
       });
   },[speciality, setEmpId]);
-  
+
+  // selectBox option selected 이벤트
+  const selected = useSelector(state => state.selectSpeciality.value[3]);
+  const selectedDoctor = useSelector(state => state.selectEmpName.value[4]);
+
+
   return (
     <div className='patient-detail'>
       <table>
         <tbody>
           <tr>
             <th className='devide1 border-left'>S/A</th>
-            {/* <td className='devide1'>{patient.}</td> */}
             <td className='devide1'>
               <span>
               {/* 원무수납_환자정보 */}
@@ -44,22 +49,34 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) =
             </td>
             <th className='devide1'>진료과</th>
             <td>
-              <select onChange={(e) => {
+              <select
+                defaultValue={selected}
+                onChange={(e) => {
                 setSpeciality(e.target.value);
                 setSpecialityName(e.target.value);
-              }}>
-                <option>내과</option>
-                <option>이비인후과</option>
-                <option>정형외과</option>
+                }
+              }>
+                {
+                  selected !== null && selected !== undefined ?
+                  <option value={selected}>{selected}</option>
+                  :
+                  <>
+                    <option value='내과'>내과</option>
+                    <option value='이비인후과'>이비인후과</option>
+                    <option value='정형외과'>정형외과</option>
+                  </>
+                }
+                
               </select>
             </td>
             <th className='devide1'>담당의</th>
             <td>
-              <select onChange={(e) => {
+              <select defaultValue={selectedDoctor}
+                onChange={(e) => {
                 setEmpId(e.target.value);
               }}>
               {doctorList!==null && doctorList!==undefined? doctorList.map((data, index) => (
-                  <option defaultValue={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
+                  <option value={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
             )) : 
             ''
             }
@@ -73,6 +90,7 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) =
             <th className='devide1'>진료구분</th>
             <td className='devide1'>
               {data!==null && data!==undefined? (data.treatmentInfo.length === 0 ? '초진':'재진') : " "}
+              {registrationInfo!==null && registrationInfo!==undefined? (registrationInfo.treatmentInfo.length === 0 ? '초진':'재진') : " "}
             </td>
           </tr>
           <tr>
@@ -85,7 +103,6 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) =
           <tr>
             <th colSpan={3}>증상</th>
             <td colSpan={9}>
-              
               {patientDetails!==null && patientDetails!==undefined ? 
                 <span>{patientDetails.SYMPTOM}</span> : 
                 <input 
@@ -98,4 +115,4 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) =
   )
 }
 
-export default PDetail
+export default PatientDetail;

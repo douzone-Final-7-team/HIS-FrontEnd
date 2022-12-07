@@ -42,15 +42,64 @@ export const getPatientRegistrationInfo = createAsyncThunk(
 // 외래진료 상태코드 UPDATE
 export const changeOutpatientStatus = createAsyncThunk(
   'OutpatientPageInfoSlice/changeOutpatientStatus',
-  async (receiveId) => {
+  async (info) => {
+    console.log(info.opStatusCode)
     const resp = await axios.put(API_URL + "/outpatient/changeOutpatientStatus",
-    {receiveId: receiveId},
+    {
+      status: info.opStatusCode,
+      receiveId: info.receiveId
+    },
     {
       headers: {
         "Content-Type" : `application/json`,
       },
     });
- 
     return resp.data
+  }
+);
+
+
+
+// 대기 환자 진찰로 상태 변경시 TREATMENT_INFO_TB INSERT
+export const addPatientStatusInfo = createAsyncThunk(
+  'OutpatientPageInfoSlice/addPatientStatusInfo',
+  async (info) => {
+    console.log(info)
+    const resp = await axios.post(API_URL + "/outpatient/addPatientStatusInfo",
+    {
+      receiveId: info.receiveId,
+      patientId: info.patientId,
+      empId: info.empId,
+      status: 'OA'
+    },
+    {
+      headers: {
+        "Content-Type" : `application/json`,
+      },
+    });
+    return resp.data
+  }
+);
+
+
+
+// 상세 과거병력 
+export const getDetailedMedicalHistory = createAsyncThunk(
+
+  'OutpatientPageInfoSlice/getDetailedMedicalHistory',
+  async (info) => {
+    console.log(info)
+    const resp = await axios.get(API_URL + "/patient/getTreatmentHistoryDetail",
+    {params :{
+      patientID: info.PATIENT_ID_PK,
+      treatmentDate: info.TREATMENT_DATE,
+      regTime: info.REGISTRATION_TIME
+    }},
+    {
+      headers: {
+        "Content-Type" : `application/json`,
+      },
+    });
+    return resp.data;
   }
 );

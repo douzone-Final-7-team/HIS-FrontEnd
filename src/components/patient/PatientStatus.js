@@ -29,7 +29,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
       <div>
         <p className='section-title'>환자현황</p>
         <select className='filter' onChange={(e) => {
-                setSpeciality(()=>e.target.value);
+                setSpeciality(() => e.target.value);
               }}>
           <option>내과</option>
           <option>이비인후과</option>

@@ -34,6 +34,7 @@ const PagiNavigation = () => {
                 <Route path='/outpatient' element={<Outpatient/>} />
                 <Route path='/ward-management' element={<WardManagement/>} />
                 <Route path='/ward-management2' element={<WardManagement2/>} />
+                <Route path='/stastic' element={<Stastic/>} />
                 <Route path='/my-page' element={<MyPage/>} />
                 <Route path='/ward' element={<WardPatientCall setShowNav={setShowNav}/>} />
                 <Route path='/stastic' element={<Stastic/>} />
