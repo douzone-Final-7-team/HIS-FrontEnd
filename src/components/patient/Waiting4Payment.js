@@ -10,7 +10,6 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
   
   
   const AdmissionList = () =>{
-
     function sunabDetail(index){
       // console.log(sunabList[index].ADMISSION_ID_PK);
       setTest(sunabList[index].ADMISSION_ID_PK);
