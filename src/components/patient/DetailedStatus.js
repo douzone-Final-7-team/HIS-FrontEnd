@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { getTreatmentInfo, getPatientRegistrationInfo, addPatientStatusInfo, changeOutpatientStatus, getDetailedMedicalHistory } from '../../redux/OutpatientPageInfoApi';
+import { getTreatmentInfo, getPatientRegistrationInfo, addPatientStatusInfo, getDetailedMedicalHistory } from '../../redux/OutpatientPageInfoApi';
 import { checkOpStatusCode, selectSpeciality, selectEmpName } from '../../redux/outpatientPageInfoSlice';
 // style
 import './detailedStatus.scss';
@@ -16,34 +16,18 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
   let dispatch = useDispatch();
   const className = ['box', 'waiting-order', 'selected'];
-
-
-  // contextMenu 상태 분류 (진료-대기 / 수납대기)
-  let opStatusClassification = false;
-  // contextMenu 세부 상태 분류 (진료 true /대기 false)
-  let opDetailedClassification = false;
-
-  data.patInfo.map((info) => {
-    dispatch(checkOpStatusCode(info.status)); //treatmentOrder에서 필요
-    if(info.status === '진료중' || info.status === '대기중') {
-      opStatusClassification = true;
-      if(info.status === '진료중') {
-        opDetailedClassification = true;
-      }
-    }
-  })
+  const [opStatusClassification , setOpStatusClassification] = useState(false)
 
 
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
-    console.log(data)
-    
-    const { receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
-      dispatch(getTreatmentInfo(receiveId));
-      dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
-      dispatch(selectSpeciality(SPECIALITY));
-      dispatch(selectEmpName(EMP_NAME));
-      dispatch(getDetailedMedicalHistory({PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME}));
+    const { status, receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
+    dispatch(checkOpStatusCode(status)); //treatmentOrder에서 필요
+    dispatch(getTreatmentInfo(receiveId));
+    dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
+    dispatch(selectSpeciality(SPECIALITY));
+    dispatch(selectEmpName(EMP_NAME));
+    dispatch(getDetailedMedicalHistory({PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME}));
     }
 
   // contextMenu
@@ -51,6 +35,8 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   const open = Boolean(anchorEl);
   const [ sendData, setSendData ] = useState();
   const [ receiveId, setReceiveId ] = useState();
+  const [changeState ,setChangeState] =useState();
+  const [room, setRoom] = useState("");
 
   useEffect(()=>{
     setRoom("out")
@@ -72,11 +58,16 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
 
   const handleClick = (e, data) => {
     console.log(data)
+    if(data.status === "대기중"){
+      setOpStatusClassification(true)
+    }else{
+      setOpStatusClassification(false)
+    }
     setAnchorEl(e.currentTarget);
     insertData = {
       receiveId: data.receiveId,
-      patientId: data.PATIENT_ID_FK,
-      empId: data.EMP_ID_FK
+      patientId: data.PATIENT_ID_PK,
+      empId: data.EMP_ID_PK
     }
     setSendData(insertData);
     setReceiveId(data.receiveId)
@@ -94,13 +85,9 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   
   const handleStatus = async(e) => {
     console.log(e.target.id)
+    dispatch(addPatientStatusInfo(sendData))
+    console.log(sendData)
 
-    if(e.target.id === 'OA') {
-      dispatch(addPatientStatusInfo(sendData))
-    } else if(e.target.id === '대기') {
-      const opStatusCode = 'OC';
-      dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
-    }
     updateChangeState.RECEIVE_ID_PK = changeState.RECEIVE_ID_PK;
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
     updateChangeState.status = e.target.id;
@@ -149,7 +136,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
-              onContextMenu={opStatusClassification === true ? (e) => handleClick(e, data) : (e) => {e.preventDefault();}}>
+              onContextMenu={(e) => handleClick(e, data)}> 
 
               <p className='waiting-name'>
                 {data.patName}
@@ -159,21 +146,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
             </div> 
           ))}
       </div>
-      {opDetailedClassification === true ?
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-          style={{left:"170px" , top:"-25px"}}
-        >
-          <MenuItem id="대기" onClick={(e)=>{handleClose(); handleStatus(e);}}>대기</MenuItem>
-        </Menu> 
-      : 
-        <Menu
+      {opStatusClassification && <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
@@ -184,8 +157,8 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
           style={{left:"170px" , top:"-25px"}}
         >
           <MenuItem id="OA" onClick={(e)=>{handleClose(); handleStatus(e);}}>진료</MenuItem>
-        </Menu> 
-      } 
+        </Menu> }
+      
     </div>
   )
 }

@@ -37,7 +37,7 @@ const RoomOpions = [
 
 
 
-const WardCheck = () => {
+const WardCheck = ({bedInfo}) => {
   
   let bedInfoState = bedInfo;
     socket.on("bedInfoChange",(data)=>{

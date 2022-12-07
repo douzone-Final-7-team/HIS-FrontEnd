@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 // style
 import './reducedPatientStatus.scss';
 import io from 'socket.io-client';
@@ -60,7 +60,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       <div className='line'></div>
       <p className='filtering'><span className='the-whole-waiting-list'>전체(n)</span> 대기(n) 진찰중(n) 완료(n)</p>
       <div className='status-wrapper'>
-        {myPatientList.current.map((data, index) => (
+        {myPatientList.map((data, index) => (
             <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK)}>
                 <p className='waiting-name'>
                   {data.PATIENT_NAME}

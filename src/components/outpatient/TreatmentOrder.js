@@ -3,23 +3,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changeOutpatientStatus } from '../../redux/OutpatientPageInfoApi';
 
 const TreatmentOrder = ({ patientDetails }) => {
-  console.log(patientDetails)
-
   const dispatch = useDispatch();
   
   // 환자현황 : 환자 상태값
   const opStatusInfo = useSelector(state =>  state.checkOpStatusCode.value[2]);
-
-  // 외래진료환자 상태 : 치료
-  let onTreatmentStatus = false;
-  //  외래진료환자 상태 : 수납완료
-  let completionStatus = false;
+  console.log(opStatusInfo)
+  // 외래진료환자 상태
+  let onTreatmentStatus = false;  // 치료
+  let completionStatus = false;   // 수납완료
+  let otherStatus = false; //진료/대기중
+  
   if(opStatusInfo === '치료') {
     onTreatmentStatus = true;
   } else if(opStatusInfo === '수납완료') {
     completionStatus = true;
+  } else {
+    otherStatus = true;
   }
-  
+
+
+
+  // 치료오더 완료버튼 클릭시 외래진료환자 상태 수납대기로 변경
   const receiveId =  patientDetails.RECEIVE_ID_PK;
   const changePatientCode = () => {
     const opStatusCode = 'OD';
@@ -42,11 +46,14 @@ const TreatmentOrder = ({ patientDetails }) => {
           </thead>
           <tbody>
             <tr>
-              <td>{completionStatus === true ? <input type="checkbox" checked/> : <input type="checkbox"/>}</td>
+              {completionStatus === true ? <td><input type="checkbox" checked/></td> : ""}
+              {onTreatmentStatus === true ? <td><input type="checkbox" /></td> : ""}
+              {otherStatus === true ? <td><input type="checkbox" disabled={true}/></td> : ""}
+
               {patientDetails!==null && patientDetails!==undefined ?
-              <td>{patientDetails.TREATMENT_ORDER}</td>
-              :
-              <td></td>}
+                <td>{patientDetails.TREATMENT_ORDER}</td>
+                :
+                <td></td>}
               <td>-</td>
             </tr>
           </tbody>
