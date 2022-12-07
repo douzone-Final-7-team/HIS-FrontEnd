@@ -52,8 +52,8 @@
             }
 
             .icon {
-                position: relative;
-                left: 33.5%;
+                float: right;
+                margin-right: 5px;
                 cursor: pointer;
             }
 
@@ -77,8 +77,9 @@
                 margin-top: 20px;
                 width: 800px;
                 height: 70px;
-                border: 1px solid black;
+                border: 1px solid $tblBorder;
                 border-radius: 5px;
+                cursor: pointer;
 
                 .section1 {
                     margin-top: 5px;
@@ -89,7 +90,6 @@
                         border: none;
                         border-radius: 5px;
                         color: $white;
-                        background-color: $primaryColor;
                     }
 
                     span {
@@ -116,6 +116,9 @@
                         color: gray;
                     }
                 }
+            }
+            .schedule-content:hover {
+                border: 2px solid black;
             }
         }
     }

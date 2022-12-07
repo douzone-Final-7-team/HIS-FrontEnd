@@ -14,7 +14,6 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
   const [btnActive, setBtnActive] = useState(0);
   const [statusCode, setStatusCode] = useState(null);
 
-
   useEffect(()=>{
     axios.post("http://localhost:9090/outStatus/getdocpatCon", {
       SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
@@ -25,7 +24,6 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
     });
   },[outStatusReRender, setOutStatusReRender, speciality, statusCode])
 
-  
   return (
     <div className='patient-status'>
       <div>
@@ -43,21 +41,21 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
         {data.map((item, idx) => {
         return (
           <span key={idx}>
-          <button
-            value={idx}
-            className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
-            onClick={(e) => {
-              setBtnActive(() => {
-                return (e.target.value);
-              });
-              if(idx === 0) {setStatusCode(null)} else if (idx === 1) {setStatusCode('OC')} else if (idx === 2) {setStatusCode('OA')}
-                else if (idx === 3) {setStatusCode('OB')} else if (idx === 4) {setStatusCode('OE')}
-            }}
-          >
-            {item}
-          </button>
-        </span>
-      );
+            <button
+              value={idx}
+              className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
+              onClick={(e) => {
+                setBtnActive(() => {
+                  return (e.target.value);
+                });
+                if(idx === 0) {setStatusCode(null)} else if (idx === 1) {setStatusCode('OC')} else if (idx === 2) {setStatusCode('OA')}
+                  else if (idx === 3) {setStatusCode('OB')} else if (idx === 4) {setStatusCode('OE')}
+              }}
+            >
+              {item}
+            </button>
+          </span>
+        );
       })}</p>
         <div>
           {patientStatus!==null && patientStatus!==undefined? patientStatus.map((data, index) => (

@@ -16,6 +16,16 @@
     grid-auto-rows: 35px;
     height: 250px;
     overflow: auto;
+    .test {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px 0 15px;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0.8);
+      font-size: 15px;
+      background-color: #888;
+    }
     .waiting-order {
       display: flex;
       justify-content: space-between;
@@ -27,16 +37,19 @@
       .medical-hours {
         padding-left: 8px;
       }
-      .status-value {
-        font-size: 14px;
-        color: #888;
-      }
+      .OA {font-size: 14px;color: #ffd700;}
+      .OB {font-size: 14px;color: #ff0000;}
+      .OC {font-size: 14px;color: #00AAFF;}
+      .OE {font-size: 14px;color: #000;}
       &.selected {
         // .status-value {color: $primaryColor;}
       }
       &.completion {
         background-color: rgba(0, 0, 0, 0.15);
       }
+    }
+    .OEbox {
+      background-color: #b4b0b0;
     }
   }
 }

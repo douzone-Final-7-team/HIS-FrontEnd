@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 // style
 import './patientDetail.scss';
 
-const PatientDetail = ( {patientDetails, registrationInfo, data, setEmpId, symptom, setSpecialityName}) => {
+
+const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
   const [doctorList, setDoctorList] = useState();
   const [speciality, setSpeciality] = useState('내과');
 

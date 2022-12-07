@@ -69,7 +69,7 @@ export default function WardMangeMentTap() {
   });
 
   const inpatientDetail = useSelector(state=>{
-    return state.inPatientInfo.value[1]
+    return state.inPatientInfo.value[5]
   })
 
   React.useEffect(()=>{

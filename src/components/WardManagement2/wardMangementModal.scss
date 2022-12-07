@@ -30,6 +30,18 @@ text-rendering:optimizeLegibility;
 	margin:0 auto;
 	position:relative;
 
+	#contact{
+		#suggestions-container, #searchPatientInput-container{
+			font-size: 12px;
+			height: 82px;
+			overflow: auto;
+			#suggestions-list,#searchPatientInput-list{
+				margin-top: 0;
+				background-color: #FFF;
+			}
+		}
+	}
+
     }
 	.ininfo-wapper{
 		display: flex;
@@ -142,12 +154,4 @@ fieldset {
 }
 
 
-#suggestions-list{
-	margin-top: 20px;
-	background-color: #FFF;
-}
 
-#searchPatientInput-list{
-	margin-top: 20px;
-	background-color: #FFF;
-}

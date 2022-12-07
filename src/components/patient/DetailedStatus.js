@@ -65,8 +65,6 @@ const DetailedStatus = ({ data, index }) => {
   }
   
   const handleStatus = (e) => {
-    // console.log(e.target.id)
-    // console.log(receiveId)
     console.log(e.target.id)
 
     if(e.target.id === '진료') {
