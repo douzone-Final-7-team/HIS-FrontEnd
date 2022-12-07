@@ -10,7 +10,7 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
   
   
   const AdmissionList = () =>{
-
+9
     function sunabDetail(index){
       // console.log(sunabList[index].ADMISSION_ID_PK);
       setTest(sunabList[index].ADMISSION_ID_PK);
@@ -38,7 +38,7 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
         PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
         TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
         }).then((res)=>{
-          setAcceptance(res.data[0]);
+          setAcceptance(()=>res.data[0]);
         })
       setTreatmentNumPk(waitingReceipt[index].TREATMENT_NUM_PK)
     }

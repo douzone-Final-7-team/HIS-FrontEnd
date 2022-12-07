@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { getTreatmentInfo, getPatientRegistrationInfo, addPatientStatusInfo, changeOutpatientStatus, getDetailedMedicalHistory } from '../../redux/OutpatientPageInfoApi';
 import { checkOpStatusCode, selectSpeciality, selectEmpName } from '../../redux/outpatientPageInfoSlice';
 // style
@@ -7,9 +8,12 @@ import './detailedStatus.scss';
 // Library
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import io from 'socket.io-client';
 
+const socket = io.connect('http://localhost:3001');
 
-const DetailedStatus = ({ data, index }) => {
+const DetailedStatus = ({ data, index, setPatientStatus }) => {
+  let speciality = data.SPECIALITY_ID_PK;
   let dispatch = useDispatch();
   const className = ['box', 'waiting-order', 'selected'];
 
@@ -33,6 +37,7 @@ const DetailedStatus = ({ data, index }) => {
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
     console.log(data)
+    
     const { receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
       dispatch(getTreatmentInfo(receiveId));
       dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
@@ -47,6 +52,22 @@ const DetailedStatus = ({ data, index }) => {
   const [ sendData, setSendData ] = useState();
   const [ receiveId, setReceiveId ] = useState();
 
+  useEffect(()=>{
+    setRoom("out")
+
+    if (room !== "") {
+      // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+      // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+      socket.emit("join_room", room);
+  }
+  },[room])
+
+  let updateChangeState = {
+    RECEIVE_ID_PK : "",
+    SPECIALITY_ID_FK : "",
+    status : ""
+  };
+
   let insertData;
 
   const handleClick = (e, data) => {
@@ -59,21 +80,61 @@ const DetailedStatus = ({ data, index }) => {
     }
     setSendData(insertData);
     setReceiveId(data.receiveId)
+
+    const { receiveId } = data;
+
+
+    updateChangeState.RECEIVE_ID_PK = receiveId;
+    updateChangeState.SPECIALITY_ID_FK = speciality;
+    setChangeState(()=>updateChangeState);
   }
   const handleClose = () => {
     setAnchorEl(null);
   }
   
-  const handleStatus = (e) => {
+  const handleStatus = async(e) => {
     console.log(e.target.id)
 
-    if(e.target.id === '진료') {
+    if(e.target.id === 'OA') {
       dispatch(addPatientStatusInfo(sendData))
     } else if(e.target.id === '대기') {
       const opStatusCode = 'OC';
       dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
     }
+    updateChangeState.RECEIVE_ID_PK = changeState.RECEIVE_ID_PK;
+    updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
+    updateChangeState.status = e.target.id;
+
+    axios.post('http://localhost:9090/outStatus/putChangeState',
+      JSON.stringify(updateChangeState),
+      {
+        headers: {
+          "Content-Type" : `application/json`,
+        },
+      }).then(res=> {setPatientStatus(res.data)})
+
+      let change;
+      change = {outpatient : room,
+                RECEIVE_ID_PK : changeState.RECEIVE_ID_PK,
+                SPECIALITY_ID_FK : changeState.SPECIALITY_ID_FK,
+                status : e.target.id
+                }
+      await socket.emit("click_change_state", change );
   }
+
+  useEffect(()=> 
+    setTimeout(() => 
+        socket.on("change_state", (data)=>{console.log(data)
+            axios.post('http://localhost:9090/outStatus/getdocpat',
+            JSON.stringify(data),
+              {
+                headers: {
+                  "Content-Type" : `application/json`,
+                },
+              }).then(res=> {setPatientStatus(res.data)})
+              }),50)
+  ,[setPatientStatus])
+
     
   
   return (
@@ -122,7 +183,7 @@ const DetailedStatus = ({ data, index }) => {
           }}
           style={{left:"170px" , top:"-25px"}}
         >
-          <MenuItem id="진료" onClick={(e)=>{handleClose(); handleStatus(e);}}>진료</MenuItem>
+          <MenuItem id="OA" onClick={(e)=>{handleClose(); handleStatus(e);}}>진료</MenuItem>
         </Menu> 
       } 
     </div>

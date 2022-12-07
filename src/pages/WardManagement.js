@@ -9,6 +9,9 @@ import WardCheck from '../components/patient/WardCheck';
 import AdmissionSunab from '../components/employee/admissionSunab';
 import axios from 'axios';
 import { API_URL } from '../utils/constants/Config';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3001')
 
 
 const WardManagement = () => {
@@ -31,6 +34,29 @@ const WardManagement = () => {
     
 
   const [bedInfo, setBedInfo] = useState(false);
+  const [room, setRoom] = useState("");
+
+  useEffect(()=>{
+      setRoom("입원")
+    if (room !== "") {
+      // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+      // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+      socket.emit("join_room", room);
+  }
+  },[room])
+
+  // useEffect(()=>{
+    
+  //   )
+  // },[])
+    let bedInfoState = bedInfo;
+    socket.on("bedInfoChange",(data)=>{
+       if(!bedInfoState){
+          bedInfoState = true;
+        }else{
+          bedInfoState = false;
+        }
+        setBedInfo(()=>bedInfoState);})
 
   useEffect(()=>{
     setTimeout(() => 
@@ -105,7 +131,7 @@ const WardManagement = () => {
           <p className='count'>&gt; <span>{wardData[0].outDuePatient}</span></p>
           <div className='line'></div>
         </div>
-        <WardCheck />
+        <WardCheck bedInfo={bedInfo}/>
         <div className='tab'>
           <AdmissionSunab bedInfo={bedInfo} setBedInfo = {setBedInfo}/>
         </div>

@@ -57,7 +57,7 @@ const AdmissionDue = () => {
 
     function complete (admissionIdPk,WARDROOM,BED_NUM) {
         alert("입원완료");
-
+        socket.emit("send_bedInfoChange", {admission : room});
     
 
         // let ward = (WARDROOM+"").substring(0,1)*100;

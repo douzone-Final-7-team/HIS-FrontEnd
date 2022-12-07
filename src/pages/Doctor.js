@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Calendar from 'react-calendar';
+import io from 'socket.io-client';
 // style
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
@@ -13,6 +14,8 @@ import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
 import Modal from '../components/doctor/Modal';
 import PatientDetailModal from '../components/doctor/PatientDetailModal';
 import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
+
+const socket = io.connect('http://localhost:3001');
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
@@ -34,6 +37,7 @@ const Doctor = () => {
   const treatmentOrder = useRef("");
   const admissionOrder = useRef("");
   const admissionCheck = useRef(0);
+  const specialityId = 'N';//localStorage.getItem('specialityId') || '';
   const token = localStorage.getItem('jwt') || '';
 
   useEffect(() => {
@@ -56,6 +60,19 @@ const Doctor = () => {
     })
 
   }, [token, treatmentPatientInfo]);
+
+    /*-소켓-*/
+    const [room, setRoom] = useState("");
+
+    useEffect(()=>{
+      setRoom("out")
+  
+      if (room !== "") {
+        // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+        // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+        socket.emit("join_room", room);
+    }
+    },[room])
 
   const getMedicineList = () => {
     axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
@@ -97,6 +114,11 @@ const Doctor = () => {
         },
       })
       .then((res)=>{
+        socket.emit("doctor_complete" , {outpatient : room,
+                                      RECEIVE_ID_PK : data.receivePk,
+                                      SPECIALITY_ID_FK : specialityId
+                                      });
+      //emit을 보내고
         alert(res.data);
         window.location.reload();
       })
