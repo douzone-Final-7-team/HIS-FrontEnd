@@ -59,7 +59,7 @@ const UpdateScheduleModal = ({schedulePk, closeModal}) => {
     return (
         <div className="update-box">
         <header>
-            <p>일정 등록</p>
+            <p>일정 수정</p>
             <hr />
         </header>
         <div className="update-div">

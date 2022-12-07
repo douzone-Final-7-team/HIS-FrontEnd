@@ -278,7 +278,7 @@ const Doctor = () => {
                   </div>}
                   
                   {visibleAdmissionDiv && <div className='admission-detail'>
-                    <span>입원 오더</span> <br /> 
+                    <span>입원 날짜</span> <br /> 
                     <textarea 
                       onChange={(e) => {
                         admissionOrder.current = e.target.value;
