@@ -10,7 +10,7 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
   
   
   const AdmissionList = () =>{
-9
+
     function sunabDetail(index){
       // console.log(sunabList[index].ADMISSION_ID_PK);
       setTest(sunabList[index].ADMISSION_ID_PK);
@@ -34,7 +34,7 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
 
   const OutList = () =>{
     function waitingReceiptDetail(index){
-      axios.post("http://localhost:9090/outStatus/getAcceptance", {
+      axios.post("http://192.168.0.195:9090/outStatus/getAcceptance", {
         PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
         TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
         }).then((res)=>{

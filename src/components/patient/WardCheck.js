@@ -10,7 +10,7 @@ import { selectPeople } from '../../redux/InPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 // const specialityName = window.localStorage.getItem('specialityName');
 const empIdPk = window.localStorage.getItem('empIdPk');
@@ -37,7 +37,7 @@ const RoomOpions = [
 
 
 
-const WardCheck = () => {
+const WardCheck = ({bedInfo}) => {
   
   let bedInfoState = bedInfo;
     socket.on("bedInfoChange",(data)=>{

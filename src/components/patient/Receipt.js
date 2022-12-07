@@ -8,7 +8,7 @@ import '../modalReception/PrescriptionPrint';
 import PrescriptionPrint from '../modalReception/PrescriptionPrint';
 import Modal from '../modalReception/Modal';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const role = window.localStorage.getItem('role');
 
@@ -60,7 +60,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
             <th>금 액</th>
           </tr>
         </thead>
-        {detail.map((detailEle) => (
+        {detail.length!==0 && detail.map((detailEle) => (
           <tbody>
             <tr>
               <td>입원시작일</td>
@@ -122,7 +122,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   }
 
   function success() {
-    axios.post("http://localhost:9090/outStatus/insertReceipt", {
+    axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
       TREAT_COST: acceptance.treatCost,
       INSURANCE_COST: acceptance.insuranceCost,
@@ -140,11 +140,11 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   
   function successNprint() {
     if(btnChange.current.value === "처방전") {
-      axios.post("http://localhost:9090/outStatus/getPrescription", {
+      axios.post("http://192.168.0.195:9090/outStatus/getPrescription", {
         TREATMENT_NUM_PK: treatmentNumPk
       }).then((res)=>setPrescriptionData(res.data[0]));
 
-      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+      axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
         TREATMENT_NUM_FK: treatmentNumPk,
         TREAT_COST: acceptance.treatCost,
         INSURANCE_COST: acceptance.insuranceCost,

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState} from 'react'
 // style
 import './reducedPatientStatus.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
@@ -28,26 +28,26 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   useEffect(()=> {
     setTimeout(() => 
       socket.on("change_state", ()=>{//receipt_render
-        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(()=> {
     setTimeout(() => 
       socket.on("receipt_render", ()=>{
-        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(() => {
 
-    axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+    axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
       .then(res=> setMyPatientList(res.data));
   }, [doctorID])
 
   const getMyPatientInfo = (receivePk) => {
 
-    axios.get("http://localhost:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
+    axios.get("http://192.168.0.195:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
     .then((res) => {
       setTreatmentPatientInfo(res.data)
     }); 
@@ -60,7 +60,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       <div className='line'></div>
       <p className='filtering'><span className='the-whole-waiting-list'>전체(n)</span> 대기(n) 진찰중(n) 완료(n)</p>
       <div className='status-wrapper'>
-        {myPatientList.current.map((data, index) => (
+        {myPatientList.map((data, index) => (
             <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK)}>
                 <p className='waiting-name'>
                   {data.PATIENT_NAME}
