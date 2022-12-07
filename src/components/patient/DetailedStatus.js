@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
@@ -92,7 +92,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
     updateChangeState.status = e.target.id;
 
-    axios.post('http://localhost:9090/outStatus/putChangeState',
+    axios.post('http://192.168.0.195:9090/outStatus/putChangeState',
       JSON.stringify(updateChangeState),
       {
         headers: {
@@ -109,18 +109,18 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
       await socket.emit("click_change_state", change );
   }
 
-  useEffect(()=> 
-    setTimeout(() => 
-        socket.on("change_state", (data)=>{console.log(data)
-            axios.post('http://localhost:9090/outStatus/getdocpat',
-            JSON.stringify(data),
-              {
-                headers: {
-                  "Content-Type" : `application/json`,
-                },
-              }).then(res=> {setPatientStatus(res.data)})
-              }),50)
-  ,[setPatientStatus])
+  // useEffect(()=> 
+  //   setTimeout(() => 
+  //       socket.on("change_state", (data)=>{console.log(data)
+  //           axios.post('http://192.168.0.195:9090/outStatus/getdocpat',
+  //           JSON.stringify(data),
+  //             {
+  //               headers: {
+  //                 "Content-Type" : `application/json`,
+  //               },
+  //             }).then(res=> {setPatientStatus(res.data)})
+  //             }),50)
+  // ,[setPatientStatus])
 
     
   

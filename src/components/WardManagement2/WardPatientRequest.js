@@ -9,7 +9,7 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import EmergencyModal from './EmergencyModal';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 // const name = window.localStorage.getItem('name');
 const specialityName = window.localStorage.getItem('specialityName');
 const ward = window.localStorage.getItem('ward');
@@ -43,7 +43,7 @@ const WardPatientRequest = () => {
 
 
   useEffect(()=>{
-    axios.post('http://localhost:9090/admission/allInPatientReqs',
+    axios.post('http://192.168.0.195:9090/admission/allInPatientReqs',
     {specialityName:specialityName},
         {
           headers: {
@@ -69,7 +69,7 @@ const WardPatientRequest = () => {
       ()=>{    
 
         setTimeout(()=>{
-        axios.post('http://localhost:9090/admission/allInPatientReqs',
+        axios.post('http://192.168.0.195:9090/admission/allInPatientReqs',
         {specialityName:specialityName},
             {
               headers: {
@@ -92,7 +92,7 @@ const WardPatientRequest = () => {
     
     updateNurseReq = JSON.stringify(sendChangeReqStat)
 
-     axios.put('http://localhost:9090/admission/InPatientReq',
+     axios.put('http://192.168.0.195:9090/admission/InPatientReq',
           updateNurseReq,
         {
           headers: {
