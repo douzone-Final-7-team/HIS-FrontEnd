@@ -9,10 +9,10 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import EmergencyModal from './EmergencyModal';
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://localhost:3001');
 // const name = window.localStorage.getItem('name');
 const specialityName = window.localStorage.getItem('specialityName');
-
+const ward = window.localStorage.getItem('ward');
 const WardPatientRequest = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -25,7 +25,7 @@ const WardPatientRequest = () => {
       ward : messageList[e.target.id].ward,
       roomNum : messageList[e.target.id].roomNum,
       bedNum : messageList[e.target.id].bedNum,
-      specialityName:specialityName
+      specialityName:specialityName,
     }
 
     setSendChangeReqStat(updateNurseReq);
@@ -36,6 +36,56 @@ const WardPatientRequest = () => {
     setAnchorEl(null);
   };
 
+  const [messageList , setMessageList] = useState([])
+  const [showEmergency , setShowEmergency] = useState(false)
+  const [showWardRoom , setshowWardRoom] = useState("")
+  const [room, setRoom] = useState("");
+
+
+  useEffect(()=>{
+    axios.post('http://localhost:9090/admission/allInPatientReqs',
+    {specialityName:specialityName},
+        {
+          headers: {
+            "Content-Type" : `application/json`,
+          },
+        }).then(res=> setMessageList(res.data))
+
+  },[])
+
+    useEffect(()=>{
+      setRoom(ward)
+
+      if (room !== "") {
+        // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
+        // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
+        socket.emit("join_room", room);
+    }
+    },[room])
+
+
+    useEffect(()=>{
+      socket.on("call_message", 
+      ()=>{    
+
+        setTimeout(()=>{
+        axios.post('http://localhost:9090/admission/allInPatientReqs',
+        {specialityName:specialityName},
+            {
+              headers: {
+                "Content-Type" : `application/json`,
+              },
+            }).then(res=> setMessageList(res.data))
+          },50
+        )
+    })
+      socket.on("call_emergencyMessage", (data)=>{
+        setShowEmergency(data.notice)
+        setshowWardRoom(data.wardRoom)
+      })
+    },[])
+
+    
   const handleStatus = async(e)=>{
 
     setSendChangeReqStat(sendChangeReqStat.callStatus = e.target.id)
@@ -54,55 +104,24 @@ const WardPatientRequest = () => {
         if(e.target.id ==="확인"){
            going= {
             room : room,
-            go : true
+            go : true,
+            ward : sendChangeReqStat.ward,
+            roomNum : sendChangeReqStat.roomNum,
+            bedNum : sendChangeReqStat.bedNum
           }
           await socket.emit("send_message", going )
         }else if(e.target.id ==="완료"){
           going= {
             room : room,
-            go : false
+            go : false,
+            ward : sendChangeReqStat.ward,
+            roomNum : sendChangeReqStat.roomNum,
+            bedNum : sendChangeReqStat.bedNum
           }
           await socket.emit("send_message", going )
         }
   };
 
-
-  const [messageList , setMessageList] = useState([])
-  const [showEmergency , setShowEmergency] = useState(false)
-  const [showWardRoom , setshowWardRoom] = useState("")
-  const [room, setRoom] = useState("");
-
-  useEffect(()=>{
-    axios.post('http://localhost:9090/admission/allInPatientReqs',
-    {specialityName:specialityName},
-        {
-          headers: {
-            "Content-Type" : `application/json`,
-          },
-        }).then(res=> setMessageList(res.data))
-
-  },[])
-
-    useEffect(()=>{
-      setRoom(specialityName)
-
-      if (room !== "") {
-        // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
-        // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
-        socket.emit("join_room", room);
-    }
-    },[room])
-
-
-    useEffect(()=>{
-      socket.on("call_message", (data)=>{
-        setMessageList((list)=>[data, ...list])
-      })
-      socket.on("call_emergencyMessage", (data)=>{
-        setShowEmergency(data.notice)
-        setshowWardRoom(data.wardRoom)
-      })
-    },[])
 
 
   return (

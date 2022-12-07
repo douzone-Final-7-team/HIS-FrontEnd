@@ -72,6 +72,7 @@ const Doctor = () => {
     }
   };
 
+
   const sendMedicalCharts = () => {
 
     if(diagnosis.current === '') {

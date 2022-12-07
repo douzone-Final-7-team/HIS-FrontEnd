@@ -3,7 +3,6 @@ import React from 'react'
 import './outpatientModal.scss';
 
 const OutpatientModal = ({ data }) => {
-  console.log(data)
   return (
     <div className='detail-content'>
       <p className="record-title">진료 기록</p>

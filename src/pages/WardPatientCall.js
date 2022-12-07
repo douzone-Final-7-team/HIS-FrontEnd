@@ -8,6 +8,7 @@ import InPatientBar from '../components/inPatient/InPatientBar';
 
 import io from 'socket.io-client';
 import axios from 'axios';
+import WardSetting from './WardSetting';
 const socket = io.connect('http://localhost:3001')
 
 
@@ -15,44 +16,60 @@ const WardPatientCall = ({setShowNav}) => {
   
   const [room, setRoom] = useState("");
   const [viewNotice, setViewNotice] = useState(false);
+
+  const [inPatientALL, setInPatientALL]=useState({
+    name: "",
+    ward : "",
+    roomNum : "",
+    bedNum : "",
+    wardRoom: ""
+    })
+
+   
+
+    const [showRegiInPatient, setShowRegiInPatient]=useState(true)
+    
+
   useEffect(()=>{
     setShowNav(false)
   },[setShowNav])
 
+
     useEffect(()=>{
-      setRoom("내과")
+      setRoom((inPatientALL.ward).toString())
       if (room !== "") {
         // 프론트에서 백엔드로 데이터 방출 join_room id로 백에서 탐지 가능
         // 2번째 인자인 room은 방이름이며 백에선 data매게변수로 받는다
         socket.emit("join_room", room);
     }
-    },[room])
+    },[room, inPatientALL.ward])
 
     var click = true;
     const sendData = async() => {
       if(click){
       let callTime = new Date()
+      
       const messageData = {
         room: room,
-        patientName: "배병서",
+        patientName: inPatientALL.name,
         callTime: callTime.getHours() + ":" + callTime.getMinutes() + ":" + callTime.getSeconds(),
-        ward: 200,
-        roomNum: 1,
-        bedNum: 1,
+        ward: inPatientALL.ward,
+        roomNum: inPatientALL.roomNum,
+        bedNum: inPatientALL.bedNum,
         callStatus : "호출"
       };
 
       const savemassage = {
+
         callTime: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 19).replace('T', ' ') ,
         callStatus : "호출",
-        ward: 200,
-        roomNum: 1,
-        bedNum: 1
+        ward: inPatientALL.ward,
+        roomNum: inPatientALL.roomNum,
+        bedNum: inPatientALL.bedNum
       }
 
       await socket.emit("send_message", messageData )
 
-      console.log(savemassage)
 
     axios.put('http://localhost:9090/admission/InPatientReq',
       savemassage,
@@ -60,7 +77,7 @@ const WardPatientCall = ({setShowNav}) => {
           headers: {
             "Content-Type" : `application/json`,
           },
-        }).then(res=> console.log(res.data))
+        })
         click = !click;
 
         setTimeout(function () {
@@ -70,11 +87,11 @@ const WardPatientCall = ({setShowNav}) => {
   }
 
   useEffect(()=>{
-    socket.on("call_message", (data)=>{
+    socket.on("call_message" + inPatientALL.ward + "-" + inPatientALL.roomNum + "-" +inPatientALL.bedNum, (data)=>{
       setViewNotice(data.go)
     })
 
-  },[])
+  },[inPatientALL.ward, inPatientALL.roomNum, inPatientALL.bedNum])
 
 
   const emergency = async()=> {
@@ -82,7 +99,7 @@ const WardPatientCall = ({setShowNav}) => {
       let emergencyData ={
         room : room,
         notice : true,
-        wardRoom: 201
+        wardRoom: inPatientALL.wardRoom
       }
       await socket.emit("send_emergencyMessage", emergencyData )
       click = !click;
@@ -91,11 +108,16 @@ const WardPatientCall = ({setShowNav}) => {
       }, 2000)
     }
   }
+
+
+
   return (
     <div className='WardPatientCall-wapper'>
+      {showRegiInPatient && <WardSetting inPatientALL={inPatientALL} setInPatientALL={setInPatientALL} setShowRegiInPatient={setShowRegiInPatient}/>}
       <main className='WardPatientCall-container'>
+    
         <div className='top'>
-          <InPatientBar />
+          <InPatientBar inPatientALL={inPatientALL}/>
         </div>
         <div className='btn-wapper' >
           <div id="success-box">

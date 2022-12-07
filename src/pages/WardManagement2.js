@@ -17,7 +17,7 @@ const WardManagement2 = () => {
   
 
   const showModal = useSelector(state=>{
-    return state.inPatientInfo.value[7]
+    return state.inPatientInfo.value[1]
   })
 
   return (

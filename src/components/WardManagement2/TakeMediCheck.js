@@ -22,7 +22,7 @@ const TakeMediCheck = () => {
   }
 
     const getMediRecords = useSelector(state=>{
-      return state.inPatientInfo.value[3]
+      return state.inPatientInfo.value[7]
     }) 
 
     const selectRow = (e)=>{

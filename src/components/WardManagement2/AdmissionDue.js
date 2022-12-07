@@ -54,10 +54,12 @@ const AdmissionDue = () => {
     //     const timer = setTimeout(() => console.log('Initial timeout!')
     //   }, []);
 
-    console.log(admissionDueList);
 
-    function complete(admissionIdPk,WARDROOM,BED_NUM) {
+    function complete (admissionIdPk,WARDROOM,BED_NUM) {
         alert("입원완료");
+
+    
+
         // let ward = (WARDROOM+"").substring(0,1)*100;
         // let room = (WARDROOM+"").substring(2);
 
@@ -94,10 +96,10 @@ const AdmissionDue = () => {
     
     const AdmissionListData = ()=>{return(admissionDueList.map((v,index) => (
                                                                     
-                                                                    <div className='discharge-Due-small-square'  key={v.index}>
+                                                                    <div className='admission-Due-small-square'  key={v.index}>
                                                                         <ul className='ul-tag'>
                                                                             <li>
-                                                                                <p className='due-position'>
+                                                                                <p className='admission-due-position'>
                                                                                     <span className='a'>{v.PATIENT_NAME}</span>
                                                                                     <span className='b'>{v.GENDER} / {v.AGE}</span>
                                                                                     <span className='c'>{v.PATIENT_SSN}</span>
@@ -116,8 +118,8 @@ const AdmissionDue = () => {
 
 
     return (
-        <div className='discharge-Due-wapper'>
-            <div className='discharge-Due-big-square'>
+        <div className='admission-Due-wapper'>
+            <div className='admission-Due-big-square'>
                 {admissionDueList.length !== 0 ? <AdmissionListData/>: <InitList/>}
                 
             </div>

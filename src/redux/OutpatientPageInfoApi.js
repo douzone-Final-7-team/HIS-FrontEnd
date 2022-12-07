@@ -13,7 +13,6 @@ export const getTreatmentInfo = createAsyncThunk(
         "Content-Type" : `application/json`,
       },
     });
-    // console.log(receiveId)
     return resp.data
   }
 );
