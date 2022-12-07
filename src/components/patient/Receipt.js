@@ -1,29 +1,25 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { API_URL } from '../../utils/constants/Config';
 // style
 import './receipt.scss';
+import '../modalReception/PrescriptionPrint';
+import PrescriptionPrint from '../modalReception/PrescriptionPrint';
+import Modal from '../modalReception/Modal';
 
 const role = window.localStorage.getItem('role');
 
 // let pageId = {pageId : "qwer"};
 
 
-const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender }) => { //비구조할당
-
+const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
 
   let data = test;
-  let patientIdPk = acceptance!==null && acceptance!==undefined?acceptance.PATIENT_ID_PK:' ';
-  let treatmentNumPk = acceptance!==null && acceptance!==undefined?acceptance.TREATMENT_NUM_PK:' ';
 
   const [detail, setDetail] = useState([{}]);
-  const [acceptanceDetail, setAcceptanceDetail] = useState([{}]);
-  const [treatCost, setTreatCost] = useState(0);
-  const [careCost, setCareCost] = useState(0);
-  const [prescriptionCost, setPrescriptionCost] = useState(0);
-  const [timeCost, setTimeCost] = useState(0);
-  const [insuranceCost, setInsuranceCost] = useState(0);
-  const [totalCost, setTotalCost] = useState(0);
+  const [prescriptionPrint, setPrescriptionPrint] = useState(false);
+  const btnChange = useRef();
+  const [prescriptionData, setPrescriptionData] = useState([{}]);
   // const detail = useRef([{}]);
 
   // console.log(JSON.stringify(data.ADMISSION_ID_PK).length);
@@ -37,14 +33,6 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   // console.log((detail.current));
   // console.log("0번째 : "+detail.current[0]);
 
-
-  useEffect(()=>{
-    axios.post("http://localhost:9090/outStatus/getAcceptance", {
-      PATIENT_ID_PK: patientIdPk,
-      TREATMENT_NUM_PK: treatmentNumPk
-      }).then((res) => setAcceptanceDetail(res.data));
-  },[patientIdPk,treatmentNumPk]);
-  
 
   const AdmissionList = () => {
 
@@ -103,7 +91,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
 
   function complete(){
     let result = reRender;
-   console.log("resutl : "+ result); 
+  //  console.log("resutl : "+ result); 
     if(result === true){
     // if(result.){
       result = false;
@@ -116,39 +104,47 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
     
     // .then(res => setDetail(res.data))
     // 리턴으로 성공 실패 여부 받아서 다음 처리
-    
   }
 
   function success() {
     axios.post("http://localhost:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
-      TREAT_COST: treatCost,
-      INSURANCE_COST: insuranceCost,
-      CARE_COST: careCost,
-      TIME_COST: timeCost,
-      PRESCRIPTION_COST: insuranceCost,
-      TOTAL_COST: totalCost
+      TREAT_COST: acceptance.treatCost,
+      INSURANCE_COST: acceptance.insuranceCost,
+      CARE_COST: acceptance.careCost,
+      TIME_COST: acceptance.timeCost,
+      PRESCRIPTION_COST: acceptance.prescriptionCost,
+      TOTAL_COST: acceptance.totalCost
       })
     setOutStatusReRender(()=>false);
     setWait4payReRender(()=>false);
+    setAcceptance([{}]);
   }
 
+  
+  function successNprint() {
+    if(btnChange.current.value === "처방전") {
+      axios.post("http://localhost:9090/outStatus/getPrescription", {
+        TREATMENT_NUM_PK: treatmentNumPk
+      }).then((res)=>setPrescriptionData(res.data[0]));
 
-  // 처방전 인쇄 후 수납 로직 마무리
-  // function preSuccess() { 
-
-  //   axios.post("http://localhost:9090/outStatus/insertReceipt", {
-  //     TREATMENT_NUM_FK: treatmentNumPk,
-  //     TREAT_COST: treatCost,
-  //     INSURANCE_COST: insuranceCost,
-  //     CARE_COST: careCost,
-  //     TIME_COST: timeCost,
-  //     PRESCRIPTION_COST: insuranceCost,
-  //     TOTAL_COST: totalCost
-  //     })
-  //   setOutStatusReRender(()=>false);
-  //   setWait4payReRender(()=>false);
-  // }
+      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+        TREATMENT_NUM_FK: treatmentNumPk,
+        TREAT_COST: acceptance.treatCost,
+        INSURANCE_COST: acceptance.insuranceCost,
+        CARE_COST: acceptance.careCost,
+        TIME_COST: acceptance.timeCost,
+        PRESCRIPTION_COST: acceptance.prescriptionCost,
+        TOTAL_COST: acceptance.totalCost
+        });
+      setOutStatusReRender(()=>false);
+      setWait4payReRender(()=>false);
+      setAcceptance([{}]);
+      setPrescriptionPrint(!prescriptionPrint);
+    }
+    btnChange.current.value = "처방전";
+  }
+  
 
   const OutPatReceipt = () => {
 
@@ -161,64 +157,62 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
             <th>금 액</th>
           </tr>
         </thead>
-        {acceptanceDetail.map((data, index) => (
-          <tbody key={index}>
+        {acceptance.length===1?'':
+          <tbody>
             <tr>
               <td>기본 진료비</td>
               <td>-</td>
-              <td>{data.PATIENT_AGE < 7 || data.PATIENT_AGE > 64 ? 5000 : 7000}</td>
-              {setTreatCost(data.PATIENT_AGE < 7 || data.PATIENT_AGE > 64 ? 5000 : 7000)}
+              <td>{acceptance.treatCost}</td>
             </tr>
             <tr>
               <td>치료</td>
               <td>-</td>
-              <td>{data.TREATMENT_ORDER === null ? 0 : 10000}</td>
-              {setCareCost(data.TREATMENT_ORDER === null ? 0 : 10000)}
+              <td>{acceptance.careCost}</td>
             </tr>
             <tr>
               <td>처방전</td>
               <td>-</td>
-              <td>{data.MEDICINE === null ? 0 : (data.VISIT === '재진' ? 3000 : 5000)}</td>
-              {setPrescriptionCost(data.MEDICINE === null ? 0 : (data.VISIT === '재진' ? 3000 : 5000))}
+              <td>{acceptance.prescriptionCost}</td>
             </tr>
             <tr>
               <td>접수 시간</td>
-              <td>{data.REGISTRATION_TIME}</td>
+              <td>{acceptance.REGISTRATION_TIME}</td>
               <td>-</td>
             </tr>
             <tr>
               <td>시간 할증/할인</td>
-              <td>{parseInt(data.REGISTRATION_TIME)<9? '할인' : (parseInt(data.REGISTRATION_TIME)>17 ? '할증' : '-')}</td>
-              <td>{parseInt(data.REGISTRATION_TIME)<9 || parseInt(data.REGISTRATION_TIME)>17 ? treatCost * 0.1 : 0}</td>
-              {setTimeCost(parseInt(data.REGISTRATION_TIME)<9 || parseInt(data.REGISTRATION_TIME)>17 ? treatCost * 0.1 : 0)}
+              <td>{parseInt(acceptance.REGISTRATION_TIME)<9? '할인' : (parseInt(acceptance.REGISTRATION_TIME)>17 ? '할증' : '-')}</td>
+              <td>{acceptance.timeCost}</td>
             </tr>
             <tr>
               <td>보험여부</td>
-              <td>{data.INSURANCE === 1 ? 'O' : 'X'}</td>
+              <td>{acceptance.INSURANCE === 1 ? 'O' : 'X'}</td>
               <td></td>
             </tr>
             <tr>
               <td>보험할인액</td>
               <td>-</td>
-              <td>{data.INSURANCE === 1 ? (treatCost + careCost + prescriptionCost + (parseInt(data.REGISTRATION_TIME)<9 ? - timeCost : timeCost)) * 0.25 : 0}</td>
-              {setInsuranceCost(data.INSURANCE === 1 ? (treatCost + careCost + prescriptionCost + (parseInt(data.REGISTRATION_TIME)<9 ? - timeCost : timeCost)) * 0.25 : 0)}
+              <td>{acceptance.insuranceCost}</td>
             </tr>
             <tr className="active-row">
               <td>총 수납 금액</td>
               <td>-</td>
-              <td>{treatCost + careCost + prescriptionCost + (parseInt(data.REGISTRATION_TIME)<9 ? - timeCost : timeCost) - insuranceCost}</td>
-              {setTotalCost(treatCost + careCost + prescriptionCost + (parseInt(data.REGISTRATION_TIME)<9 ? - timeCost : timeCost) - insuranceCost)}
+              <td>{acceptance.totalCost}</td>
             </tr>
 
           </tbody>
-        ))}
+        }
       </table>
     )
   }
 
-
   return (
     <div className='receipt'>
+      {prescriptionPrint && (
+        <Modal closeModal={() => setPrescriptionPrint(!prescriptionPrint)}>
+          <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint}/>
+        </Modal>
+      )}
       <p className='section-title'>수납</p>
       <div className='content-box'>
         {role === "ROLE_INRECEIPT" ?
@@ -229,7 +223,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
         :
         <>
           <OutPatReceipt />
-          {acceptanceDetail.length === 0 ? "" : <button onClick={() => {success()}} className='btn'>수납</button>}
+          {acceptance.length === 1 ? "" : (acceptance.MEDICINE !== null ? <input type="button" ref={btnChange} onClick={() => {successNprint()}} className='btn' value="수납"/> : <input type="button" onClick={() => {success()}} className='btn' value="수납"/>)}
         </>
         }
       

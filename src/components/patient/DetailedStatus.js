@@ -10,7 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 
 const DetailedStatus = ({ data, index }) => {
   let dispatch = useDispatch();
-
+  const className = ['box', 'waiting-order', 'selected'];
+  
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
     const { receiveId } = data;
@@ -50,7 +51,7 @@ const DetailedStatus = ({ data, index }) => {
       <div className='order-content'>
           {data.patInfo.map((data, index) => (
             <div key={index} 
-              className='waiting-order selected' 
+              className={data.OUTPATIENT_STATUS_CODE + className[0] + ' ' + className[1] + ' ' + className[2]} 
               onClick={() => {getReceiveId(data)}} 
               id={index}
               aria-controls={open ? 'basic-menu' : undefined}
@@ -62,7 +63,7 @@ const DetailedStatus = ({ data, index }) => {
                 {data.patName}
                 <span className='medical-hours'>{data.regTime}</span>
               </p>
-              <p className='status-value'>{data.status}</p>
+              <p className={data.OUTPATIENT_STATUS_CODE}>{data.status}</p>
             </div> 
           ))}
       </div>

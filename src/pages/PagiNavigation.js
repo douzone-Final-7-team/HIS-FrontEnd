@@ -17,14 +17,13 @@ import Stastic from './Stastic';
 
 const PagiNavigation = () => {
 
-  const [showNav, setShowNav] =useState(true)
-
+  const [showNav, setShowNav] =useState(true);
   return(
     <div className='view'>
       <BrowserRouter>
         <div className='layout'>
-          <header><Header showNav={showNav}/></header>
-          {showNav && <nav><Nav /></nav>}
+          {window.location.pathname === '/' || window.location.pathname === ' '? '' : <header><Header showNav={showNav}/></header>}
+          {showNav && (window.location.pathname === '/'  || window.location.pathname === ' ')? '' : <nav><Nav /></nav>}
           <div>
             <Routes>
               <Route path="/" element={<Login/>} />

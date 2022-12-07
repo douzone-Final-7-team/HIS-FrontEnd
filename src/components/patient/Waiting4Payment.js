@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react'
 // style
 import './waiting4Payment.scss';
@@ -5,7 +6,7 @@ import './waiting4Payment.scss';
 // let pageId = {pageId : "qwer"};
 const role = window.localStorage.getItem('role');
 
-const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, acceptance}) => { // 비구조할당
+const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setTreatmentNumPk}) => { // 비구조할당
   
   
   const AdmissionList = () =>{
@@ -33,7 +34,13 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, acce
 
   const OutList = () =>{
     function waitingReceiptDetail(index){
-      setAcceptance(waitingReceipt[index]);
+      axios.post("http://localhost:9090/outStatus/getAcceptance", {
+        PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
+        TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
+        }).then((res)=>{
+          setAcceptance(res.data[0]);
+        })
+      setTreatmentNumPk(waitingReceipt[index].TREATMENT_NUM_PK)
     }
     
     return (
