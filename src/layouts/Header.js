@@ -18,11 +18,13 @@ function Header({showNav}) {
   const token = localStorage.getItem('jwt') || '';
 
   useEffect(() => {
+    if(token !== '') {
     axios.get("http://localhost:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setHeaderInfo(res.data)
     })
+  }
   }, [token])
 
   return (
