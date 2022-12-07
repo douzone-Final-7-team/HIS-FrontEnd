@@ -3,6 +3,7 @@ import { useLocation, Link } from "react-router-dom"
 import './nav.scss';
 import { TbNurse, TbSettings } from "react-icons/tb";
 import { RiStethoscopeFill, RiHospitalLine } from "react-icons/ri";
+import { AiOutlineBarChart } from "react-icons/ai";
 import NavItem from './NavItem';
 
 
@@ -15,7 +16,8 @@ const Nav = () => {
     { img: <TbNurse />, path: '/ward-management2'},  //병간
     { img: <TbNurse />, path: '/outpatient'},  // 외래간호
     { img: <RiStethoscopeFill />, path: '/doctor'},  //의사
-    { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    { img: <AiOutlineBarChart />, path: '/stastic'},  //경영
+    { img: <TbSettings />, path: '/my-page'},  //마이페이지
   ]
 
   return (

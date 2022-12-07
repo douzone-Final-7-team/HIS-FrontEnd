@@ -1,13 +1,29 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { changeOutpatientStatus } from '../../redux/OutpatientPageInfoApi';
 
 const TreatmentOrder = ({ patientDetails }) => {
+  console.log(patientDetails)
+
   const dispatch = useDispatch();
+  
+  // 환자현황 : 환자 상태값
+  const opStatusInfo = useSelector(state =>  state.checkOpStatusCode.value[2]);
+
+  // 외래진료환자 상태 : 치료
+  let onTreatmentStatus = false;
+  //  외래진료환자 상태 : 수납완료
+  let completionStatus = false;
+  if(opStatusInfo === '치료') {
+    onTreatmentStatus = true;
+  } else if(opStatusInfo === '수납완료') {
+    completionStatus = true;
+  }
   
   const receiveId =  patientDetails.RECEIVE_ID_PK;
   const changePatientCode = () => {
-    dispatch(changeOutpatientStatus(receiveId)); 
+    const opStatusCode = 'OD';
+    dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
   }
 
   return (
@@ -26,7 +42,7 @@ const TreatmentOrder = ({ patientDetails }) => {
           </thead>
           <tbody>
             <tr>
-              <td><input type="checkbox"/></td>
+              <td>{completionStatus === true ? <input type="checkbox" checked/> : <input type="checkbox"/>}</td>
               {patientDetails!==null && patientDetails!==undefined ?
               <td>{patientDetails.TREATMENT_ORDER}</td>
               :
@@ -35,7 +51,7 @@ const TreatmentOrder = ({ patientDetails }) => {
             </tr>
           </tbody>
         </table>
-        <p className='btn-tbl'><a href='#!' className='btn' onClick={changePatientCode}>완료</a></p>
+        {onTreatmentStatus === true ? <p className='btn-tbl'><a href='#!' className='btn' onClick={changePatientCode}>완료</a></p> : ''}
       </div>
     </div>
   )

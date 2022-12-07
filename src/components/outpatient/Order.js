@@ -4,7 +4,6 @@ import MedicalNote from './MedicalNote';
 import TreatmentOrder from './TreatmentOrder';
 
 const Order = ({ patientDetails }) => {
-  
   const [ active, setActive ] = useState(true);
 
   const menuList = {

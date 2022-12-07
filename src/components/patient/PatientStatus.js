@@ -12,24 +12,18 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
   const [patientStatus, setPatientStatus] = useState();
   const data = ['전체', '대기중', '진료중', '치료', '완료'];
   const [btnActive, setBtnActive] = useState(0);
+  const [statusCode, setStatusCode] = useState(null);
 
 
   useEffect(()=>{
-    axios.post("http://localhost:9090/outStatus/getdocpat", {
-      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
-      }).then((res)=>{
-        setPatientStatus(res.data)
-      });
-  },[speciality]);
-
-  useEffect(()=>{
-    axios.post("http://localhost:9090/outStatus/getdocpat", {
-      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
-      }).then((res)=>{
-        setPatientStatus(res.data);
-        setOutStatusReRender(()=>true);
-      });
-  },[outStatusReRender, setOutStatusReRender, speciality]);
+    axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
+      OUTPATIENT_STATUS_CODE: statusCode
+    }).then((res)=>{
+      setPatientStatus(res.data);
+      setOutStatusReRender(()=>true);
+    });
+  },[outStatusReRender, setOutStatusReRender, speciality, statusCode])
 
   
   return (
@@ -37,7 +31,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
       <div>
         <p className='section-title'>환자현황</p>
         <select className='filter' onChange={(e) => {
-                setSpeciality(e.target.value);
+                setSpeciality(() => e.target.value);
               }}>
           <option>내과</option>
           <option>이비인후과</option>
@@ -49,44 +43,21 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
         {data.map((item, idx) => {
         return (
           <span key={idx}>
-            <button
-              value={idx}
-              className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
-              onClick={(e) => {
-                setBtnActive(() => {
-                  return (e.target.value);
-                });
-                if(idx === 0) {
-                  axios.post("http://localhost:9090/outStatus/getdocpat", {
-                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ')
-                    }).then((res)=>{setPatientStatus(res.data)});
-                } else if (idx === 1) {
-                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
-                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
-                    OUTPATIENT_STATUS_CODE: 'OC'
-                  }).then((res)=>{setPatientStatus(res.data)});
-                } else if (idx === 2) {
-                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
-                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
-                    OUTPATIENT_STATUS_CODE: 'OA'
-                  }).then((res)=>{setPatientStatus(res.data)});
-                } else if (idx === 3) {
-                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
-                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
-                    OUTPATIENT_STATUS_CODE: 'OB'
-                  }).then((res)=>{setPatientStatus(res.data)});
-                } else if (idx === 4) {
-                  axios.post("http://localhost:9090/outStatus/getdocpatCon", {
-                    SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' '),
-                    OUTPATIENT_STATUS_CODE: 'OD'
-                  }).then((res)=>{setPatientStatus(res.data)});
-                }
-              }}
-            >
-              {item}
-            </button>
-          </span>
-        );
+          <button
+            value={idx}
+            className={"btn" + (idx === parseInt(btnActive) ? " active" : "")}
+            onClick={(e) => {
+              setBtnActive(() => {
+                return (e.target.value);
+              });
+              if(idx === 0) {setStatusCode(null)} else if (idx === 1) {setStatusCode('OC')} else if (idx === 2) {setStatusCode('OA')}
+                else if (idx === 3) {setStatusCode('OB')} else if (idx === 4) {setStatusCode('OE')}
+            }}
+          >
+            {item}
+          </button>
+        </span>
+      );
       })}</p>
         <div>
           {patientStatus!==null && patientStatus!==undefined? patientStatus.map((data, index) => (

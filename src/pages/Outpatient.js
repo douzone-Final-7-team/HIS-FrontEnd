@@ -26,15 +26,13 @@ const Outpatient = () => {
         <div className='middle'>
           <div className='search-info'>
             <div className='input-patient'>
-              <div>
-                <span>이름</span>
-                <span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_NAME:" "}</span>
-                <span>주민등록번호</span>
-                <span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_SSN:" "}</span>
-              </div>
+              <p className='label'>이름</p>
+              <p className='label-value'><span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_NAME: " "}</span></p>
+              <p className='label'>주민등록번호</p>
+              <p className='label-value'><span>{patientDetails!=null && patientDetails!==undefined ? patientDetails.PATIENT_SSN:" "}</span></p>
             </div>
           </div>
-          <PatientDetail patientDetails={patientDetails}/>
+          <PatientDetail patientDetails={patientDetails} registrationInfo={registrationInfo}/>
           <MedicalHistory registrationInfo={registrationInfo} />
         </div>
         <PatientStatus className='bottom1'/>
