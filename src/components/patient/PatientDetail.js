@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import './patientDetail.scss';
 
 
-const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
+const PDetail = ({patientDetails, data, setEmpId, symptom, setSpecialityName}) => {
   const [doctorList, setDoctorList] = useState();
   const [speciality, setSpeciality] = useState('내과');
 
@@ -89,8 +89,7 @@ const PDetail = ({patientDetails, data, setEmpId, symptom, setSymptom, setSpecia
               {patientDetails!==null && patientDetails!==undefined ? 
                 <span>{patientDetails.SYMPTOM}</span> : 
                 <input 
-                value={symptom || ""} 
-                onChange={(e)=> {setSymptom(e.target.value)}}/>}
+                onChange={(e)=> {symptom.current = e.target.value}}/>}
             </td>
           </tr>
         </tbody>

@@ -21,13 +21,14 @@ const Reception = () => {
   const backSsn = useRef("");
   const [patientId, setPatientId] = useState();
   const [empId, setEmpId] = useState();
-  const [symptom, setSymptom] = useState();
+  const symptom = useRef("");
   const [specialityName, setSpecialityName] = useState('내과');
   const empIdTemp = empId!==null && empId!==undefined?empId.substring(4,11):' ';
   const [waitingReceipt, setWaitingReceipt] = useState([]);
   const [acceptance, setAcceptance] = useState([{}]);
   const [outStatusReRender, setOutStatusReRender] = useState(true);
   const [wait4payReRender, setWait4payReRender] = useState(true);
+  const [treatmentNumPk, setTreatmentNumPk] = useState("");
 
   useEffect(()=>{
     axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
@@ -36,9 +37,7 @@ const Reception = () => {
           setWait4payReRender(()=>true)
         });
   },[wait4payReRender]);
-
-   
-
+  
   function patientInfo() {
     if(window.event.keyCode === 13){
       axios.post("http://localhost:9090/patient/regInfo", {
@@ -56,17 +55,19 @@ const Reception = () => {
   }
 
   function receipt() {
+    if(symptom.current!==null && symptom.current!==undefined && symptom.current!=='') {
       axios.post("http://localhost:9090/outStatus/receipt", {
-      EMP_ID_PK: empIdTemp,
-      SPECIALITY: specialityName,
-      SYMPTOM: symptom!==null && symptom!==undefined? symptom : alert('증상 입력하세요.'),
-      PATIENT_ID_PK: patientId
-      }).then(() => {
-        if(symptom!==null && symptom!==undefined) {
-          alert("접수 완료")
-        }
-        setOutStatusReRender(()=>false);
-      });
+        EMP_ID_PK: empIdTemp,
+        SPECIALITY: specialityName,
+        SYMPTOM: symptom.current,
+        PATIENT_ID_PK: patientId
+        }).then(() => {
+          alert('접수 완료');
+          setOutStatusReRender(()=>false);
+        });
+      } else {
+        alert('증상을 입력하세요.')
+      } 
   }
 
   return (
@@ -103,12 +104,12 @@ const Reception = () => {
               <button className='regbtn' onClick={receipt}>접수</button>
             </div>
           </div>
-          <PatientDetail data={data} setEmpId={setEmpId} symptom={symptom} setSymptom={setSymptom} setSpecialityName={setSpecialityName}/>
+          <PatientDetail data={data} setEmpId={setEmpId} symptom={symptom} setSpecialityName={setSpecialityName}/>
           <MedicalHistory data={data}/>
         </div>
         <PatientStatus className='bottom1' outStatusReRender={outStatusReRender} setOutStatusReRender={setOutStatusReRender}/>
-        <Waiting4Payment waitingReceipt={waitingReceipt} setAcceptance={setAcceptance} acceptance={acceptance}/>
-        <Receipt acceptance={acceptance} setOutStatusReRender={setOutStatusReRender} setWait4payReRender={setWait4payReRender}/>
+        <Waiting4Payment waitingReceipt={waitingReceipt} setAcceptance={setAcceptance} acceptance={acceptance} setTreatmentNumPk={setTreatmentNumPk}/>
+        <Receipt acceptance={acceptance} setAcceptance={setAcceptance} setOutStatusReRender={setOutStatusReRender} setWait4payReRender={setWait4payReRender} treatmentNumPk={treatmentNumPk}/>
       </main>
     </div>
   )

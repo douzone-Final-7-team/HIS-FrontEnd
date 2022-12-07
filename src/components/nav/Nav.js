@@ -9,14 +9,34 @@ import NavItem from './NavItem';
 const Nav = () => {
   // url의 path값을 받아올 수 있다.
   const pathName = useLocation().pathname;
-  const menus = [
-    { img: <RiHospitalLine />, path: '/reception'}, // 원무
-    { img: <RiHospitalLine />, path: '/ward-management'},  //원무병동
-    { img: <TbNurse />, path: '/ward-management2'},  //병간
-    { img: <TbNurse />, path: '/outpatient'},  // 외래간호
-    { img: <RiStethoscopeFill />, path: '/doctor'},  //의사
-    { img: <TbSettings />, path: '/my-page'}  //마이페이지
-  ]
+  let menus;
+  if(window.localStorage.getItem('role') === 'ROLE_OUTRECEIPT'){
+    menus = [
+      { img: <RiHospitalLine />, path: '/reception'}, // 원무
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  } else if(window.localStorage.getItem('role') === 'ROLE_INRECEIPT') {
+    menus = [
+      { img: <RiHospitalLine />, path: '/ward-management'},  //원무병동
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  } else if(window.localStorage.getItem('role') === 'ROLE_INNURSE') {
+    menus = [
+      { img: <TbNurse />, path: '/ward-management2'},  //병간
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  } else if(window.localStorage.getItem('role') === 'ROLE_OUTNURSE') {
+    menus = [
+      { img: <TbNurse />, path: '/outpatient'},  // 외래간호
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  } else {
+    menus = [
+      { img: <RiStethoscopeFill />, path: '/doctor'},  //의사
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  }
+
 
   return (
     <div className='nav'>
