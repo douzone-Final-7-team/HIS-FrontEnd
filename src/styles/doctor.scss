@@ -8,10 +8,10 @@
   main {
     display: grid;  
     gap: 25px;
-    grid-template-columns: 1fr 335px;
+    grid-template-columns: 1fr 360px;
     grid-template-rows: 75px .8fr 1fr 435px;
     height: 100%;
-    padding: 20px 35px;
+    padding: 10px 35px;
     .top {
       grid-column-start: span 2;
     }
@@ -175,6 +175,7 @@
     .treatment-box {
       @extend %contentBox;
       width: 1400px;
+      height: 100%;
       padding: 15px 0;
 
       .box-title {
@@ -308,6 +309,7 @@
               height: 150px;
               border: 1px solid $tblBorder;
               border-radius: 5px;
+              resize: none;
             }
           }
         }

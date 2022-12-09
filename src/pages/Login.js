@@ -9,7 +9,7 @@ const Login = () => {
   const [inputPw, setInputPw] = useState("");
 
   const userLogin = () => {
-    axios.post("http://192.168.0.195:9090/login", {
+    axios.post("http://localhost:9090/login", {
     username: inputId,
     pw: inputPw
     })
@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem('jwt', res.headers.get('Authorization'))
     })
     .then(() => {
-      axios.post("http://192.168.0.195:9090/user/myPage", {}, {
+      axios.post("http://localhost:9090/user/myPage", {}, {
           headers : {'Authorization': localStorage.getItem('jwt')}
       })
       .then((res) => {
@@ -27,16 +27,17 @@ const Login = () => {
         localStorage.setItem('specialityName', res.data[0].SPECIALITY_NAME);
         localStorage.setItem('role', res.data[0].ROLE);
         localStorage.setItem('ward', res.data[0].WARD);
+        localStorage.setItem('specialityID', res.data[0].SPECIALITY_ID_FK);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
-          window.location.href = 'http://192.168.0.195:3000/doctor';
+          window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
-          window.location.href = 'http://192.168.0.195:3000/ward-management2';
+          window.location.href = 'http://localhost:3000/ward-management2';
         } else if (res.data[0].ROLE === 'ROLE_OUTNURSE') {
-          window.location.href = 'http://192.168.0.195:3000/outpatient';
+          window.location.href = 'http://localhost:3000/outpatient';
         } else if (res.data[0].ROLE === 'ROLE_OUTRECEIPT') {
-          window.location.href = 'http://192.168.0.195:3000/reception';
+          window.location.href = 'http://localhost:3000/reception';
         } else if (res.data[0].ROLE === 'ROLE_INRECEIPT') {
-          window.location.href = 'http://192.168.0.195:3000/ward-management';
+          window.location.href = 'http://localhost:3000/ward-management';
         }
       }); 
     })
@@ -59,14 +60,15 @@ const Login = () => {
                   }} 
                   placeholder='아이디를 입력 해주세요' 
                 /><br/>
-                <input 
+                  <input 
                   value={inputPw} 
                   onChange={(e) => {
                     setInputPw(e.target.value);
                   }} 
+                  onKeyPress={() => window.event.keyCode === 13 ? userLogin() : ''}
                   type = "password" 
                   placeholder='비밀번호를 입력해주세요' 
-                /><br/>
+                /><br/> 
                 <a
                   href='#!'
                   className='btn' 
