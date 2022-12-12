@@ -32,7 +32,7 @@ function Stastic() {
       }
       yearElements = JSON.stringify(yearElements);
   
-    axios.post('http://192.168.0.195:9090/stastic/year',
+    axios.post('http://localhost:9090/stastic/year',
       yearElements,
         { 
           headers: {

@@ -11,7 +11,7 @@ function Header({showNav}) {
     localStorage.removeItem('empIdPk')
     localStorage.removeItem('userName')
     localStorage.removeItem('specialityName')
-    window.location.href='http://192.168.0.195:3000/';
+    window.location.href='http://localhost:3000/';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);
@@ -19,7 +19,7 @@ function Header({showNav}) {
 
   useEffect(() => {
     if(token !== '') {
-    axios.get("http://192.168.0.195:9090/user/headerInfo",
+    axios.get("http://localhost:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setHeaderInfo(res.data)

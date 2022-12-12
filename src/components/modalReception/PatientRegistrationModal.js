@@ -13,7 +13,7 @@ const PatientRegistrationModal = () => {
   const [insurance, setInsurance] = useState();
  
   function patientReg() {
-      axios.post("http://192.168.0.195:9090/patient/insert", {
+      axios.post("http://localhost:9090/patient/insert", {
       PATIENT_NAME: name,
       PATIENT_ADDR: addr,
       PATIENT_TEL: tel,

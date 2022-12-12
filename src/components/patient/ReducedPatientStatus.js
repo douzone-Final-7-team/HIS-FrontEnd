@@ -4,7 +4,7 @@ import React, { useEffect, useState} from 'react'
 import './reducedPatientStatus.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://localhost:3001');
 
 const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
@@ -28,26 +28,26 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   useEffect(()=> {
     setTimeout(() => 
       socket.on("change_state", ()=>{//receipt_render
-        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(()=> {
     setTimeout(() => 
       socket.on("receipt_render", ()=>{
-        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(() => {
 
-    axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+    axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
       .then(res=> setMyPatientList(res.data));
   }, [doctorID])
 
   const getMyPatientInfo = (receivePk) => {
 
-    axios.get("http://192.168.0.195:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
+    axios.get("http://localhost:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
     .then((res) => {
       setTreatmentPatientInfo(res.data)
     }); 
