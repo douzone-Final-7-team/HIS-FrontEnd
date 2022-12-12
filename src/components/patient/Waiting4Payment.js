@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 // style
 import './waiting4Payment.scss';
 
@@ -7,8 +7,8 @@ import './waiting4Payment.scss';
 const role = window.localStorage.getItem('role');
 
 const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setTreatmentNumPk}) => { // 비구조할당
-  
-  
+  const [btnActive, setBtnActive] = useState(0);
+  let className = 'waiting-order';
   const AdmissionList = () =>{
     function sunabDetail(index){
       // console.log(sunabList[index].ADMISSION_ID_PK);
@@ -33,20 +33,23 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
 
   const OutList = () =>{
     function waitingReceiptDetail(index){
-      axios.post("http://192.168.0.195:9090/outStatus/getAcceptance", {
+      axios.post("http://localhost:9090/outStatus/getAcceptance", {
         PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
         TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
         }).then((res)=>{
           setAcceptance(()=>res.data[0]);
         })
-      setTreatmentNumPk(waitingReceipt[index].TREATMENT_NUM_PK)
+      setTreatmentNumPk(waitingReceipt[index].TREATMENT_NUM_PK);
+      let select = document.getElementById(index+'wait').attributes[0].nodeValue;
+      setBtnActive(select);
     }
     
     return (
       <div className='waited-people'>
         {waitingReceipt[0] === undefined ? "수납대기 환자가 없습니다." : ""}
         {waitingReceipt.map((data, index) => (
-        <div key={index} className='waiting-order' onClick={() => waitingReceiptDetail(index)}>
+        <div id={index+'wait'} key={index} className={className + " btn" + (index+'wait' === btnActive ? " active" : "")}  onClick={() => {waitingReceiptDetail(index)
+        }}>
           <p className='waiting-name'>
           {data.PATIENT_NAME}
             <span className='medical-hours'>{data.REGISTRATION_TIME}</span>
@@ -57,9 +60,6 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
       </div> 
     )
   }
-
-  
-
 
 
   return (
