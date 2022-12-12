@@ -152,6 +152,10 @@
         text-align: center;
         margin-top: 10px;
 
+        .admission-tbody {
+          cursor: pointer;
+        }
+
         .admissionTh,
         .admissionTd {
           padding: 6px 20px;
@@ -169,6 +173,9 @@
         }
 
 
+      }
+      .admission-tbody:hover {
+        border: 2px solid black;
       }
     } 
     
