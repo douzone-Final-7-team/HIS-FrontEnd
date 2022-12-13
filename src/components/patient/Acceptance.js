@@ -3,14 +3,14 @@ import './acceptance.scss';
 const Acceptance = () => {
   return (
     <div className="receipt-wrap">
-      <h1>영수증</h1>
+      <h1 className='receipt-title'>영수증</h1>
       <div className="receipt-top">
         <div>
           <p>더존 병원</p>
         </div>
         <div><p>2022-12-12 15:13:00</p></div>
       </div>
-      <table className="styled-table">
+      <table className="acceptance-table">
         <thead>
           <tr> 
             <th>처방 내역</th>
