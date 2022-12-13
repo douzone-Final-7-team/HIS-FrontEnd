@@ -54,7 +54,7 @@ const Reception = () => {
         });
   },[wait4payReRender]);
 
-  useEffect(()=> 
+  
     setTimeout(() => 
         socket.on("doctor_render", ()=>{
         axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
@@ -62,20 +62,20 @@ const Reception = () => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),50)
-  ,[])
+  
 
-  useEffect(()=> 
+  
     setTimeout(() => 
-        socket.on("change_state", ()=> {console.log("김민욱민욱")
-        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+        socket.on("change_state", ()=> {
+        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),100)
-  ,[])
+  
 
   
-  useEffect(()=> 
+  
     setTimeout(() => 
         socket.on("sunab_render", ()=>
         axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
@@ -83,7 +83,7 @@ const Reception = () => {
         setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
       })),50)
-  ,[])
+  
   
   function patientInfo() {
     if(window.event.keyCode === 13){
@@ -110,6 +110,10 @@ const Reception = () => {
         PATIENT_ID_PK: patientId
         }).then(() => {
           alert('접수 완료');
+          const none = document.getElementsByClassName("none");
+          for(let i=0 ; i < none.length ; i++){
+              none[i].value = "";
+          }
           socket.emit("receipt_complete" , {outpatient:room});
           setOutStatusReRender(()=>false);
           setdata(null);
@@ -129,17 +133,17 @@ const Reception = () => {
           <div className='search-info'>
             <div className='input-patient'>
               <form action=''>
-              <label>이름</label>
-                <input onChange={(e) => {
+                <label>이름</label>
+                <input className="none" onChange={(e) => {
                         name.current = e.target.value;
                       }}
                       onKeyPress={patientInfo}/>
                 <label>주민등록번호</label>
-                <input type='number' onChange={(e) => {
+                <input className="none" type='number' onChange={(e) => {
                         frontSsn.current = e.target.value;
                       }}
                       onKeyPress={patientInfo}/> - 
-                <input type='number' onChange={(e) => {
+                <input className="none" type='number' onChange={(e) => {
                         backSsn.current = e.target.value;
                       }}
                       onKeyPress={patientInfo}/>

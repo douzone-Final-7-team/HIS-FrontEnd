@@ -88,6 +88,7 @@ const WardCheck = ({bedInfo}) => {
 
 
   let selectedInInfo;
+  let selectedroomInfo;
   const dispatch = useDispatch();
 
     const sendWardbasicData = (e) =>{
@@ -107,6 +108,23 @@ const WardCheck = ({bedInfo}) => {
       dispatch(getCareInfo(selectedInInfo));
       dispatch(getMediRecords(selectedInInfo))
     }
+
+    const wardDataToReceipt = (e) =>{
+     
+      selectedroomInfo = {
+      "name": roomInfos[e.target.id].PATIENT_NAME,
+      "ward" : (roomInfos[e.target.id].WARDROOM + "").substring(0,1)*100,
+      "roomNum" : (roomInfos[e.target.id].WARDROOM + "").substring(2),
+      "bedNum" : (roomInfos[e.target.id].BED_NUM)
+      }
+
+
+    
+      setSelectRoom(JSON.stringify(selectedroomInfo));
+      setTest("");
+   
+    
+  }
 
   
     
@@ -204,7 +222,7 @@ const WardCheck = ({bedInfo}) => {
           <tbody>
             {roomInfos.map((wardNum, index) => (
               <tr key={index}>
-                <td id ={index} onClick={sendWardbasicData}>{wardNum.BED_NUM}</td>
+                <td id ={index} onClick={empIdPk.substring(0,1) === 'I' ? sendWardbasicData : wardDataToReceipt}>{wardNum.BED_NUM}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.WARDROOM}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.PATIENT_NAME}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.EMP_NAME}</td>

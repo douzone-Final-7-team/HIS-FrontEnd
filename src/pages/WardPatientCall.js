@@ -59,6 +59,8 @@ const WardPatientCall = ({setShowNav}) => {
         bedNum: inPatientALL.bedNum
       }
       await socket.emit("send_message", messageData )
+
+
     axios.put('http://localhost:9090/admission/InPatientReq',
       savemassage,
         {
