@@ -67,7 +67,7 @@ const Reception = () => {
   
     setTimeout(() => 
         socket.on("change_state", ()=> {
-        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
+        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)

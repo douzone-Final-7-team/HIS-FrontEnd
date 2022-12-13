@@ -1,7 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import io from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux'
-import { changeOutpatientStatus } from '../../redux/OutpatientPageInfoApi';
+import { useSelector } from 'react-redux'
 import axios from 'axios';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
@@ -23,8 +22,6 @@ const TreatmentOrder = ({ patientDetails }) => {
   },[room])
 
   console.log(patientDetails)
-
-  const dispatch = useDispatch();
   
   // 환자현황 : 환자 상태값
   const opStatusInfo = useSelector(state =>  state.checkOpStatusCode.value[2]);

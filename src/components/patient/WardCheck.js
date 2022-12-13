@@ -37,7 +37,7 @@ const RoomOpions = [
 
 
 
-const WardCheck = ({bedInfo}) => {
+const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
   
   const [roomInfos, setRoomInfos] = useState([]);
   const [selected, setSelected] = useState([]);

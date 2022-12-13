@@ -60,7 +60,6 @@ const Doctor = () => {
       headers : {'Authorization': token}
     })
       .then((res) => {
-        console.log(res.data)
         setInPatientList(res.data)
     });
 

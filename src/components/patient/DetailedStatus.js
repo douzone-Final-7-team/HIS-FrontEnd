@@ -11,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:3001');
-const socket = io.connect('http://localhost:3001');
 
 const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
@@ -35,7 +34,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [ sendData, setSendData ] = useState();
-  const [ receiveId, setReceiveId ] = useState();
+  // const [ receiveId, setReceiveId ] = useState();
   const [changeState ,setChangeState] =useState();
   const [room, setRoom] = useState("");
 
@@ -71,7 +70,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
       empId: data.EMP_ID_PK
     }
     setSendData(insertData);
-    setReceiveId(data.receiveId)
+    // setReceiveId(data.receiveId)
 
     const { receiveId } = data;
 
