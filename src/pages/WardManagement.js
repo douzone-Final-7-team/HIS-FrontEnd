@@ -34,6 +34,8 @@ const WardManagement = () => {
     
 
   const [bedInfo, setBedInfo] = useState(false);
+  const [selectRoom, setSelectRoom] = useState("");
+  const [test,setTest] = useState("");
   const [room, setRoom] = useState("");
 
   useEffect(()=>{
@@ -131,9 +133,9 @@ const WardManagement = () => {
           <p className='count'>&gt; <span>{wardData[0].outDuePatient}</span></p>
           <div className='line'></div>
         </div>
-        <WardCheck bedInfo={bedInfo}/>
+        <WardCheck bedInfo={bedInfo} setTest={setTest} setSelectRoom={setSelectRoom}/>
         <div className='tab'>
-          <AdmissionSunab bedInfo={bedInfo} setBedInfo = {setBedInfo}/>
+          <AdmissionSunab test={test} setTest={setTest} selectRoom={selectRoom} setSelectRoom={setSelectRoom} bedInfo={bedInfo} setBedInfo = {setBedInfo}/>
         </div>
       </main>
     </div>

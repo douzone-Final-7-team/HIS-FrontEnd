@@ -38,7 +38,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
     });
   },[outStatusReRender, setOutStatusReRender, speciality, statusCode])
 
-  useEffect(()=> {
+  
     setTimeout(() => 
         socket.on("receipt_render", ()=>
           axios.post("http://localhost:9090/outStatus/getdocpatCon", {
@@ -48,10 +48,10 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
             setPatientStatus(res.data);
             setOutStatusReRender(()=>true);
   })),50)
-  },[setOutStatusReRender,speciality,statusCode])
+  
   //여기서 on을 받는다.
 
-  useEffect(()=> {
+  
     setTimeout(() => 
         socket.on("sunab_render", ()=>
           axios.post("http://localhost:9090/outStatus/getdocpatCon", {
@@ -61,9 +61,9 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
             setPatientStatus(res.data);
             setOutStatusReRender(()=>true);
   })),50)
-  },[setOutStatusReRender,speciality,statusCode])
 
-  useEffect(()=> {
+
+  
     setTimeout(() => 
         socket.on("doctor_render", ()=>
           axios.post("http://localhost:9090/outStatus/getdocpatCon", {
@@ -73,9 +73,9 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
             setPatientStatus(res.data);
             setOutStatusReRender(()=>true);
   })),50)
-  },[setOutStatusReRender,speciality,statusCode])
+  
 
-  useEffect(()=> {
+  
     setTimeout(() => 
         socket.on("change_state", ()=>{console.log("욱민김")
           axios.post("http://localhost:9090/outStatus/getdocpatCon", {
@@ -85,7 +85,7 @@ function PatientStatus({outStatusReRender, setOutStatusReRender}) {
             setPatientStatus(res.data);
             setOutStatusReRender(()=>true);
   })}),50)
-  },[setOutStatusReRender,speciality,statusCode])
+  
 
 
 

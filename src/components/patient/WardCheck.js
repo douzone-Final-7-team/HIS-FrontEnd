@@ -10,8 +10,7 @@ import { selectPeople } from '../../redux/InPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
-
+const socket = io.connect('http://192.168.0.195:3001');
 // const specialityName = window.localStorage.getItem('specialityName');
 const empIdPk = window.localStorage.getItem('empIdPk');
 
@@ -37,25 +36,36 @@ const RoomOpions = [
 
 
 
-const WardCheck = ({bedInfo}) => {
-  
-  let bedInfoState = bedInfo;
-    socket.on("bedInfoChange",(data)=>{
-       if(!bedInfoState){
-          bedInfoState = true;
-        }else{
-          bedInfoState = false;
-        }
-        setSelected(()=>bedInfoState);})
-        // 확인해야할부분 --> order쪽에서 승인 시 socket.on하여 확인 하지만 입원승인 후 바로 재랜더할지 입실완료 후 재랜더할지 결정해야함.
 
-    // console.log(data.empIdPk);
-    // data.ward = "200";
-
+const WardCheck = ({bedInfo,setTest,setSelectRoom}) => {
   const [roomInfos, setRoomInfos] = useState([]);
   const [selected, setSelected] = useState([]);
   const [ward, setWard] = useState([]);
   const [room, setRoom] = useState([]);
+  const [socketRoom, setSocketRooom] = useState("");
+
+  useEffect(()=>{
+    setSocketRooom("입원")
+      if (socketRoom !== "") {
+        socket.emit("join_room", socketRoom);
+    }
+    },[socketRoom])
+
+    let bedInfoState = bedInfo;
+    socket.on("admissionOrder",()=>{console.log("와드 체크")
+    if(!bedInfoState){
+      bedInfoState = true;
+    }else{
+      bedInfoState = false;
+    }
+    setSelected(()=>bedInfoState);
+    setTimeout(() => 
+    axios.get(API_URL+"/wardCheck/roominfos", {params : data})
+      .then(res => setRoomInfos(res.data))
+      ,50)
+  })
+
+  
 
   // if(data.empIdPk.indexOf("O") !== -1){
   //   data.ward = "200";
@@ -73,6 +83,7 @@ const WardCheck = ({bedInfo}) => {
 
 
   let selectedInInfo;
+  let selectedroomInfo;
   const dispatch = useDispatch();
 
     const sendWardbasicData = (e) =>{
@@ -93,6 +104,23 @@ const WardCheck = ({bedInfo}) => {
       dispatch(getCareInfo(selectedInInfo));
       dispatch(getMediRecords(selectedInInfo))
     }
+
+    const wardDataToReceipt = (e) =>{
+     
+      selectedroomInfo = {
+      "name": roomInfos[e.target.id].PATIENT_NAME,
+      "ward" : (roomInfos[e.target.id].WARDROOM + "").substring(0,1)*100,
+      "roomNum" : (roomInfos[e.target.id].WARDROOM + "").substring(2),
+      "bedNum" : (roomInfos[e.target.id].BED_NUM)
+      }
+
+
+    
+      setSelectRoom(JSON.stringify(selectedroomInfo));
+      setTest("");
+   
+    
+  }
 
   
     
@@ -190,7 +218,7 @@ const WardCheck = ({bedInfo}) => {
           <tbody>
             {roomInfos.map((wardNum, index) => (
               <tr key={index}>
-                <td id ={index} onClick={sendWardbasicData}>{wardNum.BED_NUM}</td>
+                <td id ={index} onClick={empIdPk.substring(0,1) === 'I' ? sendWardbasicData : wardDataToReceipt}>{wardNum.BED_NUM}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.WARDROOM}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.PATIENT_NAME}</td>
                 <td id ={index} onClick={sendWardbasicData}>{wardNum.EMP_NAME}</td>

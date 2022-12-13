@@ -53,8 +53,8 @@ const Reception = () => {
           setWait4payReRender(()=>true)
         });
   },[wait4payReRender]);
+
   
-  useEffect(()=> 
     setTimeout(() => 
         socket.on("doctor_render", ()=>{
         axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
@@ -62,20 +62,20 @@ const Reception = () => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),50)
-  ,[])
+  
 
-  useEffect(()=> 
+  
     setTimeout(() => 
-        socket.on("change_state", ()=> {console.log("김민욱민욱")
-        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+        socket.on("change_state", ()=> {
+        axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),100)
-  ,[])
+  
 
   
-  useEffect(()=> 
+  
     setTimeout(() => 
         socket.on("sunab_render", ()=>
         axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
@@ -83,7 +83,7 @@ const Reception = () => {
         setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
       })),50)
-  ,[])
+  
   
   function patientInfo() {
     if(window.event.keyCode === 13){
