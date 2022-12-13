@@ -7,7 +7,45 @@ import {getInpatientInfo, getCareInfo, getMediRecords,getInpatientSchedules
 
 const InPatientInfoSlice = createSlice({
     name: 'inPatientInfoSlice',
-    initialState: {value:[]},
+    initialState: {value:[null,null,null,null,null,{
+        PATIENT_NAME: "",
+        GENDER : "",
+        PATIENT_TEL : "",
+        PROTECTOR_NAME : "",
+        PROTECTOR_TEL : "",
+        PATIENT_ADDR : "",
+        EMP_NAME : "",
+        SPECIALITY_NAME : "",
+        DIAGNOSIS : "",
+        DISCHARGE_DUEDATE : "",
+        ADMISSION_ID_PK : "",
+        PATIENT_AGE : ""
+
+    },[{
+        CARE_DATE : "",
+        CARE_CONTENT : "빈 데이터 입니다 환자를 클릭 하세요",
+        NURSE_NAME : "",
+    }],[{
+        RECORD_ID_PK: "",
+        ORDER_CONTENT:"빈 데이터 입니다 환자를 클릭 해 주세요",
+        MEDICINE_NAME: "",
+        ORDERER : "",
+        TAKE_MEDICINE_STATUS : false,
+        ORDER_DATE: "",
+    }],[{
+        SCHEDULE_ID_PK : "",
+        SCHEDULE_CONTENT : "",
+        SCHEDULE_PLACE : "",
+        SCHEDULE_DATE : "",
+        PS_CODE_NAME : "",
+        PATIENT_NAME : ""
+    }],[{
+        HANDOVER_ID_PK : "",
+        HANDOVER_CONTENT : "",
+        HANDOVER_TARGET : "",
+        EMP_NAME : "",
+        HANDOVER_DATE : ""  
+    }]]},
     reducers:{
         selectPeople: (state, action) => {
             state.value[0] = action.payload;     
@@ -90,9 +128,6 @@ const InPatientInfoSlice = createSlice({
     }
 
 });
-
-
-
 
 export default InPatientInfoSlice;
 export const {selectPeople, executeModal, modalMode,modifyElement,globalmodifyElement} = InPatientInfoSlice.actions;

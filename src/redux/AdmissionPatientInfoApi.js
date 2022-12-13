@@ -75,7 +75,6 @@ export const changeCareInfo = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      
       return resp.data
   }
 )
@@ -210,10 +209,6 @@ export const changeScheduleStatus = createAsyncThunk(
   }
 )
 
-
-
-
-
 //나에게 전달 된 인계사항 READ
 export const getReceiveHandOver = createAsyncThunk(
   'inPatientInfoSlice/getReceiveHandOver',
@@ -241,7 +236,6 @@ export const getSendHandOver = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-    
       return resp.data
   }
 )

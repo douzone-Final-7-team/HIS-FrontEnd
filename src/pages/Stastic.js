@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import '../styles/scss/reset.scss';
 import'../styles/statstic.scss';
 // components
-import EmpBar from '../components/employee/EmpBar';
 import ECharts from 'echarts-for-react';
 import StaticTab from '../components/static/StaticTab';
 import axios from 'axios';
@@ -175,9 +174,7 @@ function Stastic() {
   return (
 
     <div className='Stastic-wapper'>
-        <div className='top'>
-          <EmpBar />
-        </div>
+      <div className='chart-wapper'>
     {chartData != null &&    
       <div className='chart-container'>
         <div className='tap'>
@@ -252,6 +249,7 @@ function Stastic() {
           <ECharts option={inPatinetOptions} style={{ width: "100%", height: "100%" }}/>
           </div>
       </div>}
+      </div>
     </div>
    
   )

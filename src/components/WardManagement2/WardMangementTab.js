@@ -24,8 +24,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography component="div">{children}</Typography>
@@ -50,14 +49,11 @@ function a11yProps(index) {
 
 export default function WardMangeMentTap() {
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const dispatch = useDispatch();
- 
-   
   const [changeDischargeDate, setChangeDischargeDate] =React.useState("");
   const [sendDischargeDate ,setSendDischargeDate]=React.useState({
     dischargeDueDate: "",
@@ -70,39 +66,34 @@ export default function WardMangeMentTap() {
 
   const inpatientDetail = useSelector(state=>{
     return state.inPatientInfo.value[5]
-  })
+  });
 
   React.useEffect(()=>{
-    if(inpatientDetail != null){
       setChangeDischargeDate(inpatientDetail.DISCHARGE_DUEDATE)
-    }
-  },[inpatientDetail])
+  },[inpatientDetail]);
  
   const careElements = useSelector(state=>{
     return state.inPatientInfo.value[0]
-  })
+  });
 
   const ChangeDueDate = (e) =>{
-        setChangeDischargeDate(e.target.value)
+    setChangeDischargeDate(e.target.value);
   
-        setSendDischargeDate( {
-          dischargeDueDate: e.target.value,
-          admissionIdPk : inpatientDetail.ADMISSION_ID_PK,
-          ward: careElements.ward,
-          name: careElements.name,
-          roomNum: careElements.roomNum,
-          bedNum: careElements.bedNum
-        })
-  
-    }
-    React.useEffect(()=>{
-      const sendDischarge = document.getElementById('dischargeEnroll');
-      sendDischarge.addEventListener('click',
-      
-     (dispatch(changeDischargeDueDate(sendDischargeDate)))
-      )
-    },[dispatch, sendDischargeDate])
-  
+    setSendDischargeDate( {
+      dischargeDueDate: e.target.value,
+      admissionIdPk : inpatientDetail.ADMISSION_ID_PK,
+      ward: careElements.ward,
+      name: careElements.name,
+      roomNum: careElements.roomNum,
+      bedNum: careElements.bedNum
+      });
+  };
+  React.useEffect(()=>{
+    const sendDischarge = document.getElementById('dischargeEnroll');
+    sendDischarge.addEventListener('click',
+    dispatch(changeDischargeDueDate(sendDischargeDate)));
+    },[dispatch, sendDischargeDate]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -113,30 +104,29 @@ export default function WardMangeMentTap() {
         </Tabs>
       </Box>
       <div className='inpatient-info-wapper'>
-            <div className='inpatient-info'>
-              <p><span>환자명 : </span>{(inpatientDetail != null) ? inpatientDetail.PATIENT_NAME : ""}</p>
-            </div>                    
-            <div className='inpatient-info'>
-              <p><span>S/A : </span>{(inpatientDetail != null) ?  inpatientDetail.GENDER : ""}/{(inpatientDetail != null) ?  inpatientDetail.PATIENT_AGE: ""}</p>
-            </div>                    
-            <div className='inpatient-info'>
-              <p><span>주치의 : </span>{(inpatientDetail != null) ? inpatientDetail.SPECIALITY_NAME: ""}/{(inpatientDetail != null) ?  inpatientDetail.EMP_NAME : ""}</p>
-            </div>
-            <div className='inpatient-info'>
-              <p><span>입원일 : </span>{(inpatientDetail != null) ?  inpatientDetail.ADMISSION_DATE: ""}</p>
-            </div>
-            <div className='inpatient-info'>
-            
-                <div className='discharge-duedate'>
-                <span>퇴원 예정일 : </span>
-                {(inpatientDetail != null) ? <input className = 'discharge-insert' type="date" value={inpatientDetail.DISCHARGE_DUEDATE ? changeDischargeDate || "": ""} onChange={ChangeDueDate}></input> : <input className = 'discharge-insert' type="date" value= ""></input> }    
-                  <a href='#!' id = "dischargeEnroll" className='btn'>등록</a>      
-                </div>
-            </div>                
+        <div className='inpatient-info'>
+          <p><span>환자명 : </span>{inpatientDetail.PATIENT_NAME}</p>
+        </div>                    
+        <div className='inpatient-info'>
+          <p><span>S/A : </span>{inpatientDetail.GENDER}/{inpatientDetail.PATIENT_AGE}</p>
+        </div>                    
+        <div className='inpatient-info'>
+          <p><span>주치의 : </span>{inpatientDetail.SPECIALITY_NAME}/{inpatientDetail.EMP_NAME}</p>
         </div>
+        <div className='inpatient-info'>
+          <p><span>입원일 : </span>{inpatientDetail.ADMISSION_DATE}</p>
+        </div>
+        <div className='inpatient-info'>
+        <div className='discharge-duedate'>
+          <span>퇴원 예정일 : </span>
+          <input className = 'discharge-insert' type="date" value={inpatientDetail.DISCHARGE_DUEDATE ? changeDischargeDate || "": ""} onChange={ChangeDueDate}></input>    
+          <a href='#!' id = "dischargeEnroll" className='btn'>등록</a>      
+          </div>
+        </div>                
+      </div>
       <TabPanel value={value} index={0}>
-      <InpatientDetail/>
-        </TabPanel>
+        <InpatientDetail/>
+      </TabPanel>
       <TabPanel value={value} index={1}>
         <CareInfo/>
       </TabPanel>

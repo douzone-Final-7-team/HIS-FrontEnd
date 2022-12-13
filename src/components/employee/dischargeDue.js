@@ -5,7 +5,7 @@ import './dischargeDue.scss';
 import io from 'socket.io-client';
 
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://localhost:3001');
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>
@@ -28,10 +28,10 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
 
     useEffect(()=>{
       setSocketRooom("입원")
-        if (socketRoom !== "") {
-        socket.emit("join_room", socketRoom);
-    }
-    },[socketRoom])
+    if (socketRoom !== "") {
+      socket.emit("join_room", socketRoom);
+  }
+  },[socketRoom])
 
     useEffect(()=>{
         setTimeout(() => 
@@ -55,6 +55,7 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
         }
 
         await socket.emit("send_admissionOrder", messageData );
+
         let ward = (WARDROOM+"").substring(0,1)*100;
         let room = (WARDROOM+"").substring(2);
 
@@ -86,6 +87,9 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
         axios.put(API_URL+"/AdmissionFront/discharged", JSON.stringify(data), {headers:{"Content-Type" : `application/json`},})
         .then(setDisChargeFinish(()=>changeState));
         setBedInfo(()=>bedInfoState);
+
+        
+
         }
         
     
