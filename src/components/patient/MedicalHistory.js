@@ -32,7 +32,7 @@ const MedicalHistory = ({registrationInfo, data}) => {
           : 
           (data!=null && data!==undefined? data.treatmentInfo.map((data, index) => (
             <tr key={index}>
-              <td>{data.TREATMENT_DATE.substr(0,10)}</td>
+              <td>{data.TREATMENT_DATE!==null && data.TREATMENT_DATE!==undefined?data.TREATMENT_DATE.substr(0,10):''}</td>
               <td>{data.DIAGNOSIS_CODE}</td>
               <td>{data.TREATMENT_MEMO}</td>
               <td><p className='btn-detail' onClick={() => {
