@@ -9,7 +9,7 @@ import InPatientBar from '../components/inPatient/InPatientBar';
 import io from 'socket.io-client';
 import axios from 'axios';
 import WardSetting from './WardSetting';
-const socket = io.connect('http://192.168.0.195:3001')
+const socket = io.connect('http://localhost:3001')
 
 
 const WardPatientCall = ({setShowNav}) => {
@@ -71,7 +71,7 @@ const WardPatientCall = ({setShowNav}) => {
       await socket.emit("send_message", messageData )
 
 
-    axios.put('http://192.168.0.195:9090/admission/InPatientReq',
+    axios.put('http://localhost:9090/admission/InPatientReq',
       savemassage,
         {
           headers: {

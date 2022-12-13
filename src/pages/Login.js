@@ -7,9 +7,9 @@ const Login = () => {
 
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
-
+  
   const userLogin = () => {
-    axios.post("http://192.168.0.195:9090/login", {
+    axios.post("http://localhost:9090/login", {
     username: inputId,
     pw: inputPw
     })
@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem('jwt', res.headers.get('Authorization'))
     })
     .then(() => {
-      axios.post("http://192.168.0.195:9090/user/myPage", {}, {
+      axios.post("http://localhost:9090/user/myPage", {}, {
           headers : {'Authorization': localStorage.getItem('jwt')}
       })
       .then((res) => {
@@ -28,15 +28,15 @@ const Login = () => {
         localStorage.setItem('role', res.data[0].ROLE);
         localStorage.setItem('ward', res.data[0].WARD);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
-          window.location.href = 'http://192.168.0.195:3000/doctor';
+          window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
-          window.location.href = 'http://192.168.0.195:3000/ward-management2';
+          window.location.href = 'http://localhost:3000/ward-management2';
         } else if (res.data[0].ROLE === 'ROLE_OUTNURSE') {
-          window.location.href = 'http://192.168.0.195:3000/outpatient';
+          window.location.href = 'http://localhost:3000/outpatient';
         } else if (res.data[0].ROLE === 'ROLE_OUTRECEIPT') {
-          window.location.href = 'http://192.168.0.195:3000/reception';
+          window.location.href = 'http://localhost:3000/reception';
         } else if (res.data[0].ROLE === 'ROLE_INRECEIPT') {
-          window.location.href = 'http://192.168.0.195:3000/ward-management';
+          window.location.href = 'http://localhost:3000/ward-management';
         }
       }); 
     })
