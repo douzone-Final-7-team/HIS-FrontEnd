@@ -4,7 +4,7 @@ function EmergencyModal({setShowEmergency, showWardRoom}) {
  
 function closeModal() {
     setShowEmergency(false)
-  }
+  };
  
   return (
     <div className="Modal-wapper" onClick={closeModal}>

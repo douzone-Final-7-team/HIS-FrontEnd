@@ -4,7 +4,7 @@ import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://192.168.0.195:3001')
+const socket = io.connect('http://localhost:3001')
 
 const AdmissionOrder = ({bedInfo , setBedInfo}) => {
 
@@ -70,7 +70,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
           PATIENT_SSN: patientSsn
         };
   
-        await socket.emit("admissionOrder", messageData );
+        await socket.emit("send_admissionOrder", messageData );
 
         let changeState = admissionFinish;
         if(changeState === false){

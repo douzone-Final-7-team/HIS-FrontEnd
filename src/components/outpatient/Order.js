@@ -4,23 +4,23 @@ import MedicalNote from './MedicalNote';
 import TreatmentOrder from './TreatmentOrder';
 
 const Order = ({ patientDetails }) => {
-  const [ active, setActive ] = useState(true);
+  const [ active, setActive ] = useState(0);
 
   const menuList = {
-    true: <MedicalNote patientDetails={patientDetails} />,
-    false: <TreatmentOrder patientDetails={patientDetails} />
+    0: <MedicalNote patientDetails={patientDetails} />,
+    1: <TreatmentOrder patientDetails={patientDetails} />
   };
 
-  const changeMenu = () => {
-    setActive(!active);
+  const changeMenu = (num) => {
+    setActive(num);
   };
   
 
   return (
     <div className='order'>
       <ul className="tab-menu">
-        <li className={`${active === true? 'active': ''}`} onClick={changeMenu}>진료메모</li>
-        <li className={`${active === false? 'active': ''}`} onClick={changeMenu}>치료오더</li>
+        <li className={`${active === 0? 'active': ''}`} onClick={() => {changeMenu(0)}}>진료메모</li>
+        <li className={`${active === 1? 'active': ''}`} onClick={() => {changeMenu(1)}}>치료오더</li>
       </ul>
       <div id="tab-content">
         {menuList[active]}

@@ -10,7 +10,7 @@ import { selectPeople } from '../../redux/InPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://localhost:3001');
 
 // const specialityName = window.localStorage.getItem('specialityName');
 const empIdPk = window.localStorage.getItem('empIdPk');
@@ -39,23 +39,38 @@ const RoomOpions = [
 
 const WardCheck = ({bedInfo}) => {
   
-  let bedInfoState = bedInfo;
-    socket.on("bedInfoChange",(data)=>{
-       if(!bedInfoState){
-          bedInfoState = true;
-        }else{
-          bedInfoState = false;
-        }
-        setSelected(()=>bedInfoState);})
-        // 확인해야할부분 --> order쪽에서 승인 시 socket.on하여 확인 하지만 입원승인 후 바로 재랜더할지 입실완료 후 재랜더할지 결정해야함.
-
-    // console.log(data.empIdPk);
-    // data.ward = "200";
-
   const [roomInfos, setRoomInfos] = useState([]);
   const [selected, setSelected] = useState([]);
   const [ward, setWard] = useState([]);
   const [room, setRoom] = useState([]);
+  const [socketRoom, setSocketRooom] = useState("");
+
+  useEffect(()=>{
+    setSocketRooom("입원")
+  if (socketRoom !== "") {
+    socket.emit("join_room", socketRoom);
+}
+},[socketRoom])
+
+  let bedInfoState = bedInfo;
+  socket.on("admissionOrder",()=>{console.log("와드 체크")
+  if(!bedInfoState){
+     bedInfoState = true;
+   }else{
+     bedInfoState = false;
+   }
+   setSelected(()=>bedInfoState);
+   setTimeout(() => 
+   axios.get(API_URL+"/wardCheck/roominfos", {params : data})
+     .then(res => setRoomInfos(res.data))
+     ,50)
+ })
+        // 확인해야할부분 --> order쪽에서 승인 시 socket.on하여 확인 하지만 입원승인 후 바로 재랜더할지 입실완료 후 재랜더할지 결정해야함.
+
+    // data.ward = "200";
+
+
+
 
   // if(data.empIdPk.indexOf("O") !== -1){
   //   data.ward = "200";
@@ -87,7 +102,6 @@ const WardCheck = ({bedInfo}) => {
 
       dispatch(selectPeople(selectedInInfo))
       selectedInInfo = JSON.stringify(selectedInInfo)
-     
       // 비동기 정보
       dispatch(getInpatientInfo(selectedInInfo));
       dispatch(getCareInfo(selectedInInfo));
@@ -106,7 +120,7 @@ const WardCheck = ({bedInfo}) => {
     
     const wardHandleChange = (e) => {
         
-      // console.log(e.target.value);
+  
       if(e.target.value === "100"){
         delete data.ward;
         delete data.roomNum;
@@ -145,7 +159,7 @@ const WardCheck = ({bedInfo}) => {
       }else{
         data.roomNum = e.target.value;
       }
-      // console.log(data);
+  
       setRoom(e.target.value);
       setSelected(e.target.value);
       
