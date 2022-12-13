@@ -14,7 +14,9 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
     // 상세 과거병력 SELECT
     const detailedMedicalHistory = useSelector(state => state.readDetailedMedicalHistory.value[5]);
     let medicalHistoryInfo;
-    detailedMedicalHistory.length > 0 && detailedMedicalHistory.map(data =>  medicalHistoryInfo = data)
+    if(localStorage.getItem('role') === 'ROLE_OUTNURSE'){
+      detailedMedicalHistory.length > 0 && detailedMedicalHistory.map(data =>  medicalHistoryInfo = data)      
+    }
   
     const [detail, setDetail] = useState([{}]);
     

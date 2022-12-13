@@ -2,6 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/constants/Config';
 import './dischargeDue.scss';
+import io from 'socket.io-client';
+
+
+const socket = io.connect('http://192.168.0.195:3001');
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>
@@ -20,6 +24,14 @@ const InitList = () => {return (
 const DischargeDue = ({setBedInfo , bedInfo}) => {
     const [disChargeDueList, setDisChargeDueList] = useState([]);
     const [disChargeFinish, setDisChargeFinish] = useState(false);
+    const [socketRoom, setSocketRooom] = useState("");
+
+    useEffect(()=>{
+      setSocketRooom("입원")
+        if (socketRoom !== "") {
+        socket.emit("join_room", socketRoom);
+    }
+    },[socketRoom])
 
     useEffect(()=>{
         setTimeout(() => 
@@ -37,8 +49,12 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
     console.log(disChargeDueList);
     console.log(disChargeFinish);
 
-    function complete(admissionIdPk,WARDROOM,BED_NUM) {
-        
+    async function complete(admissionIdPk,WARDROOM,BED_NUM) {
+        const messageData={
+            admission : socketRoom
+        }
+
+        await socket.emit("send_admissionOrder", messageData );
         let ward = (WARDROOM+"").substring(0,1)*100;
         let room = (WARDROOM+"").substring(2);
 

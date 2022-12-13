@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import './patientDetail.scss';
 
 
-const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, symptom, setSymptom, setSpecialityName}) => {
+const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, symptom, setSpecialityName}) => {
   const [doctorList, setDoctorList] = useState();
   const [speciality, setSpeciality] = useState('내과');
 
@@ -105,7 +105,7 @@ const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, sympto
             <td colSpan={9}>
               {patientDetails!==null && patientDetails!==undefined ? 
                 <span>{patientDetails.SYMPTOM}</span> : 
-                <input 
+                <input className="none"
                 onChange={(e)=> {symptom.current = e.target.value}}/>}
             </td>
           </tr>

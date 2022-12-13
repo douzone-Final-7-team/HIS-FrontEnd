@@ -41,14 +41,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   useEffect(() => {
 
     axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
-      .then((res)=> {
-        setMyPatientList(res.data)
-      });
-
-    axios.get("http://localhost:9090/outStatus/PatientNum", {params : {doctorID : doctorID}})
-      .then((res) => {
-        setMyPatientNum(res.data)
-      })
+      .then(res=> setMyPatientList(res.data));
   }, [doctorID])
 
   const getMyPatientInfo = (receivePk) => {

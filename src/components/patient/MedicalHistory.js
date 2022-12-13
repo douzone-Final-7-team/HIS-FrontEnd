@@ -10,7 +10,6 @@ const MedicalHistory = ({registrationInfo, data}) => {
   const [patientID, setPatientID] = useState("");
   const [treatmentDate, setTreatmentDate] = useState("");
   const [regTime, setRegTime] = useState("");
-  console.log(patientID, treatmentDate, regTime)
 
   return (
     <div className='medical-history'>

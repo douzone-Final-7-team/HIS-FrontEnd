@@ -49,10 +49,10 @@ function TabPanel(props) {
 
   
 
-  export default function AdmissionSunab({setBedInfo, bedInfo}) {
+  export default function AdmissionSunab({setBedInfo, bedInfo,test,setTest,selectRoom,setSelectRoom}) {
     const [value, setValue] = React.useState(0);
     const [sunabList, setSunabList] = React.useState([]);
-    const [test,setTest] = React.useState("");
+    // const [test,setTest] = React.useState("");
     const [reRender , setReRender] = React.useState(true);
     const [checkedList, setCheckedList] = React.useState([]);
     //middlePayment , All , today
@@ -70,14 +70,16 @@ function TabPanel(props) {
       setTimeout(() => 
       axios.post(API_URL +"/AdmissionReceipt/AdReceiptList", {filter : sunabInfo}, {headers:{"Content-Type" : `application/json`},})
         .then(res => setSunabList(res.data))
-        ,50);
+        ,100);
         setTest("");
-    },[reRender,sunabInfo]);
+        setSelectRoom("");
+    },[reRender,sunabInfo,setTest,setSelectRoom]);
     
     /*-------------------------------------------------------------*/
     const CATEGORY_LIST = [
       { id: 0, value: 'today' , data: '금일 퇴원 환자' },
-      { id: 1, value: 'middlePayment' , data: '중간 정산 환자' }
+      { id: 1, value: 'middlePayment' , data: '중간 정산 환자' },
+      { id: 2, value: 'notPayment' , data: '수납 연체 환자' }
     ];
 
     function ProdBasicInfo() {
@@ -136,10 +138,10 @@ function TabPanel(props) {
                     </ul>
                 </div>
                 <div className='b'>
-                    <Waiting4Payment sunabList={sunabList} setTest={setTest}/>
+                    <Waiting4Payment sunabList={sunabList} setSelectRoom={setSelectRoom} setTest={setTest}/>
                 </div>
                 <div className='c'>
-                    <Receipt test={test} reRender={reRender} setReRender={setReRender}/>
+                    <Receipt test={test} reRender={reRender} setReRender={setReRender} selectRoom={selectRoom}/>
                 </div>
             </div>
         </TabPanel>
