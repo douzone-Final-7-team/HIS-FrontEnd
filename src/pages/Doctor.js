@@ -2,18 +2,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import io from 'socket.io-client';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+import moment from 'moment';
 // style
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
 import '../styles/Calendar.css';
 import '../components/doctor/PatientDetail.scss';
 import '../components/doctor/DoctorSchedule.scss';
+import '../components/doctor/InPatientModal.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import ReducedPatientStatus from '../components/patient/ReducedPatientStatus';
 import Modal from '../components/doctor/Modal';
 import PatientDetailModal from '../components/doctor/PatientDetailModal';
 import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
+import InPatientModal from '../components/doctor/InPatientModal';
+import InPatientDetailModal from '../components/doctor/InPatientDetailModal';
 
 const socket = io.connect('http://localhost:3001');
 
@@ -23,11 +29,14 @@ const Doctor = () => {
   const treatmentDate = useRef("");
   const [inPatientList, setInPatientList] = useState([{}]);
   const [value, onChange] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
   const [visibleTreatmentDiv, setVisibleTreatmentDiv] = useState(false);
   const [visibleMedicineDiv, setVisibleMedicineDiv] = useState(false);
   const [visibleAdmissionDiv, setVisibleAdmissionDiv] = useState(false);
-  const [detail, setDetail] = useState(false);
-  const [schedule, setSchedule] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [scheduleModal, setScheduleModal] = useState(false);
+  const [inPatientModal, setInPatientModal] = useState(false);
+  const [outInfoElements, setOutInfoElements] = useState([{}]);
   const [medicineOrder, setMedicineOrder] = useState([]);
   const [diagnosisList, setDiagnosisList] = useState([{}]);
   const [medicineList, setMedicineList] = useState([{}]);
@@ -47,8 +56,11 @@ const Doctor = () => {
         pastTreatmentList.current = res.data
       });
 
-    axios.get("http://localhost:9090/AdmissionFront/myInPatient")
+    axios.get("http://localhost:9090/AdmissionFront/myInPatient", {
+      headers : {'Authorization': token}
+    })
       .then((res) => {
+        console.log(res.data)
         setInPatientList(res.data)
     });
 
@@ -124,6 +136,8 @@ const Doctor = () => {
       })
     }
   };
+
+  // console.log(admissionOrder.current);
   
   return (
     <div className='doctor'>
@@ -136,7 +150,7 @@ const Doctor = () => {
           <span className='infoSsn'>주민등록번호 : </span><input className='ssnInput' readOnly value={treatmentPatientInfo[0].PATIENT_SSN || ''}/>
           <div className='dropdown'>
             <a href='#!'className='btn'>과거병력</a>
-            <div className='dropdown-submenu'>
+            <div className='dropdown-submenu' style={detailModal === true ? {display: 'none'} : {}}>
               <div className='dropdown-box'>
                 <table className='dropdown-table'>
                   <thead>
@@ -154,7 +168,7 @@ const Doctor = () => {
                         <td><button 
                               onClick={() => {
                                 treatmentDate.current = data.TREATMENT_DATE
-                                setDetail(!detail)
+                                setDetailModal(!detailModal)
                               }}
                             >상세기록</button></td>
                       </tr>
@@ -164,8 +178,8 @@ const Doctor = () => {
               </div>
             </div>
           </div>
-          {detail && (
-            <Modal closeModal={() => setDetail(!detail)}>
+          {detailModal && (
+            <Modal closeModal={() => setDetailModal(!detailModal)}>
               <PatientDetailModal 
                 patientID = {treatmentPatientInfo[0].PATIENT_ID_PK}
                 treatmentDate = {treatmentDate.current}
@@ -197,18 +211,20 @@ const Doctor = () => {
         </div>
         <div className='item2'>
           <div>
-            <Calendar onChange={onChange} value={value}
-            formatDay={(locale, value) => 
-              value.toLocaleDateString("en", {day: "numeric"})
-            }
-            onClickDay={(value) => {
-              modalDate.current = value.toDateString()
-              setSchedule(!schedule)
-            }}
+            <Calendar 
+              onChange={onChange} 
+              value={value}
+              formatDay={(locale, value) => 
+                value.toLocaleDateString("en", {day: "numeric"})
+              }
+              onClickDay={(value) => {
+                modalDate.current = moment(value).format('YYYY-MM-DD')
+                setScheduleModal(!scheduleModal)
+              }}
             />
           </div>
-          {schedule && (
-            <Modal closeModal={() => setSchedule(!schedule)}>
+          {scheduleModal && (
+            <Modal closeModal={() => setScheduleModal(!scheduleModal)}>
               <DoctorScheduleModal modalDate={modalDate.current} />
             </Modal>
           )}
@@ -228,19 +244,37 @@ const Doctor = () => {
               </tr>
             </thead>
             {inPatientList.map((data, index) => (
-              <tbody key={index}>
+              <tbody 
+                key={index} 
+                className='admission-tbody' 
+                onClick={() => {
+                  setInPatientModal(!inPatientModal)
+                  setOutInfoElements([
+                    data.PATIENT_NAME, 
+                    data.WARD, 
+                    data.ROOM_NUM, 
+                    data.BED_NUM
+                  ])
+                }}>
                 <tr>
                   <td className='admissionTd'>{data.PATIENT_ID_FK || ''}</td>
                   <td className='admissionTd'>{data.PATIENT_NAME || ''}</td>
                   <td className='admissionTd'>{data.GENDER || ''}/{data.PATIENT_AGE || ''}</td>
                   <td className='admissionTd'>{data.ADMISSION_DATE || ''}</td>
                   <td className='admissionTd'>{data.EMP_NAME || ''}</td>
-                  <td className='admissionTd'>{data.ROOM_NUM || ''}</td>
+                  <td className='admissionTd'>{data.WARD || ''}병동 / {data.ROOM_NUM || ''}호실</td>
                 </tr>
               </tbody>
             ))}
           </table>
         </div>
+
+        {inPatientModal && (
+            <InPatientModal closeModal={() => setInPatientModal(!inPatientModal)}>
+              <InPatientDetailModal outInfoElements={outInfoElements} />
+            </InPatientModal>
+        )}
+
         <div className='treatment-box'>
           <span className='box-title'>진료 기록</span>
           <div className='line' />
@@ -275,17 +309,6 @@ const Doctor = () => {
                     /> <span>치료</span> 
 
                     <input 
-                      className='admission-checkbox' 
-                      type="checkbox" 
-                      onChange={() => {
-                        admissionCheck.current = 1;
-                      }}
-                      onClick={() => {
-                        setVisibleAdmissionDiv(!visibleAdmissionDiv);
-                      }}
-                      /> <span>입원 여부</span>
-
-                    <input 
                       className='medicine-checkbox' 
                       type="checkbox" 
                       name='medicineCheckbox'
@@ -297,6 +320,17 @@ const Doctor = () => {
                         }
                       }}
                     /> <span>약</span>
+
+                    <input 
+                      className='admission-checkbox' 
+                      type="checkbox" 
+                      onChange={() => {
+                        admissionCheck.current = 1;
+                      }}
+                      onClick={() => {
+                        setVisibleAdmissionDiv(!visibleAdmissionDiv);
+                      }}
+                      /> <span>입원 여부</span>
                   </div>
                 </div>
 
@@ -306,15 +340,6 @@ const Doctor = () => {
                     <textarea 
                       onChange={(e) => {
                         treatmentOrder.current = e.target.value;
-                      }}
-                    />
-                  </div>}
-                  
-                  {visibleAdmissionDiv && <div className='admission-detail'>
-                    <span>입원 날짜</span> <br /> 
-                    <textarea 
-                      onChange={(e) => {
-                        admissionOrder.current = e.target.value;
                       }}
                     />
                   </div>}
@@ -335,6 +360,25 @@ const Doctor = () => {
                           ))}
                       </table>
                     </div>
+                  </div>}
+                  
+                  {visibleAdmissionDiv && <div className='admission-detail'>
+                    <span>입원 날짜</span> <br /> 
+                    <DatePicker 
+                      className='datepicker'
+                      dateFormat={'yyyy-MM-dd'} 
+                      selected={startDate} 
+                      locale={ko}
+                      onChange={(date) => {
+                        admissionOrder.current = date.toJSON().substring(0, 10)
+                        setStartDate(date)
+                      }} 
+                    />
+                    {/* <textarea 
+                      onChange={(e) => {
+                        admissionOrder.current = e.target.value;
+                      }}
+                    /> */}
                   </div>}
                 </div>
 

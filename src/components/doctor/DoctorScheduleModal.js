@@ -13,6 +13,8 @@ import axios from "axios";
 
 const DoctorScheduleModal = (props) => {
 
+    console.log(props.modalDate)
+
     const [addSchedule, setAddSchedule] = useState(false);
     const [updateSchedule, setUpdateSchedule] = useState(false);
     const [scheduleList, setScheduleList] = useState([{}]);
@@ -29,7 +31,6 @@ const DoctorScheduleModal = (props) => {
                        empIdPk: empIdPk
             }}
         ).then((res) => {
-            console.log(res.data.length)
             scheduleCount.current = res.data.length
             setScheduleList(res.data)
         })
@@ -167,7 +168,7 @@ const DoctorScheduleModal = (props) => {
                                         setUpdateSchedule(!updateSchedule);
                                         }}
                                     >
-                                    <span>시간 : </span> <span className="content-span">{scheduleList.SCHEDULE_START_TIME}</span> &nbsp; <span>장소 : </span> <span className="content-span">{scheduleList.SCHEDULE_PLACE}</span> <br/>
+                                    <span>시간 : </span> <span className="content-span">{scheduleList.SCHEDULE_START_TIME} ~ {scheduleList.SCHEDULE_END_TIME}</span> &nbsp; <span>장소 : </span> <span className="content-span">{scheduleList.SCHEDULE_PLACE}</span> <br/>
                                     <span>내용 : </span> <span className="content-span">{scheduleList.SCHEDULE_CONTENT}</span>
                                 </div>
                             </div>

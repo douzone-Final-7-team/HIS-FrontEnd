@@ -27,6 +27,7 @@ const Login = () => {
         localStorage.setItem('specialityName', res.data[0].SPECIALITY_NAME);
         localStorage.setItem('role', res.data[0].ROLE);
         localStorage.setItem('ward', res.data[0].WARD);
+        localStorage.setItem('specialityID', res.data[0].SPECIALITY_ID_FK);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
           window.location.href = 'http://localhost:3000/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
@@ -59,7 +60,7 @@ const Login = () => {
                   }} 
                   placeholder='아이디를 입력 해주세요' 
                 /><br/>
-                <input 
+                  <input 
                   value={inputPw} 
                   onChange={(e) => {
                     setInputPw(e.target.value);
