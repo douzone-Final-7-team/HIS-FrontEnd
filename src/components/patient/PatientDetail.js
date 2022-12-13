@@ -76,7 +76,7 @@ const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, sympto
                 setEmpId(e.target.value);
               }}>
               {doctorList!==null && doctorList!==undefined? doctorList.map((data, index) => (
-                  <option value={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
+                  <option defaultValue={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
             )) : 
             ''
             }

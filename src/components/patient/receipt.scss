@@ -15,7 +15,7 @@
     height: 100%;
     padding: 15px 10px;
     .btn {
-      margin-top: -5px;
+      margin-top: -2px;
     }
     .styled-table {
       min-width: 100%;
@@ -28,7 +28,7 @@
         color: $white;
       }
       th,
-      td {padding: 12px 15px;}
+      td {padding: 10px 10px;}
       tbody tr {
         border-bottom: 1px solid #dddddd;
         &:nth-of-type(even) {background-color: #f3f3f3;}

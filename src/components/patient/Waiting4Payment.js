@@ -6,13 +6,15 @@ import './waiting4Payment.scss';
 // let pageId = {pageId : "qwer"};
 const role = window.localStorage.getItem('role');
 
-const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setTreatmentNumPk}) => { // 비구조할당
+const Waiting4Payment = ({sunabList,setTest, setSelectRoom,waitingReceipt, setAcceptance, setTreatmentNumPk}) => { // 비구조할당
   
   
   const AdmissionList = () =>{
     function sunabDetail(index){
       // console.log(sunabList[index].ADMISSION_ID_PK);
+      
       setTest(sunabList[index].ADMISSION_ID_PK);
+      setSelectRoom("");
     }
     
     return (
@@ -22,9 +24,9 @@ const Waiting4Payment = ({sunabList,setTest, waitingReceipt, setAcceptance, setT
         <div className='waiting-order' onClick={() => sunabDetail(index)}>
             <p className='waiting-name'>
              {sunabList.PATIENT_NAME}&nbsp;
-              <span className='medical-hours'>{sunabList.AGE}/{sunabList.GENDER}&nbsp;&nbsp; {sunabList.WARDROOM}호&nbsp;{sunabList.BED_NUM}병상</span>
+              <span className='medical-hours'>{sunabList.PATIENT_AGE}/{sunabList.GENDER}&nbsp;&nbsp; {sunabList.WARDROOM}호&nbsp;{sunabList.BED_NUM}병상</span>
             </p>
-          <p className='status-value'>수납대기</p>
+          <p className='status-value'>{sunabList.AD_CODE_NAME === "입원완료" ? "중간정산": sunabList.AD_CODE_NAME}</p>
         </div>
     ))}
     </div>

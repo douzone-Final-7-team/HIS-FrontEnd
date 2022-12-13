@@ -13,7 +13,7 @@ import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
 import { useDispatch} from 'react-redux';
 import { setStartDate } from '../../redux/InChangeDateSlice';
 import { parseISO } from 'date-fns';
-import AdmissionDue from './AdmissionDue';
+// import AdmissionDue from './AdmissionDue';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +81,7 @@ export default function GlobalMangementTab() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="환자 일정" {...a11yProps(0)} onClick={reloadSchedule}/>
           <Tab label="인계 사항" {...a11yProps(1)} onClick={ToHandOver}/>
-          <Tab label="입원 예정" {...a11yProps(2)} />
+          {/* <Tab label="입원 예정" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -91,7 +91,7 @@ export default function GlobalMangementTab() {
         <HandOver/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <AdmissionDue />
+        {/* <AdmissionDue /> */}
       </TabPanel>
     </Box>
   );

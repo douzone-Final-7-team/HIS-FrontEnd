@@ -12,9 +12,35 @@ const socket = io.connect('http://192.168.0.195:3001');
 
 const role = window.localStorage.getItem('role');
 
-const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
+const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
 
-  let data = test;
+  console.log(test);
+  console.log(selectRoom);
+  
+  let data;
+  if((test !== null && test !=="" && test !==undefined) || (selectRoom !== null && selectRoom !== ""&&selectRoom!==undefined)){
+    if(test.length !== 0){
+      // setSelectRoom("");
+      data = {
+        ADMISSION_ID_PK : test
+      }
+      data = JSON.stringify(data);
+    }else if(selectRoom.length !== 0){
+      // setTest("");
+      data = selectRoom
+    }else{
+      data = {
+        ADMISSION_ID_PK : test
+      }
+    }
+  }else{
+    data = {
+      ADMISSION_ID_PK : test
+    }
+  }
+  
+
+  // console.log("데이터들어왓다~~ : "+data);
 
   const [detail, setDetail] = useState([{}]);
   const [prescriptionPrint, setPrescriptionPrint] = useState(false);
@@ -34,7 +60,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
   },[room])
 
   useEffect(() => {
-    axios.post(API_URL+"/AdmissionReceipt/AdReceipt", {ADMISSION_ID_PK : data}, { headers: { "Content-Type": `application/json` }, })
+    axios.post(API_URL+"/AdmissionReceipt/AdReceipt", data, { headers: { "Content-Type": `application/json` }, })
       .then(res => setDetail(res.data));
       // .then(res => detail.current = res.data);
   }, [data]);
@@ -50,6 +76,7 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
 },[acceptance])
 
   const AdmissionList = () => {
+    console.log("디테일 랭스 : "+detail);
 
     return (
       <table className="styled-table">
@@ -65,6 +92,11 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
             <tr>
               <td>입원시작일</td>
               <td>{detailEle.ADMISSION_DATE}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>중간 수납일</td>
+              <td>{detailEle.MIDDLE_PAY_DATE}</td>
               <td>-</td>
             </tr>
             <tr>
@@ -115,7 +147,8 @@ const Receipt = ({ test , reRender ,setReRender, acceptance, setOutStatusReRende
     } 
     // console.log(sunabList[index].ADMISSION_ID_PK);
     axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
-    .then(setReRender(()=>result));
+    .then((res) => {res.data==="success"? alert("수납이완료되었습니다."):alert("수납처리에 실패하였습니다.")});
+    setReRender(()=>result);
     
     // .then(res => setDetail(res.data))
     // 리턴으로 성공 실패 여부 받아서 다음 처리

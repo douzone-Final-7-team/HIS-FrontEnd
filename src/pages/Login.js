@@ -64,9 +64,10 @@ const Login = () => {
                   onChange={(e) => {
                     setInputPw(e.target.value);
                   }} 
+                  onKeyPress={() => window.event.keyCode === 13 ? userLogin() : ''}
                   type = "password" 
                   placeholder='비밀번호를 입력해주세요' 
-                /><br/>
+                /><br/> 
                 <a
                   href='#!'
                   className='btn' 

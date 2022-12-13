@@ -54,7 +54,7 @@ const Reception = () => {
         });
   },[wait4payReRender]);
 
-  useEffect(()=> 
+  
     setTimeout(() => 
         socket.on("doctor_render", ()=>{
         axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
@@ -62,20 +62,20 @@ const Reception = () => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),50)
-  ,[])
+  
 
-  useEffect(()=> 
+  
     setTimeout(() => 
-        socket.on("change_state", ()=> {console.log("김민욱민욱")
+        socket.on("change_state", ()=> {
         axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
        })}),100)
-  ,[])
+  
 
   
-  useEffect(()=> 
+  
     setTimeout(() => 
         socket.on("sunab_render", ()=>
         axios.get("http://192.168.0.195:9090/outStatus/getwaiting4receipt")
@@ -83,7 +83,7 @@ const Reception = () => {
         setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
       })),50)
-  ,[])
+  
   
   function patientInfo() {
     if(window.event.keyCode === 13){
@@ -112,6 +112,7 @@ const Reception = () => {
           alert('접수 완료');
           socket.emit("receipt_complete" , {outpatient:room});
           setOutStatusReRender(()=>false);
+          setdata(null);
         });
       } else {
         alert('증상을 입력하세요.')
@@ -128,14 +129,16 @@ const Reception = () => {
           <div className='search-info'>
             <div className='input-patient'>
               <form action=''>
-                <label>이름</label>
+              <label>이름</label>
                 <input onChange={(e) => {
                         name.current = e.target.value;
-                      }}/>
+                      }}
+                      onKeyPress={patientInfo}/>
                 <label>주민등록번호</label>
                 <input type='number' onChange={(e) => {
                         frontSsn.current = e.target.value;
-                      }}/> - 
+                      }}
+                      onKeyPress={patientInfo}/> - 
                 <input type='number' onChange={(e) => {
                         backSsn.current = e.target.value;
                       }}
