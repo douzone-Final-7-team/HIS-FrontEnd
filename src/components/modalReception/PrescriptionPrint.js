@@ -1,11 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import Acceptance from '../patient/Acceptance';
 // style
 import './prescriptionPrint.scss';
 
 const PrescriptionPrint = ({prescriptionData, setPrescriptionPrint}) => {
   const componentRef = useRef();
+  const [accept, setAccept] = useState(false);
   const handlePrint = useReactToPrint({
+    onBeforeGetContent: () => {
+      setAccept(true);
+      return Promise.resolve()},
     content: () => componentRef.current,
     documentTitle: 'prescription',
     onAfterPrint: ()=> setPrescriptionPrint(false)
@@ -70,6 +75,7 @@ const PrescriptionPrint = ({prescriptionData, setPrescriptionPrint}) => {
               </tbody>
             </table>
           </div>
+          {accept === true?<Acceptance/>:''}
         </div>
         <button className='print-btn' onClick={handlePrint}>처방전 출력</button>
       </div>
