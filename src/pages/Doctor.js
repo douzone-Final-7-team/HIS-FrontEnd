@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import io from 'socket.io-client';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+import moment from 'moment';
 // style
 import '../styles/scss/reset.scss';
 import '../styles/doctor.scss';
@@ -26,6 +29,7 @@ const Doctor = () => {
   const treatmentDate = useRef("");
   const [inPatientList, setInPatientList] = useState([{}]);
   const [value, onChange] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
   const [visibleTreatmentDiv, setVisibleTreatmentDiv] = useState(false);
   const [visibleMedicineDiv, setVisibleMedicineDiv] = useState(false);
   const [visibleAdmissionDiv, setVisibleAdmissionDiv] = useState(false);
@@ -132,6 +136,8 @@ const Doctor = () => {
       })
     }
   };
+
+  // console.log(admissionOrder.current);
   
   return (
     <div className='doctor'>
@@ -144,7 +150,7 @@ const Doctor = () => {
           <span className='infoSsn'>주민등록번호 : </span><input className='ssnInput' readOnly value={treatmentPatientInfo[0].PATIENT_SSN || ''}/>
           <div className='dropdown'>
             <a href='#!'className='btn'>과거병력</a>
-            <div className='dropdown-submenu'>
+            <div className='dropdown-submenu' style={detailModal === true ? {display: 'none'} : {}}>
               <div className='dropdown-box'>
                 <table className='dropdown-table'>
                   <thead>
@@ -205,14 +211,16 @@ const Doctor = () => {
         </div>
         <div className='item2'>
           <div>
-            <Calendar onChange={onChange} value={value}
-            formatDay={(locale, value) => 
-              value.toLocaleDateString("en", {day: "numeric"})
-            }
-            onClickDay={(value) => {
-              modalDate.current = value.toDateString()
-              setScheduleModal(!scheduleModal)
-            }}
+            <Calendar 
+              onChange={onChange} 
+              value={value}
+              formatDay={(locale, value) => 
+                value.toLocaleDateString("en", {day: "numeric"})
+              }
+              onClickDay={(value) => {
+                modalDate.current = moment(value).format('YYYY-MM-DD')
+                setScheduleModal(!scheduleModal)
+              }}
             />
           </div>
           {scheduleModal && (
@@ -301,17 +309,6 @@ const Doctor = () => {
                     /> <span>치료</span> 
 
                     <input 
-                      className='admission-checkbox' 
-                      type="checkbox" 
-                      onChange={() => {
-                        admissionCheck.current = 1;
-                      }}
-                      onClick={() => {
-                        setVisibleAdmissionDiv(!visibleAdmissionDiv);
-                      }}
-                      /> <span>입원 여부</span>
-
-                    <input 
                       className='medicine-checkbox' 
                       type="checkbox" 
                       name='medicineCheckbox'
@@ -323,6 +320,17 @@ const Doctor = () => {
                         }
                       }}
                     /> <span>약</span>
+
+                    <input 
+                      className='admission-checkbox' 
+                      type="checkbox" 
+                      onChange={() => {
+                        admissionCheck.current = 1;
+                      }}
+                      onClick={() => {
+                        setVisibleAdmissionDiv(!visibleAdmissionDiv);
+                      }}
+                      /> <span>입원 여부</span>
                   </div>
                 </div>
 
@@ -332,15 +340,6 @@ const Doctor = () => {
                     <textarea 
                       onChange={(e) => {
                         treatmentOrder.current = e.target.value;
-                      }}
-                    />
-                  </div>}
-                  
-                  {visibleAdmissionDiv && <div className='admission-detail'>
-                    <span>입원 날짜</span> <br /> 
-                    <textarea 
-                      onChange={(e) => {
-                        admissionOrder.current = e.target.value;
                       }}
                     />
                   </div>}
@@ -361,6 +360,25 @@ const Doctor = () => {
                           ))}
                       </table>
                     </div>
+                  </div>}
+                  
+                  {visibleAdmissionDiv && <div className='admission-detail'>
+                    <span>입원 날짜</span> <br /> 
+                    <DatePicker 
+                      className='datepicker'
+                      dateFormat={'yyyy-MM-dd'} 
+                      selected={startDate} 
+                      locale={ko}
+                      onChange={(date) => {
+                        admissionOrder.current = date.toJSON().substring(0, 10)
+                        setStartDate(date)
+                      }} 
+                    />
+                    {/* <textarea 
+                      onChange={(e) => {
+                        admissionOrder.current = e.target.value;
+                      }}
+                    /> */}
                   </div>}
                 </div>
 

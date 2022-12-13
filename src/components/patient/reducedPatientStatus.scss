@@ -20,6 +20,10 @@
     margin: 18px;
     font-size: 15px;
     .the-whole-waiting-list {color: $primaryColor;}
+
+    span {
+      cursor: pointer;
+    }
   }
   .status-wrapper {
     display: grid;
