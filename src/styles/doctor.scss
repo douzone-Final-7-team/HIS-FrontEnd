@@ -265,12 +265,15 @@
             }
 
             .datepicker {
+              text-align: center;
               vertical-align: bottom;
               width: 300px;
               height: 120px;
               margin-top: 10px;
               border: 1px solid $tblBorder;
               border-radius: 5px;
+              font-size: 20px;
+              font-weight: 600;
             }
 
             .medicine-div {

@@ -10,10 +10,9 @@ import ScheduleModal from "./ScheduleModal";
 import AddModal from "./AddModal";
 import UpdateScheduleModal from "./UpdateScheduleModal";
 import axios from "axios";
+import { alertSweetError } from "../higher-order-function/Alert";
 
 const DoctorScheduleModal = (props) => {
-
-    console.log(props.modalDate)
 
     const [addSchedule, setAddSchedule] = useState(false);
     const [updateSchedule, setUpdateSchedule] = useState(false);
@@ -50,7 +49,7 @@ const DoctorScheduleModal = (props) => {
                 "Content-Type" : `application/json`
             }}
         ).then((res) => {
-            console.log(res.data)
+            alertSweetError('삭제 완료', '일정이 삭제되었습니다.')
             scheduleCount.current = res.data.length
             setScheduleList(res.data)
         })
