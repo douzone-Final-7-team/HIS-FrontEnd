@@ -62,12 +62,13 @@ export default function GlobalMangementTab() {
     dispatch(setStartDate(parseISO(today)));
   };
 
-  const userName = window.localStorage.getItem('userName');
-
+  const empIdPk = window.localStorage.getItem('empIdPk');
+ 
   const ToHandOver = () =>{
     let user = {
-      "userName" : userName
+      "userName" : empIdPk
     };
+    
     let handOverElement = JSON.stringify(user);
     dispatch(getReceiveHandOver(handOverElement));
   };

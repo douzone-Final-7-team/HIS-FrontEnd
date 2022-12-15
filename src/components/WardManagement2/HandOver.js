@@ -19,12 +19,13 @@ const HandOver = () => {
     };
   };
 
-  const userName = window.localStorage.getItem('userName');
+  const empIdPk = window.localStorage.getItem('empIdPk');
   let user = {
-    "userName" : userName
+    "userName" : empIdPk
   };
 
   let handOverElement = JSON.stringify(user);
+
   const [radioChecked, setRadioChecked] =useState(true);
 
   const ToHandOver = () =>{
@@ -58,10 +59,11 @@ const HandOver = () => {
       handOverPK : handOverInfo[e.target.id].HANDOVER_ID_PK,
       handOverContent : handOverInfo[e.target.id].HANDOVER_CONTENT,
       handOverTarget:handOverInfo[e.target.id].HANDOVER_TARGET,
-      empName: handOverInfo[e.target.id].EMP_NAME
+      empIdPk: handOverInfo[e.target.id].EMP_ID_FK
     };
     dispatch(globalmodifyElement(changeHandOverInfo));
   };
+
 
   return (
     <div className='handOver-container'>

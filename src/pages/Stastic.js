@@ -19,9 +19,7 @@ function Stastic() {
   const [outPatinetOptions, setOutPatinetOptions]= useState("")
   const [inPatinetOptions, setInPatinetOptions]= useState("")
 
-
   useEffect(()=>{
-
     let yearElements = {
       
         year :nowYear,
@@ -53,18 +51,16 @@ function Stastic() {
                 dataset: {
                   source: [
                     ['year', dateArray[0], dateArray[1] , dateArray[2], dateArray[3]],
-                    ['Total', res.data[9].totalIncome/1000, res.data[6].totalIncome/1000, res.data[3].totalIncome/1000,0],
-                    ['내과', res.data[9].spectialityIncome/1000, res.data[6].spectialityIncome /1000, res.data[3].spectialityIncome/1000, 0],
-                    ['이비인후과', res.data[11].spectialityIncome/1000, res.data[8].spectialityIncome/1000 , res.data[5].spectialityIncome/1000, 0],
-                    ['정형외과', res.data[10].spectialityIncome/1000, res.data[7].spectialityIncome/1000, res.data[4].spectialityIncome/1000, 0]
+                    ['Total', res.data[9].totalIncome/1000, res.data[6].totalIncome/1000, res.data[3].totalIncome/1000,res.data[0].totalIncome/1000],
+                    ['내과', res.data[9].spectialityIncome/1000, res.data[6].spectialityIncome /1000, res.data[3].spectialityIncome/1000, res.data[0].spectialityIncome/1000],
+                    ['이비인후과', res.data[11].spectialityIncome/1000, res.data[8].spectialityIncome/1000 , res.data[5].spectialityIncome/1000, res.data[2].spectialityIncome/1000],
+                    ['정형외과', res.data[10].spectialityIncome/1000, res.data[7].spectialityIncome/1000, res.data[4].spectialityIncome/1000, res.data[1].spectialityIncome/1000]
                   ]
                 },
                 xAxis: { type: 'category' },
                 yAxis: {
                   name : "(천원)"
                 },
-                // Declare several bar series, each will be mapped
-                // to a column of dataset.source by default.
                 series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' },{ type: 'bar' }]
               }
           )
@@ -111,9 +107,9 @@ function Stastic() {
                 show: false
               },
               data: [
-                { value: (res.data[3].spectialityOutPatinetNum/res.data[3].totalOutPatinetNum*100).toFixed(2), name: '내과' },
-                { value: (res.data[5].spectialityOutPatinetNum/res.data[3].totalOutPatinetNum*100).toFixed(2), name: '이비인후과' },
-                { value: (res.data[4].spectialityOutPatinetNum/res.data[3].totalOutPatinetNum*100).toFixed(2), name: '정형외과' },
+                { value: (res.data[0].spectialityOutPatinetNum/res.data[0].totalOutPatinetNum*100).toFixed(2), name: '내과' },
+                { value: (res.data[2].spectialityOutPatinetNum/res.data[0].totalOutPatinetNum*100).toFixed(2), name: '이비인후과' },
+                { value: (res.data[1].spectialityOutPatinetNum/res.data[0].totalOutPatinetNum*100).toFixed(2), name: '정형외과' },
               ]
             }
           ]
@@ -161,9 +157,9 @@ function Stastic() {
                 show: false
               },
               data: [
-                { value: (res.data[3].spectialityInPatientNum/res.data[3].toalInPatientNum*100).toFixed(2), name: '내과' },
-                { value: (res.data[5].spectialityInPatientNum/res.data[3].toalInPatientNum*100).toFixed(2), name: '이비인후과' },
-                { value: (res.data[4].spectialityInPatientNum/res.data[3].toalInPatientNum*100).toFixed(2), name: '정형외과' },
+                { value: (res.data[0].spectialityInPatientNum/res.data[0].toalInPatientNum*100).toFixed(2), name: '내과' },
+                { value: (res.data[2].spectialityInPatientNum/res.data[0].toalInPatientNum*100).toFixed(2), name: '이비인후과' },
+                { value: (res.data[1].spectialityInPatientNum/res.data[0].toalInPatientNum*100).toFixed(2), name: '정형외과' },
               ]
             }
           ]
@@ -195,10 +191,10 @@ function Stastic() {
            {chartData != null && <tbody>
             <tr>
                 <td className='static-contnet'>{dateArray[3]} 매출액</td>
-                <td className='static-date'>0</td>
-                <td className='static-writer'>0</td>
-                <td className='static-writer'>0</td>
-                <td className='static-writer'>0</td>
+                <td className='static-date'>{(chartData[0].totalIncome/1000).toLocaleString()}</td>
+                <td className='static-writer'>{(chartData[0].spectialityIncome/1000).toLocaleString()}</td>
+                <td className='static-writer'>{(chartData[2].spectialityIncome/1000).toLocaleString()}</td>
+                <td className='static-writer'>{(chartData[1].spectialityIncome/1000).toLocaleString()}</td>
               </tr>
               <tr>
                 <td className='static-contnet'>{dateArray[2]} 매출액</td>

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 import io from 'socket.io-client';
+import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 const socket = io.connect('http://localhost:3001')
 
@@ -96,12 +97,12 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
     }
 
 
-    function putOrderDate(btnState,admissionIdPk, admissionDueDate, bedInfo, patientName ,gender, patientAge , patientSsn){
+    function putOrderDate(btnState,admissionIdPk, bedInfo, admissionDueDate, patientName ,gender, patientAge , patientSsn){
         
         const reg = /([2-4])([0])([1-5])[-]([1-6])/g;
         if(btnState === "assign"){
             if(reg.test(bedInfo)){
-                alert("입원을 승인하였습니다.");
+                alertSweetSuccess("승인","입원을 승인하였습니다.")
                 let ward = (bedInfo+"").substring(0,1)*100;
                 let roomNum = (bedInfo+"").substring(2,3);
                 let bedNum = (bedInfo+"").substring(5,4);
@@ -121,7 +122,8 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                     "Content-Type" : `application/json`,
                     },
                 })
-                .then(res => {if(res.data === 0){alert("해당 병상은 다른환자가 사용중입니다.\n다른병상을 입력해주세요")}
+                .then(res => {if(res.data === 0){
+                    alertSweetError("승인 거부","해당 병상은 다른환자가 사용중입니다.")}
                     sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn)
                 });
                 let bedInfoState = bedInfo;
@@ -133,12 +135,12 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                 setBedInfo(()=>bedInfoState);
 
             }else{
-                alert("호실 및 병상 입력 양식이 틀렸습니다. 다시 입력해 주십시오.\n예) 201-1");
+                alertSweetError("입력 양식 에러","호실 및 병상을 올바르게 입력하세요.\n 예) 201-1")
                 // inputData.current.focus();
             }
-        }else{
+        }else{console.log(bedInfo)
             if(bedInfo === null){
-                alert("반려 사유를 입력해주세요.");
+                alertSweetError("입력값 없음","반려 사유를 입력해주세요.")
             }else{
                 alert(btnState);
                 let data = {
@@ -199,7 +201,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                                                                                     inputData.current = e.target.value;
                                                                                 }} />
                                                                         <span className='g'>
-                                                                            <input className='assign' type='button' value = "수락" onClick={() => {putOrderDate("assign",v.ADMISSION_ID_PK , v.ADMISSION_DUEDATE, inputData.current , v.PATIENT_NAME , v.GENDER, v.PATIENT_AGE, v.PATIENT_SSN);}}/>
+                                                                            <input className='assign' type='button' value = "수락" onClick={() => {putOrderDate("assign",v.ADMISSION_ID_PK , inputData.current, v.ADMISSION_DUEDATE , v.PATIENT_NAME , v.GENDER, v.PATIENT_AGE, v.PATIENT_SSN);}}/>
                                                                             <input className='unassign'type='button' value = "반려"onClick={() => {putOrderDate("reject",v.ADMISSION_ID_PK , inputData.current);}}/>
                                                                         </span>
                                                                     </p>
