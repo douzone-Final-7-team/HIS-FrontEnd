@@ -12,6 +12,7 @@ const CareInfo = () => {
     dispatch(executeModal(true));
     dispatch(modalMode(selectMode));
     let careInfoCheck=document.getElementsByName("careInfo");
+
     for(let i =0 ; i < careInfoCheck.length ; i++){
       if(careInfoCheck[i].checked){
         careInfoCheck[i].checked =false;
@@ -21,21 +22,17 @@ const CareInfo = () => {
 
   const getCareInfo = useSelector(state=>{
     return state.inPatientInfo.value[6]
-  })
+  }) 
  
   const selectRow = (e)=>{
     let changeCareInfo = {
       careIdPk : getCareInfo[e.target.id].CARE_ID_PK,
       careContent : getCareInfo[e.target.id].CARE_CONTENT,
-      nurseName : getCareInfo[e.target.id].NURSE_NAME
+      nurseName : getCareInfo[e.target.id].WRITE_ID,
     };
 
     dispatch(modifyElement(changeCareInfo));
   };
-
-  const checkedStatus = useSelector(state=>{
-    return state.inPatientInfo.value[4]
-  }) 
 
   return (
     <div className='care-info-container'>
@@ -52,7 +49,7 @@ const CareInfo = () => {
           <tbody>
           {getCareInfo.map((careInfo, index)=>(
             <tr key={index}>
-              <td className='careInfo-fix'><input type= "radio" name= "careInfo" id = {index} onClick={selectRow} checked={checkedStatus}/></td>
+              <td className='careInfo-fix'><input type= "radio" name= "careInfo" id = {index} onClick={selectRow}/></td>
               <td className='careInfo-date'>{(careInfo.CARE_DATE + "").substring(0,10)}</td>
               <td className='careInfo-content'>{careInfo.CARE_CONTENT}</td>
               <td className='careInfo-writer'>{careInfo.NURSE_NAME}</td>

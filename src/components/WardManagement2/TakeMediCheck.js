@@ -30,7 +30,7 @@ const selectRow = (e)=>{
     recordIdPk : getMediRecords[e.target.id].RECORD_ID_PK,
     orderContent : getMediRecords[e.target.id].ORDER_CONTENT,
     medicineName:getMediRecords[e.target.id].MEDICINE_NAME,
-    oderer: getMediRecords[e.target.id].ORDERER
+    oderer: getMediRecords[e.target.id].WRITE_ID
     };
   dispatch(modifyElement(changeMediRecords));
 };

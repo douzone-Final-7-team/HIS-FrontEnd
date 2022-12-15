@@ -56,7 +56,7 @@ const AdmissionDue = () => {
 
 
     function complete (admissionIdPk,WARDROOM,BED_NUM) {
-        alert("입원완료");
+        alertSweetSuccess("완료","입원을 완료하였습니다.")
         socket.emit("send_bedInfoChange", {admission : room});
     
 

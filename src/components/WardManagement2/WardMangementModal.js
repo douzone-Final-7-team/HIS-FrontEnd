@@ -17,6 +17,7 @@ const WardMangementModal = () => {
   const specialityName = window.localStorage.getItem('specialityName');
   const getEmpName = window.localStorage.getItem('name');
   const ward = window.localStorage.getItem('ward');
+  const getEmpId = window.localStorage.getItem('empIdPk');
 
   const ModalMode = ()=>{
       dispatch(executeModal(false));
@@ -64,7 +65,7 @@ const WardMangementModal = () => {
       return( `
         <div class="suggest-container">
           <a class="suggest-username" style= 'border-bottom:1px #EAEAEA solid; color:black; display:block' 
-            id =${acc.USERNAME} name=${acc.EMP_NAME}>
+            id =${acc.EMP_ID_PK} name=${acc.EMP_NAME}>
             이름: ${acc.EMP_NAME} , 소속 : ${acc.SPECIALITY_NAME}, 이메일: ${acc.EMP_EMAIL}</a>
         </div>`)};
 
@@ -77,6 +78,8 @@ const WardMangementModal = () => {
     let searchInput = document.getElementById("searchInput")
     searchInput.value = searchInput.defaultValue
   },[inNurse]);
+
+
 
   const [inPatientWardList, setInPatientWardList]=useState([]);
   const [inPatientWard, setInPatientWard]=useState({
@@ -147,7 +150,7 @@ const WardMangementModal = () => {
     modalTitle= 'Modify CareInfo';
     modalBtn = '수정';
     if(modifyElements !=null){
-      if(modifyElements.nurseName === getEmpName){
+      if(modifyElements.nurseName === userName){
         ModalContentdefaultValue = modifyElements.careContent;
       if(saveContent.current===""){
         saveContent.current = (modifyElements.careContent);
@@ -176,7 +179,7 @@ const WardMangementModal = () => {
         alertSweetError("잘못된 입력","빈값이 존재 합니다 확인 해주세요");
         }else{
           const doCreateCareInfo= () =>{
-            sendPersonalElements.nurseName = getEmpName;
+            sendPersonalElements.nurseName = userName;
             sendPersonalElements.careContent = saveContent.current;
             sendPersonalElements = JSON.stringify(sendPersonalElements);
             dispatch(executeModal(false));
@@ -192,7 +195,7 @@ const WardMangementModal = () => {
     modalBtn = '수정';
     modalContentTitle = '처방 기록';
     if(modifyElements !=null){
-      if(modifyElements.oderer === getEmpName){
+      if(modifyElements.oderer === userName){
         ModalContentdefaultValue = modifyElements.orderContent;
         forthdefaultValue = modifyElements.medicineName;
         addInput = true;
@@ -232,7 +235,7 @@ else if(getModalMode === 'medi-check-create'){
       alertSweetError("잘못된 입력","빈값이 존재 합니다 확인 해주세요");
     }else{
       const doCreateMedicineRecord= () =>{
-        sendPersonalElements.oderer = getEmpName;
+        sendPersonalElements.oderer = userName;
         sendPersonalElements.oderContent =saveContent.current;
         sendPersonalElements.medicineName =saveForthContent.current;
         sendPersonalElements = JSON.stringify(sendPersonalElements);
@@ -252,29 +255,29 @@ else if(getModalMode === 'medi-check-create'){
     literate =false;
     search = false;
     if(globalModifyElements !=null){
-      if(globalModifyElements.empName === getEmpName){
+      if(globalModifyElements.empIdPk === getEmpId){
         thirdDefaultValue = globalModifyElements.handOverTarget;
         ModalContentdefaultValue = globalModifyElements.handOverContent;
         if(saveContent.current===""){
           saveContent.current= globalModifyElements.handOverContent;
           }
         if(saveThirdContent.current === ""){
-            saveThirdContent.current= globalModifyElements.handOverTarget;
+            saveThirdContent.current= globalModifyElements.empIdPk;
           }else{
-            saveThirdContent.current = inNurse.name;
+            saveThirdContent.current = inNurse.userName;
           }
         treatData = ()=>{
-          if((saveThirdContent.current !== globalModifyElements.handOverTarget && saveThirdContent.current !== inNurse.name)){
+          if((saveThirdContent.current !== globalModifyElements.empIdPk && saveThirdContent.current !== inNurse.userName)){
               alertSweetError("잘못된 직원정보","검색을 다시하세요");
-              saveThirdContent.current=globalModifyElements.handOverTarget
+              saveThirdContent.current=globalModifyElements.empIdPk
           }
           else{
             if(saveThirdContent.current === ""){
-              saveThirdContent.current = globalModifyElements.handOverTarget
+              saveThirdContent.current = globalModifyElements.empIdPk
             }
             const doModifyHandover= () =>{
               sendElements ={
-                "userName": userName,
+                "userName": getEmpId,
                 "handOverTarget" : saveThirdContent.current,
                 "handOverContent" : saveContent.current,
                 "handOverPK" : globalModifyElements.handOverPK
@@ -312,7 +315,7 @@ else if(getModalMode === 'medi-check-create'){
     else{
       const doCreateHandover= () =>{
         sendElements ={
-          "userName": userName,
+          "userName": getEmpId,
           "handOverTarget" : inNurse.userName,
           "handOverContent" : saveContent.current
         };

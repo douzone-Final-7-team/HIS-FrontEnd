@@ -38,7 +38,8 @@ const RoomOpions = [
 
 
 const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
-  
+  const myWard = window.localStorage.getItem('ward');
+  console.log(myWard)
   const [roomInfos, setRoomInfos] = useState([]);
   const [selected, setSelected] = useState([]);
   const [ward, setWard] = useState([]);
@@ -83,7 +84,7 @@ const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
   //ward 로컬 정보 수정한거 머지 되면 들고와서 사용
   if(empIdPk.substring(0,1) === 'I'){
     showWard=(false)
-    data.ward = '200';
+    data.ward = myWard;
   }
 
 
