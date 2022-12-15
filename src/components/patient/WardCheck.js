@@ -10,13 +10,13 @@ import { selectPeople } from '../../redux/InPatientInfoSlice';
 import { API_URL } from '../../utils/constants/Config';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 // const specialityName = window.localStorage.getItem('specialityName');
 const empIdPk = window.localStorage.getItem('empIdPk');
 
 let data = {
-  empIdPk : 'O220019' //세션에 있는 사번
+  empIdPk : empIdPk //세션에 있는 사번
 }
 
 const WardOpions = [
@@ -39,6 +39,8 @@ const RoomOpions = [
 
 const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
   
+  const myWard = window.localStorage.getItem('ward');
+
   const [roomInfos, setRoomInfos] = useState([]);
   const [selected, setSelected] = useState([]);
   const [ward, setWard] = useState([]);
@@ -83,7 +85,7 @@ const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
   //ward 로컬 정보 수정한거 머지 되면 들고와서 사용
   if(empIdPk.substring(0,1) === 'I'){
     showWard=(false)
-    data.ward = '200';
+    data.ward = myWard;
   }
 
 

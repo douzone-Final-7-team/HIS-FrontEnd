@@ -11,7 +11,8 @@ import axios from 'axios';
 import { API_URL } from '../utils/constants/Config';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001')
+
+const socket = io.connect('http://192.168.0.195:3001')
 
 
 const WardManagement = () => {
@@ -37,6 +38,7 @@ const WardManagement = () => {
   const [selectRoom, setSelectRoom] = useState("");
   const [test,setTest] = useState("");
   const [room, setRoom] = useState("");
+  
 
   useEffect(()=>{
       setRoom("입원")
@@ -47,10 +49,6 @@ const WardManagement = () => {
   }
   },[room])
 
-  // useEffect(()=>{
-    
-  //   )
-  // },[])
     let bedInfoState = bedInfo;
     socket.on("bedInfoChange",(data)=>{
        if(!bedInfoState){
@@ -69,8 +67,23 @@ const WardManagement = () => {
     ,70);
   },[bedInfo]);
 
-  // console.log("bedInfobedInfobedInfobedInfo:"+bedInfo);
-  // console.log("와라라락:"+ (available!=null)&& (available));
+  console.log(available);
+  let secondWard = [];
+  let thirdWard = [];
+  let fourthWard = [];
+
+  for(var i = 0; i<available.length; i++){
+    let wardNum = (available[i].available_room)+""
+    if(wardNum.substring(0,1)==="2"){
+      secondWard.push({available_room:available[i].available_room , unusing_bed_count:available[i].unusing_bed_count});
+    }else if(wardNum.substring(0,1)==="3"){
+      thirdWard.push({available_room:available[i].available_room , unusing_bed_count:available[i].unusing_bed_count});
+    }else if(wardNum.substring(0,1)==="4"){
+      fourthWard.push({available_room:available[i].available_room , unusing_bed_count:available[i].unusing_bed_count});
+    }
+
+  }
+  
 
   return (
     <div className='ward-management'>
@@ -82,6 +95,7 @@ const WardManagement = () => {
         <div className='bed-count'>
           <p className='count-title'>총 병상수</p>
           <p className='count'>&gt; <span>{wardData[0].totalBed}</span></p>
+          {/* <button onClick={()=>open()}>가용병상</button> */}
           <div className='line'></div>
         </div>
         <div className='bed-count'>
@@ -93,33 +107,32 @@ const WardManagement = () => {
           <p className='count-title'>빈 병상수</p>
           <p className='count'>&gt; <span>{wardData[0].unusingBed}</span></p>
           <div className='dropdown'>
-            <a href='#!'className='btn'>가용병상</a>
+            <a href='#!' className='btn'>가용병상</a>
             <div className='dropdown-submenu'>
               <div className='dropdown-box'>
-                <table className='dropdown-table'>
-                <thead>
+                <div className='dropdown-table'>
+                
+                  <div className='a'>
+                    {secondWard.map((data)=>(
+                      <li><td>{data.available_room}호 : {data.unusing_bed_count}</td></li>
+                    ))}
+                  </div>
                   
-                  {available.map((availableWardRoom,index) => (
-                    <ul>
-                      <li>
-                        <td>{availableWardRoom.available_room}</td>
-                      </li>
-                    </ul>
-                  ))}
-                    
-                  </thead>
-                    {/* <tr>
-                      <th>진료 일자</th>
-                      <th>진단명</th>
-                      <th>처방 및 치료 내역</th>
-                    </tr>
-                    <tr>
-                      <th>하하</th>
-                      <th>호호</th>
-                      <th>후후</th>
-                    </tr> */}
+                  <div className='b'>
+                    {thirdWard.map((data)=>(
+                      <li><td>{data.available_room}호 : {data.unusing_bed_count}</td></li>
+                    ))}
+                  </div>
+
+                  <div className='c'>
+                    {fourthWard.map((data)=>(
+                      <li><td>{data.available_room}호 : {data.unusing_bed_count}</td></li>
+                    ))}
+                  </div>
                   
-                </table>
+                
+
+                </div>
               </div>
             </div>
           </div>
@@ -138,9 +151,11 @@ const WardManagement = () => {
           <AdmissionSunab test={test} setTest={setTest} selectRoom={selectRoom} setSelectRoom={setSelectRoom} bedInfo={bedInfo} setBedInfo = {setBedInfo}/>
         </div>
       </main>
+      
+      
     </div>
 
-  )
-}
+  );
+};
 
 export default WardManagement;

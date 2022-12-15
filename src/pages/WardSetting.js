@@ -12,7 +12,7 @@ function WardSetting({inPatientALL,setInPatientALL, setShowRegiInPatient}) {
   const serachInAllPatient = useRef("")
   const [inPatientAllList, setInPatientAllList]=useState([])
       useEffect(()=>{
-        axios.get('http://localhost:9090/wardCheck/ocuupiedAllList')
+        axios.get('http://192.168.0.195:9090/wardCheck/ocuupiedAllList')
         .then(res=> setInPatientAllList(res.data))
       },[])
 

@@ -7,8 +7,9 @@ import './receipt.scss';
 import '../modalReception/PrescriptionPrint';
 import PrescriptionPrint from '../modalReception/PrescriptionPrint';
 import Modal from '../modalReception/Modal';
+import BillPaper from '../modalReception/BillPaper';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const role = window.localStorage.getItem('role');
 
@@ -48,6 +49,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   const [specialityId ,  setSpecialityId] = useState("");
   const [prescriptionData, setPrescriptionData] = useState([{}]);
   const [room, setRoom] = useState("");
+  const [test3, setTest3] = useState(false);
+  const [billData, setBillData] = useState(false);
+  const [billCompleteData,setBillCompleteData] = useState();
+
+  
 
   useEffect(()=>{
     setRoom("out")
@@ -137,25 +143,36 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   }
 
   function complete(){
+    //모달 띄워서 영수증 출력 여부 확인하기.
+
+    axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
+    .then((res) => {res.data==="success"? alert("수납이완료되었습니다.", axios.post(API_URL+"/AdmissionReceipt/getBillData", {ADMISSION_ID_PK:detail[0].ADMISSION_ID_PK}, { headers: { "Content-Type": `application/json` }, })
+    .then(res => setBillCompleteData(()=>res.data)) ):alert("수납처리에 실패하였습니다.")
+    
+    });
+    
+   
+    
+    
+    console.log("퇴원일: "+billCompleteData);
     let result = reRender;
-  //  console.log("resutl : "+ result); 
     if(result === true){
-    // if(result.){
       result = false;
     }else if(result===false){
       result = true;
-    } 
-    // console.log(sunabList[index].ADMISSION_ID_PK);
-    axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
-    .then((res) => {res.data==="success"? alert("수납이완료되었습니다."):alert("수납처리에 실패하였습니다.")});
-    setReRender(()=>result);
-    
-    // .then(res => setDetail(res.data))
-    // 리턴으로 성공 실패 여부 받아서 다음 처리
+    }
+    setBillData(()=>detail[0]);
+    setReRender(result);
+    setTimeout(() => 
+      setTest3(true)
+    ,1000)
   }
 
+  
+  
+
   function success() {
-    axios.post("http://localhost:9090/outStatus/insertReceipt", {
+    axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
       TREAT_COST: acceptance.treatCost,
       INSURANCE_COST: acceptance.insuranceCost,
@@ -173,11 +190,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   
   function successNprint() {
     if(btnChange.current.value === "처방전") {
-      axios.post("http://localhost:9090/outStatus/getPrescription", {
+      axios.post("http://192.168.0.195:9090/outStatus/getPrescription", {
         TREATMENT_NUM_PK: treatmentNumPk
       }).then((res)=>setPrescriptionData(res.data[0]));
 
-      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+      axios.post("http://192.168.0.195:9090/outStatus/insertReceipt", {
         TREATMENT_NUM_FK: treatmentNumPk,
         TREAT_COST: acceptance.treatCost,
         INSURANCE_COST: acceptance.insuranceCost,
@@ -260,6 +277,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
       {prescriptionPrint && (
         <Modal closeModal={() => setPrescriptionPrint(!prescriptionPrint)}>
           <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint}/>
+        </Modal>
+      )}
+      {test3 && (
+        <Modal closeModal={() => setTest3(!test3)}>
+          <BillPaper setTest3={setTest3} billData={billData} billCompleteData={billCompleteData}/>
         </Modal>
       )}
       <p className='section-title'>수납</p>
