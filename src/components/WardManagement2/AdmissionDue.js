@@ -56,7 +56,7 @@ const AdmissionDue = () => {
 
 
     function complete (admissionIdPk,WARDROOM,BED_NUM) {
-        alert("입원완료");
+        alertSweetSuccess("완료","입원을 완료하였습니다.")
         socket.emit("send_bedInfoChange", {admission : room});
     
 
@@ -134,7 +134,7 @@ export default AdmissionDue
 // const [room, setRoom] = useState("");
 
 // useEffect(()=>{
-//   axios.post('http://192.168.0.195:9090/admission/allInPatientReqs',
+//   axios.post('http://localhost:9090/admission/allInPatientReqs',
 //   {specialityName:specialityName},
 //       {
 //         headers: {

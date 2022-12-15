@@ -15,6 +15,7 @@ const Login = () => {
     })
     .then((res)=>{
       localStorage.setItem('jwt', res.headers.get('Authorization'))
+      console.log(res.data);
     })
     .then(() => {
       axios.post("http://192.168.0.195:9090/user/myPage", {}, {

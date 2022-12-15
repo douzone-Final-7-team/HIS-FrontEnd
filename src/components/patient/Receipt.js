@@ -14,9 +14,6 @@ const socket = io.connect('http://192.168.0.195:3001');
 const role = window.localStorage.getItem('role');
 
 const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
-
-  console.log(test);
-  console.log(selectRoom);
   
   let data;
   if((test !== null && test !=="" && test !==undefined) || (selectRoom !== null && selectRoom !== ""&&selectRoom!==undefined)){
@@ -276,7 +273,12 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
     <div className='receipt'>
       {prescriptionPrint && (
         <Modal closeModal={() => setPrescriptionPrint(!prescriptionPrint)}>
-          <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint}/>
+          <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint} acceptance={acceptance}/>
+        </Modal>
+      )}
+      {test3 && (
+        <Modal closeModal={() => setTest3(!test3)}>
+          <BillPaper setTest3={setTest3} billData={billData} billCompleteData={billCompleteData}/>
         </Modal>
       )}
       {test3 && (

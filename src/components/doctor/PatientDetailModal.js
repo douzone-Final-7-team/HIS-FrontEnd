@@ -17,6 +17,7 @@ const PatientDetailModal = ({ patientID, treatmentDate }) => {
             treatmentDate : treatmentDate
         }})
         .then((res) => {
+            console.log(res.data)
             setPastTreatmentDetail(res.data)
         })
 

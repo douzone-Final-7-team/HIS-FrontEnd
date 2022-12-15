@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { API_URL } from '../../utils/constants/Config';
 import './admissionOrder.scss';
 import io from 'socket.io-client';
+import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 
 const socket = io.connect('http://192.168.0.195:3001')
@@ -111,6 +112,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
 
         if(btnState === "assign"){
             if(reg.test(bedInfo)){
+                alertSweetSuccess("승인","입원을 승인하였습니다.")
                 let ward = (bedInfo+"").substring(0,1)*100;
                 let roomNum = (bedInfo+"").substring(2,3);
                 let bedNum = (bedInfo+"").substring(5,4);
@@ -130,6 +132,9 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                     "Content-Type" : `application/json`,
                     },
                 })
+                .then(res => {if(res.data === 0){
+                    alertSweetError("승인 거부","해당 병상은 다른환자가 사용중입니다.")}
+                    sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn)
                 .then(res => {if(res.data === 0){alert("해당 병상은 다른환자가 사용중입니다.\n다른병상을 입력해주세요")}else{
                     alert("입원을 승인하였습니다.");
                     inputData.current = "";

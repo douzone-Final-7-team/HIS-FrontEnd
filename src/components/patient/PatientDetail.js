@@ -14,7 +14,9 @@ const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, sympto
       SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ') 
       }).then((res)=>{
         setDoctorList(res.data);
-        setEmpId(res.data[0].EMP_NAME+'('+res.data[0].EMP_ID_PK+')');
+        if(localStorage.getItem('role') === 'ROLE_OUTRECEIPT'){
+          setEmpId(res.data[0].EMP_NAME+'('+res.data[0].EMP_ID_PK+')');
+        }
       });
   },[speciality, setEmpId]);
 

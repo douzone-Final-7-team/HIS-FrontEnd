@@ -112,7 +112,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   // useEffect(()=> 
   //   setTimeout(() => 
   //       socket.on("change_state", (data)=>{console.log(data)
-  //           axios.post('http://192.168.0.195:9090/outStatus/getdocpat',
+  //           axios.post('http://localhost:9090/outStatus/getdocpat',
   //           JSON.stringify(data),
   //             {
   //               headers: {

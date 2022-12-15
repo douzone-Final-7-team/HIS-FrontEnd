@@ -9,9 +9,9 @@
     display: grid;  
     gap: 25px;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 75px .3fr .4fr 1fr;
+    grid-template-rows: 75px .3fr;
     height: 100%;
-    padding: 30px 35px;
+    padding: 20px 35px;
     .top {
       grid-column-start: span 2;
     }

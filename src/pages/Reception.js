@@ -13,6 +13,7 @@ import Modal from '../components/modalReception/Modal';
 import PatientRegistrationModal from '../components/modalReception/PatientRegistrationModal';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert';
 
 const socket = io.connect('http://192.168.0.195:3001');
 
@@ -92,7 +93,7 @@ const Reception = () => {
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
         if(res.data.length === 0 || res.data === null) {
-          alert("없는 사람임")
+          alertSweetError("환자정보 없음", "초진 환자입니다 등록해주세요")
         } else {
           setdata(res.data);
           setPatientId(res.data.PATIENT_ID_PK);
@@ -109,7 +110,7 @@ const Reception = () => {
         SYMPTOM: symptom.current,
         PATIENT_ID_PK: patientId
         }).then(() => {
-          alert('접수 완료');
+          alertSweetSuccess("승인","외래 진료 접수 완료")
           const none = document.getElementsByClassName("none");
           for(let i=0 ; i < none.length ; i++){
               none[i].value = "";
@@ -119,7 +120,7 @@ const Reception = () => {
           setdata(null);
         });
       } else {
-        alert('증상을 입력하세요.')
+        alertSweetError("입력값 없음", "초기 증상을 입력해주세요")
       } 
   }
 

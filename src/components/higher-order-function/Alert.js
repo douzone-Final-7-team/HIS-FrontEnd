@@ -7,10 +7,14 @@ export const alertSweetError = (title,content)=>{Swal.fire({
     text: content  
 })}
 
-export const alertSweetSuccess = (title,content)=>{Swal.fire({
-    icon: 'success',
-    title: title,
-    text: content  
+export const alertSweetSuccess = (title,content, Done)=>{Swal.fire({
+  icon: 'success',
+  title: title,
+  text: content  
+}).then(()=>{
+  if(Done != null){
+    Done()
+  }
 })}
 
 export const confrimSweet = (title,text,completeTitle,completetext,comfrimFunc)=>{

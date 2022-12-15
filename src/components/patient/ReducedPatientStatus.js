@@ -53,9 +53,13 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       
   }, [doctorID])
 
-  const getMyPatientInfo = (receivePk) => {
+  const getMyPatientInfo = (receivePk, patientFk) => {
 
-    axios.get("http://192.168.0.195:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
+    axios.get("http://localhost:9090/patient/treatmentPatientInfo", 
+      {params : {
+        receivePk: receivePk,
+        patientFk: patientFk
+      }})
     .then((res) => {
       setTreatmentPatientInfo(res.data)
     }); 
@@ -81,7 +85,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       <p className='filtering'><span name={'whole'} onClick={(e) => filterStatus(e.target)}>전체</span>({myPatientNum.WHOLE}) &nbsp;<span name={'OC'} onClick={(e) => filterStatus(e.target)}>대기중</span>({myPatientNum.WAITING}) &nbsp;<span name={'OB'} onClick={(e) => filterStatus(e.target)}>치료</span>({myPatientNum.CURE}) &nbsp;<span name={'OE'} onClick={(e) => filterStatus(e.target)}> 완료</span>({myPatientNum.DONE})</p>
       <div className='status-wrapper'>
         {myPatientList.map((data, index) => (
-            <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK)}>
+            <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK, data.PATIENT_ID_FK)}>
                 <p className='waiting-name'>
                   {data.PATIENT_NAME}
                   <span className='medical-hours'>{data.TIME}</span>
