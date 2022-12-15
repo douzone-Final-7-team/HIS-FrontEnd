@@ -5,13 +5,8 @@ import '../styles/header.scss';
 function Header({showNav}) {
 
   function logout() {
-    localStorage.removeItem('jwt')
-    localStorage.removeItem('role')
-    localStorage.removeItem('name')
-    localStorage.removeItem('empIdPk')
-    localStorage.removeItem('userName')
-    localStorage.removeItem('specialityName')
-    window.location.href='http://localhost:3000/';
+    localStorage.clear();
+    window.location.href='http://192.168.0.34:3000/';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);
@@ -19,7 +14,7 @@ function Header({showNav}) {
 
   useEffect(() => {
     if(token !== '') {
-    axios.get("http://localhost:9090/user/headerInfo",
+    axios.get("http://192.168.0.34:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setHeaderInfo(res.data)

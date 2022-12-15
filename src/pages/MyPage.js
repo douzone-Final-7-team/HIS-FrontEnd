@@ -18,7 +18,7 @@ const MyPage = () => {
 
     useEffect(() => {
 
-        axios.post("http://localhost:9090/user/myPage", {}, {
+        axios.post("http://192.168.0.34:9090/user/myPage", {}, {
             headers : {'Authorization': token,}
         })
         .then((res) => {
@@ -33,7 +33,7 @@ const MyPage = () => {
             newPwd: newPwd.current
         }
 
-        axios.post("http://localhost:9090/user/changePwd", JSON.stringify(pwd),
+        axios.post("http://192.168.0.34:9090/user/changePwd", JSON.stringify(pwd),
         {
             headers: {
                 'Content-Type' : `application/json`, 
@@ -53,7 +53,7 @@ const MyPage = () => {
             newAddr: newAddr.current
         }
 
-        axios.post("http://localhost:9090/user/changeAddr", JSON.stringify(addr), 
+        axios.post("http://192.168.0.34:9090/user/changeAddr", JSON.stringify(addr), 
         {
             headers: {
                 'Content-Type' : `application/json`,

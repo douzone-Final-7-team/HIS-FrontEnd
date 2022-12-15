@@ -8,14 +8,11 @@ import '../modalReception/PrescriptionPrint';
 import PrescriptionPrint from '../modalReception/PrescriptionPrint';
 import Modal from '../modalReception/Modal';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.34:3001');
 
 const role = window.localStorage.getItem('role');
 
 const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutStatusReRender, setWait4payReRender, treatmentNumPk, setAcceptance}) => { //비구조할당
-
-  console.log(test);
-  console.log(selectRoom);
   
   let data;
   if((test !== null && test !=="" && test !==undefined) || (selectRoom !== null && selectRoom !== ""&&selectRoom!==undefined)){
@@ -155,7 +152,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   }
 
   function success() {
-    axios.post("http://localhost:9090/outStatus/insertReceipt", {
+    axios.post("http://192.168.0.34:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
       TREAT_COST: acceptance.treatCost,
       INSURANCE_COST: acceptance.insuranceCost,
@@ -173,11 +170,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   
   function successNprint() {
     if(btnChange.current.value === "처방전") {
-      axios.post("http://localhost:9090/outStatus/getPrescription", {
+      axios.post("http://192.168.0.34:9090/outStatus/getPrescription", {
         TREATMENT_NUM_PK: treatmentNumPk
       }).then((res)=>setPrescriptionData(res.data[0]));
 
-      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+      axios.post("http://192.168.0.34:9090/outStatus/insertReceipt", {
         TREATMENT_NUM_FK: treatmentNumPk,
         TREAT_COST: acceptance.treatCost,
         INSURANCE_COST: acceptance.insuranceCost,
@@ -259,7 +256,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
     <div className='receipt'>
       {prescriptionPrint && (
         <Modal closeModal={() => setPrescriptionPrint(!prescriptionPrint)}>
-          <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint}/>
+          <PrescriptionPrint prescriptionData={prescriptionData} setPrescriptionPrint={setPrescriptionPrint} acceptance={acceptance}/>
         </Modal>
       )}
       <p className='section-title'>수납</p>
