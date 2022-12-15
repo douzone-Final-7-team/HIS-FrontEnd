@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { alertSweetSuccess, alertSweetError } from "../higher-order-function/Alert";
 // style
 import '../../styles/scss/reset.scss';
 import '../../components/doctor/AddModal.scss';
@@ -17,29 +18,34 @@ const AddModal = ({props, closeModal, setScheduleList, scheduleCount}) => {
 
     const addSchedule = () => {
 
-        const data = {
-            scheduleCategory: scheduleCategory.current,
-            startTime: startTime.current,
-            endTime: endTime.current,
-            scheduleDate: scheduleDate,
-            scheduleTitle: scheduleTitle.current,
-            scheduleLocation: scheduleLocation.current,
-            scheduleContent: scheduleContent.current,
-            empIdPk: empIdPk
+        if(scheduleTitle.current === '' || scheduleLocation.current === '' || scheduleContent.current === '' ) {
+            alertSweetError('추가 실패', '항목들이 채워지지 않았습니다')
+        } else {
+ 
+            const data = {
+                scheduleCategory: scheduleCategory.current,
+                startTime: startTime.current,
+                endTime: endTime.current,
+                scheduleDate: scheduleDate,
+                scheduleTitle: scheduleTitle.current,
+                scheduleLocation: scheduleLocation.current,
+                scheduleContent: scheduleContent.current,
+                empIdPk: empIdPk
+            }
+
+            axios.post("http://localhost:9090/user/addSchedule", JSON.stringify(data),
+            {
+            headers: {
+                "Content-Type" : `application/json`,
+            },
+            })
+            .then((res)=>{
+                alertSweetSuccess('추가 완료!', '일정이 추가되었습니다.')
+                scheduleCount.current = res.data.length
+                setScheduleList(res.data)
+                closeModal()
+            })
         }
-
-        axios.post("http://192.168.0.34:9090/user/addSchedule", JSON.stringify(data),
-        {
-          headers: {
-            "Content-Type" : `application/json`,
-          },
-        })
-        .then((res)=>{
-            scheduleCount.current = res.data.length
-            setScheduleList(res.data)
-            closeModal()
-        })
-
     }
 
     return(

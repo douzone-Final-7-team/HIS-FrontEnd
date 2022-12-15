@@ -5,6 +5,7 @@ import '../styles/mypage.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import axios from "axios";
+import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert.js';
 
 const MyPage = () => {
     const [visiblePwChange, setVisiblePwChange] = useState(false);
@@ -42,8 +43,15 @@ const MyPage = () => {
         })
         .then((res) => {
 
-            alert(res.data)
-            window.location.reload();
+            if(res.data === 'success') {
+                alertSweetSuccess('변경 완료', '비밀번호를 변경하였습니다', Done)
+            } else if(res.data === 'fail') {
+                alertSweetError('변경 실패', '현재 비밀번호와 일치하지 않습니다')
+            }
+            
+            function Done() {
+                window.location.reload();
+            }
         })
     }
 
@@ -60,9 +68,11 @@ const MyPage = () => {
                 'Authorization': token
             }
         })
-        .then((res) => {
-            alert(res.data);
-            window.location.reload();
+        .then(() => {
+            alertSweetSuccess('변경 완료', '새로운 주소로 변경하였습니다', Done)
+            function Done() {
+                window.location.reload();
+            }
         })
 
     }
