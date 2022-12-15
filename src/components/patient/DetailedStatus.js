@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.34:3001');
 
 const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
@@ -92,7 +92,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
     updateChangeState.status = e.target.id;
 
-    axios.post('http://localhost:9090/outStatus/putChangeState',
+    axios.post('http://192.168.0.34:9090/outStatus/putChangeState',
       JSON.stringify(updateChangeState),
       {
         headers: {
@@ -112,7 +112,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   // useEffect(()=> 
   //   setTimeout(() => 
   //       socket.on("change_state", (data)=>{console.log(data)
-  //           axios.post('http://localhost:9090/outStatus/getdocpat',
+  //           axios.post('http://192.168.0.34:9090/outStatus/getdocpat',
   //           JSON.stringify(data),
   //             {
   //               headers: {

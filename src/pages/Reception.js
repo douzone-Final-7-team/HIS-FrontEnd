@@ -14,7 +14,7 @@ import PatientRegistrationModal from '../components/modalReception/PatientRegist
 import axios from 'axios';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.34:3001');
 
 const Reception = () => {
   const [registration, setRegistration] = useState(false);
@@ -47,7 +47,7 @@ const Reception = () => {
 
 
   useEffect(()=>{
-    axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+    axios.get("http://192.168.0.34:9090/outStatus/getwaiting4receipt")
          .then((res) => {
           setWaitingReceipt(res.data);
           setWait4payReRender(()=>true)
@@ -57,7 +57,7 @@ const Reception = () => {
   
     setTimeout(() => 
         socket.on("doctor_render", ()=>{
-        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+        axios.get("http://192.168.0.34:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
@@ -67,7 +67,7 @@ const Reception = () => {
   
     setTimeout(() => 
         socket.on("change_state", ()=> {
-        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+        axios.get("http://192.168.0.34:9090/outStatus/getwaiting4receipt")
         .then((res) => {
          setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
@@ -78,7 +78,7 @@ const Reception = () => {
   
     setTimeout(() => 
         socket.on("sunab_render", ()=>
-        axios.get("http://localhost:9090/outStatus/getwaiting4receipt")
+        axios.get("http://192.168.0.34:9090/outStatus/getwaiting4receipt")
         .then((res) => {
         setWaitingReceipt(res.data);
         //  setWait4payReRender(()=>true)
@@ -87,7 +87,7 @@ const Reception = () => {
   
   function patientInfo() {
     if(window.event.keyCode === 13){
-      axios.post("http://localhost:9090/patient/regInfo", {
+      axios.post("http://192.168.0.34:9090/patient/regInfo", {
       PATIENT_NAME: name.current,
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
@@ -103,7 +103,7 @@ const Reception = () => {
 
   function receipt() {
     if(symptom.current!==null && symptom.current!==undefined && symptom.current!=='') {
-      axios.post("http://localhost:9090/outStatus/receipt", {
+      axios.post("http://192.168.0.34:9090/outStatus/receipt", {
         EMP_ID_PK: empIdTemp,
         SPECIALITY: specialityName,
         SYMPTOM: symptom.current,
