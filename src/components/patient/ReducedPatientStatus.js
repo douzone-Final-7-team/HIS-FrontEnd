@@ -4,7 +4,7 @@ import React, { useEffect, useState} from 'react'
 import './reducedPatientStatus.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://192.168.0.34:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
@@ -27,27 +27,25 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   useEffect(()=> {
     setTimeout(() => 
       socket.on("change_state", ()=>{//receipt_render
-        axios.get("http://192.168.0.34:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(()=> {
     setTimeout(() => 
       socket.on("receipt_render", ()=>{
-        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
-        .then((res)=> {
-          setMyPatientList(res.data)
-        })}),100)
+        axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
   useEffect(() => {
 
-    axios.get("http://192.168.0.34:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+    axios.get("http://192.168.0.195:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
       .then((res)=> {
         setMyPatientList(res.data)
       });
 
-    axios.get("http://192.168.0.34:9090/outStatus/PatientNum", {params : {doctorID : doctorID}})
+    axios.get("http://192.168.0.195:9090/outStatus/PatientNum", {params : {doctorID : doctorID}})
       .then((res)=> {
         setMyPatientNum(res.data)
     });
@@ -69,7 +67,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   } 
 
   const filterStatus = (status) => {
-    axios.get("http://192.168.0.34:9090/outStatus/filterStatus", {
+    axios.get("http://192.168.0.195:9090/outStatus/filterStatus", {
       params : {
         status: status.getAttribute("name"),
         doctorID: doctorID

@@ -73,6 +73,21 @@
         letter-spacing: 2.5px;
     }
 
+    .not-payment{
+        display: inline-block;
+        width: 75px;
+        height: 30px;
+        border-radius: 4px;
+        border-style: none;
+        background-color: #ffa704da;
+        color: $white;
+        font-size: 14px;
+        text-align: center;
+        text-decoration: none;
+        line-height: 30px;
+        letter-spacing: 2.5px;
+    }
+
 }
 
 .init-due-position {

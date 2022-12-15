@@ -26,7 +26,8 @@ const Waiting4Payment = ({sunabList,setTest, setSelectRoom,waitingReceipt, setAc
              {sunabList.PATIENT_NAME}&nbsp;
               <span className='medical-hours'>{sunabList.PATIENT_AGE}/{sunabList.GENDER}&nbsp;&nbsp; {sunabList.WARDROOM}호&nbsp;{sunabList.BED_NUM}병상</span>
             </p>
-          <p className='status-value'>{sunabList.AD_CODE_NAME === "입원완료" ? "중간정산": sunabList.AD_CODE_NAME}</p>
+          {sunabList.AD_CODE_NAME === "수납대기" ? <p className='status-value'>{sunabList.AD_CODE_NAME}</p> : sunabList.AD_CODE_NAME === "입원완료" ? <p className='status-middle'>중간정산</p>: <p className='status-notpayment'>{sunabList.AD_CODE_NAME}</p>}
+          {/* <p className='status-value'>{sunabList.AD_CODE_NAME === "입원완료" ? "중간정산": sunabList.AD_CODE_NAME}</p> */}
         </div>
     ))}
     </div>
@@ -35,7 +36,7 @@ const Waiting4Payment = ({sunabList,setTest, setSelectRoom,waitingReceipt, setAc
 
   const OutList = () =>{
     function waitingReceiptDetail(index){
-      axios.post("http://192.168.0.34:9090/outStatus/getAcceptance", {
+      axios.post("http://192.168.0.195:9090/outStatus/getAcceptance", {
         PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
         TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
         }).then((res)=>{

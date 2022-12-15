@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
 
-const socket = io.connect('http://192.168.0.34:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const TreatmentOrder = ({ patientDetails }) => {
   /*-소켓-*/
@@ -48,7 +48,7 @@ const TreatmentOrder = ({ patientDetails }) => {
   const changePatientCode = () => {
     const opStatusCode = 'OD';
     // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
-    axios.post('http://192.168.0.34:9090/outStatus/putChangeState',
+    axios.post('http://192.168.0.195:9090/outStatus/putChangeState',
       {
         RECEIVE_ID_PK : receiveId,
         SPECIALITY_ID_FK : SPECIALITY_ID_FK,

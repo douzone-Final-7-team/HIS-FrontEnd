@@ -5,7 +5,7 @@ import './dischargeDue.scss';
 import io from 'socket.io-client';
 
 
-const socket = io.connect('http://192.168.0.34:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>
@@ -106,7 +106,7 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
                                                                                     <span className='e'>15:00</span>
                                                                                     <span className='f'>{v.WARDROOM}호 {v.BED_NUM}실</span>
                                                                                     <input type='hidden' value={index}/>
-                                                                                    {v.ADMISSION_STATUS_CODE === "IE" ? <input className='g complete'type='button' value = "퇴실완료" onClick={() => {complete(v.ADMISSION_ID_PK,v.WARDROOM,v.BED_NUM)}}/>:<input className='g un-complete'type='button' value = "미수납"/>}
+                                                                                    {v.ADMISSION_STATUS_CODE === "IE" ? <input className='g complete'type='button' value = "퇴실완료" onClick={() => {complete(v.ADMISSION_ID_PK,v.WARDROOM,v.BED_NUM)}}/>: v.ADMISSION_STATUS_CODE === "IG" ? <input className='g not-payment'type='button' value = "연체환자"/>:<input className='g un-complete'type='button' value = "미수납"/>}
                                                                                 </p>
                                                                             </li>
                                                                         </ul>

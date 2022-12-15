@@ -26,6 +26,7 @@ const DoctorScheduleModal = (props) => {
     useEffect(() => {
 
         axios.get("http://192.168.0.34:9090/user/myScheduleList", 
+        axios.get("http://192.168.0.195:9090/user/myScheduleList", 
             {params : {date: date,
                        empIdPk: empIdPk
             }}

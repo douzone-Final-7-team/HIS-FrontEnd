@@ -24,7 +24,7 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
     
 
     useEffect(() => {
-        axios.get("http://192.168.0.34:9090/patient/getTreatmentHistoryDetail", 
+        axios.get("http://192.168.0.195:9090/patient/getTreatmentHistoryDetail", 
         {params : {
             patientID : patientID,
             treatmentDate : treatmentDate,
