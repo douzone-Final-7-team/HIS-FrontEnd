@@ -20,8 +20,9 @@ import PatientDetailModal from '../components/doctor/PatientDetailModal';
 import DoctorScheduleModal from '../components/doctor/DoctorScheduleModal';
 import InPatientModal from '../components/doctor/InPatientModal';
 import InPatientDetailModal from '../components/doctor/InPatientDetailModal';
+import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert.js';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.34:3001');
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
@@ -51,19 +52,19 @@ const Doctor = () => {
 
   useEffect(() => {
 
-    axios.get("http://localhost:9090/patient/pastTreatmentList", {params : {patientPk: treatmentPatientInfo[0].PATIENT_ID_PK || ''}})
+    axios.get("http://192.168.0.34:9090/patient/pastTreatmentList", {params : {patientPk: treatmentPatientInfo[0].PATIENT_ID_PK || ''}})
       .then((res) => {
         pastTreatmentList.current = res.data
       });
 
-    axios.get("http://localhost:9090/AdmissionFront/myInPatient", {
+    axios.get("http://192.168.0.34:9090/AdmissionFront/myInPatient", {
       headers : {'Authorization': token}
     })
       .then((res) => {
         setInPatientList(res.data)
     });
 
-    axios.get("http://localhost:9090/treatmentOrder/getDiagnosisList", {
+    axios.get("http://192.168.0.34:9090/treatmentOrder/getDiagnosisList", {
       headers : {'Authorization': token,}
     })
     .then((res) => {
@@ -86,7 +87,7 @@ const Doctor = () => {
     },[room])
 
   const getMedicineList = () => {
-    axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
+    axios.get("http://192.168.0.34:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
       .then((res) => {
         setMedicineList(res.data)
       })
@@ -100,12 +101,13 @@ const Doctor = () => {
     }
   };
 
-
   const sendMedicalCharts = () => {
 
     if(diagnosis.current === '') {
-      alert("병명을 선택해주세요.");
-    } else{
+      alertSweetError('진료 완료 불가', '병명을 입력해주세요.')
+    }else if(treatmentPatientInfo[0].OUTPATIENT_STATUS_CODE !== 'OA') {
+      alertSweetError('진료 완료 불가', '진료 대상이 아닙니다.')
+    }else{
 
       const data = {
         diagnosis: diagnosis.current,
@@ -118,7 +120,7 @@ const Doctor = () => {
         treatmentPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
       }
 
-      axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+      axios.post("http://192.168.0.34:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
       {
         headers: {
           "Content-Type" : `application/json`,
@@ -130,8 +132,10 @@ const Doctor = () => {
                                       SPECIALITY_ID_FK : specialityId
                                       });
       //emit을 보내고
-        alert(res.data);
-        window.location.reload();
+        alertSweetSuccess(res.data, `${treatmentPatientInfo[0].PATIENT_NAME}환자 진료가 완료되었습니다.`, Done)
+        function Done() {
+          window.location.reload()
+        } 
       })
     }
   };
@@ -312,11 +316,7 @@ const Doctor = () => {
                       type="checkbox" 
                       name='medicineCheckbox'
                       onClick={() => {
-                        if(diagnosis.current === '') {
-                          alert('병명을 선택해주세요.')
-                        } else {
                           setVisibleMedicineDiv(!visibleMedicineDiv);
-                        }
                       }}
                     /> <span>약</span>
 
@@ -350,7 +350,7 @@ const Doctor = () => {
                           {medicineList.map((data, index) => (
                             <tbody key={index}>
                               <tr>
-                                <th>{data.MEDICINE}</th>
+                                <th>{data.MEDICINE || '병명을 선택하여 주십시요'}</th>
                                 <td>
                                   <input type={"checkbox"} value={data.MEDICINE || ''} onChange={(e) => onCheckedElement(e.target.checked, e.target.value)} />
                                 </td>

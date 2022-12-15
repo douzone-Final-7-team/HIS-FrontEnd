@@ -5,7 +5,7 @@ import './admissionOrder.scss';
 import io from 'socket.io-client';
 import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://192.168.0.34:3001')
 
 const AdmissionOrder = ({bedInfo , setBedInfo}) => {
 

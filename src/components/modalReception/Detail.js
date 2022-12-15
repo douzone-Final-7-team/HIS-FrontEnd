@@ -10,7 +10,9 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
 
     // 환자 과거병력 조회 SELECT
     const registrationInfo = useSelector(state => state.readPatientRegistrationInfo.value[1]);
-    
+    console.log(patientID)
+    console.log(treatmentDate)
+    console.log(regTime)
     // 상세 과거병력 SELECT
     const detailedMedicalHistory = useSelector(state => state.readDetailedMedicalHistory.value[5]);
     let medicalHistoryInfo;
@@ -22,7 +24,7 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
     
 
     useEffect(() => {
-        axios.get("http://localhost:9090/patient/getTreatmentHistoryDetail", 
+        axios.get("http://192.168.0.34:9090/patient/getTreatmentHistoryDetail", 
         {params : {
             patientID : patientID,
             treatmentDate : treatmentDate,

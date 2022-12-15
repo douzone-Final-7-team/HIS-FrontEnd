@@ -5,6 +5,7 @@ import '../styles/mypage.scss';
 // components
 import EmpBar from '../components/employee/EmpBar';
 import axios from "axios";
+import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert.js';
 
 const MyPage = () => {
     const [visiblePwChange, setVisiblePwChange] = useState(false);
@@ -18,7 +19,7 @@ const MyPage = () => {
 
     useEffect(() => {
 
-        axios.post("http://localhost:9090/user/myPage", {}, {
+        axios.post("http://192.168.0.34:9090/user/myPage", {}, {
             headers : {'Authorization': token,}
         })
         .then((res) => {
@@ -33,7 +34,7 @@ const MyPage = () => {
             newPwd: newPwd.current
         }
 
-        axios.post("http://localhost:9090/user/changePwd", JSON.stringify(pwd),
+        axios.post("http://192.168.0.34:9090/user/changePwd", JSON.stringify(pwd),
         {
             headers: {
                 'Content-Type' : `application/json`, 
@@ -42,8 +43,15 @@ const MyPage = () => {
         })
         .then((res) => {
 
-            alert(res.data)
-            window.location.reload();
+            if(res.data === 'success') {
+                alertSweetSuccess('변경 완료', '비밀번호를 변경하였습니다', Done)
+            } else if(res.data === 'fail') {
+                alertSweetError('변경 실패', '현재 비밀번호와 일치하지 않습니다')
+            }
+            
+            function Done() {
+                window.location.reload();
+            }
         })
     }
 
@@ -53,16 +61,18 @@ const MyPage = () => {
             newAddr: newAddr.current
         }
 
-        axios.post("http://localhost:9090/user/changeAddr", JSON.stringify(addr), 
+        axios.post("http://192.168.0.34:9090/user/changeAddr", JSON.stringify(addr), 
         {
             headers: {
                 'Content-Type' : `application/json`,
                 'Authorization': token
             }
         })
-        .then((res) => {
-            alert(res.data);
-            window.location.reload();
+        .then(() => {
+            alertSweetSuccess('변경 완료', '새로운 주소로 변경하였습니다', Done)
+            function Done() {
+                window.location.reload();
+            }
         })
 
     }

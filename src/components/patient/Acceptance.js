@@ -40,11 +40,6 @@ const Acceptance = () => {
               <td>-700</td>
             </tr>
             <tr>
-              <td>보험여부</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
               <td>보험할인액</td>
               <td>-</td>
               <td>-4835</td>

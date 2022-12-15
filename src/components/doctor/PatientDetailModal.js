@@ -11,12 +11,13 @@ const PatientDetailModal = ({ patientID, treatmentDate }) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:9090/patient/pastTreatmentDetail", 
+        axios.get("http://192.168.0.34:9090/patient/pastTreatmentDetail", 
         {params : {
             patientID : patientID,
             treatmentDate : treatmentDate
         }})
         .then((res) => {
+            console.log(res.data)
             setPastTreatmentDetail(res.data)
         })
 

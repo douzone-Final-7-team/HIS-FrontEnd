@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { alertSweetSuccess } from "../higher-order-function/Alert";
 // style
 import '../../components/doctor/UpdateScheduleModal.scss';
 
@@ -17,9 +18,8 @@ const UpdateScheduleModal = ({schedulePk, closeModal}) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:9090/user/selectedSchedule", {params :{scheduleIdPk: scheduleIdPk}})
+        axios.get("http://192.168.0.34:9090/user/selectedSchedule", {params :{scheduleIdPk: scheduleIdPk}})
         .then((res) => {
-          console.log(res.data)
           setSchedule(res.data)
           scheduleCategory.current = res.data[0].SCHEDULE_CATEGORY
           startTime.current = res.data[0].SCHEDULE_START_TIME
@@ -43,14 +43,14 @@ const UpdateScheduleModal = ({schedulePk, closeModal}) => {
             scheduleIdPk: schedulePk
         }
 
-        axios.post("http://localhost:9090/user/updateSchedule", JSON.stringify(data),
+        axios.post("http://192.168.0.34:9090/user/updateSchedule", JSON.stringify(data),
         {
           headers: {
             "Content-Type" : `application/json`,
           },
         })
-        .then((res)=>{
-          alert(res.data)
+        .then(()=>{
+          alertSweetSuccess('수정 성공', '일정을 수정했습니다')
           closeModal()
         })
 

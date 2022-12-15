@@ -4,7 +4,7 @@ import React, { useEffect, useState} from 'react'
 import './reducedPatientStatus.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.34:3001');
 
 const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
@@ -27,7 +27,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   useEffect(()=> {
     setTimeout(() => 
       socket.on("change_state", ()=>{//receipt_render
-        axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        axios.get("http://192.168.0.34:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
         .then(res=> setMyPatientList(res.data))}),100)
   },[doctorID])
 
@@ -35,17 +35,19 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
     setTimeout(() => 
       socket.on("receipt_render", ()=>{
         axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
-        .then(res=> setMyPatientList(res.data))}),100)
+        .then((res)=> {
+          setMyPatientList(res.data)
+        })}),100)
   },[doctorID])
 
   useEffect(() => {
 
-    axios.get("http://localhost:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+    axios.get("http://192.168.0.34:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
       .then((res)=> {
         setMyPatientList(res.data)
       });
 
-    axios.get("http://localhost:9090/outStatus/PatientNum", {params : {doctorID : doctorID}})
+    axios.get("http://192.168.0.34:9090/outStatus/PatientNum", {params : {doctorID : doctorID}})
       .then((res)=> {
         setMyPatientNum(res.data)
     });
@@ -53,9 +55,13 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       
   }, [doctorID])
 
-  const getMyPatientInfo = (receivePk) => {
+  const getMyPatientInfo = (receivePk, patientFk) => {
 
-    axios.get("http://localhost:9090/patient/treatmentPatientInfo", {params : {receivePk: receivePk}})
+    axios.get("http://localhost:9090/patient/treatmentPatientInfo", 
+      {params : {
+        receivePk: receivePk,
+        patientFk: patientFk
+      }})
     .then((res) => {
       setTreatmentPatientInfo(res.data)
     }); 
@@ -63,7 +69,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   } 
 
   const filterStatus = (status) => {
-    axios.get("http://localhost:9090/outStatus/filterStatus", {
+    axios.get("http://192.168.0.34:9090/outStatus/filterStatus", {
       params : {
         status: status.getAttribute("name"),
         doctorID: doctorID
@@ -81,7 +87,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
       <p className='filtering'><span name={'whole'} onClick={(e) => filterStatus(e.target)}>전체</span>({myPatientNum.WHOLE}) &nbsp;<span name={'OC'} onClick={(e) => filterStatus(e.target)}>대기중</span>({myPatientNum.WAITING}) &nbsp;<span name={'OB'} onClick={(e) => filterStatus(e.target)}>치료</span>({myPatientNum.CURE}) &nbsp;<span name={'OE'} onClick={(e) => filterStatus(e.target)}> 완료</span>({myPatientNum.DONE})</p>
       <div className='status-wrapper'>
         {myPatientList.map((data, index) => (
-            <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK)}>
+            <div key={index} className='waiting-order selected' onClick={() => getMyPatientInfo(data.RECEIVE_ID_PK, data.PATIENT_ID_FK)}>
                 <p className='waiting-name'>
                   {data.PATIENT_NAME}
                   <span className='medical-hours'>{data.TIME}</span>
