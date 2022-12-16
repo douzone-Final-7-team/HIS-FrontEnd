@@ -55,7 +55,7 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
 
   const getMyPatientInfo = (receivePk, patientFk) => {
 
-    axios.get("http://localhost:9090/patient/treatmentPatientInfo", 
+    axios.get("http://192.168.0.195:9090/patient/treatmentPatientInfo", 
       {params : {
         receivePk: receivePk,
         patientFk: patientFk

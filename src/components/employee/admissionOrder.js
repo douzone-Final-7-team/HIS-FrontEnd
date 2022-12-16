@@ -112,7 +112,6 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
 
         if(btnState === "assign"){
             if(reg.test(bedInfo)){
-                alertSweetSuccess("승인","입원을 승인하였습니다.")
                 let ward = (bedInfo+"").substring(0,1)*100;
                 let roomNum = (bedInfo+"").substring(2,3);
                 let bedNum = (bedInfo+"").substring(5,4);
@@ -132,11 +131,8 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                     "Content-Type" : `application/json`,
                     },
                 })
-                .then(res => {if(res.data === 0){
-                    alertSweetError("승인 거부","해당 병상은 다른환자가 사용중입니다.")}
-                    sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn)
-                .then(res => {if(res.data === 0){alert("해당 병상은 다른환자가 사용중입니다.\n다른병상을 입력해주세요")}else{
-                    alert("입원을 승인하였습니다.");
+                .then(res => {if(res.data === 0){alertSweetError("거부","해당 병상은 다른환자가 사용중입니다!")}else{
+                    alertSweetSuccess("승인","입원을 승인하였습니다.");
                     inputData.current = "";
                     sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn)}
                 });
@@ -149,16 +145,18 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                 setBedInfo(()=>bedInfoState);
 
             }else{
-                alert("호실 및 병상 입력 양식이 틀렸습니다. 다시 입력해 주십시오.\n예)  내        과 : 201-1\n     정 형 외 과 : 301-1\n     이비인후과 : 401-1");
+                alertSweetError("거부","호실 및 병상 입력 양식이 틀렸습니다.<br/>예)  내        과 : 201-1<br/>정 형 외 과 : 301-1<br/>이비인후과 : 401-1")
+                
                 inputData.current = "";
                 // inputData.current.focus();
             }
         }else{
             if(bedInfo === null || bedInfo === ""){
-                alert("반려 사유를 입력해주세요.");
+                alertSweetError("거부","반려 사유를 입력해주세요.")
                 inputData.current = "";
             }else{
-                alert(btnState);
+                //axios 결과값으로 반려 결과 확인해서 모달창 띄우기
+                alertSweetError("승인","반려처리 되었습니다!")
                 let data = {
                             ADMISSION_ID_PK: admissionIdPk,
                             REJECT_REASON : bedInfo,

@@ -25,7 +25,6 @@ const DoctorScheduleModal = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://192.168.0.34:9090/user/myScheduleList", 
         axios.get("http://192.168.0.195:9090/user/myScheduleList", 
             {params : {date: date,
                        empIdPk: empIdPk
@@ -45,7 +44,7 @@ const DoctorScheduleModal = (props) => {
             schedulePk: schedulePk
         }
 
-        axios.post("http://192.168.0.34:9090/user/deleteSchedule", JSON.stringify(data), 
+        axios.post("http://192.168.0.195:9090/user/deleteSchedule", JSON.stringify(data), 
             {headers: {
                 "Content-Type" : `application/json`
             }}
@@ -69,7 +68,7 @@ const DoctorScheduleModal = (props) => {
     const filtering = (checked, data) => {
 
         if(checked) {
-            axios.get("http://192.168.0.34:9090/user/filterCategory", {
+            axios.get("http://192.168.0.195:9090/user/filterCategory", {
                 params: {
                     category: data,
                     empIdPk: empIdPk,
@@ -82,7 +81,7 @@ const DoctorScheduleModal = (props) => {
                 })
         }else if(!checked) {
 
-            axios.get("http://192.168.0.34:9090/user/myScheduleList", {
+            axios.get("http://192.168.0.195:9090/user/myScheduleList", {
                 params : {
                     date: date,
                     empIdPk: empIdPk
@@ -180,7 +179,7 @@ const DoctorScheduleModal = (props) => {
                                 closeModal={() => {
                                     setUpdateSchedule(!updateSchedule)
 
-                                    axios.get("http://192.168.0.34:9090/user/myScheduleList", 
+                                    axios.get("http://192.168.0.195:9090/user/myScheduleList", 
                                     {params : {date: date,
                                                empIdPk: empIdPk
                                     }}

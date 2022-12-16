@@ -67,7 +67,6 @@ const WardPatientRequest = () => {
     useEffect(()=>{
       socket.on("call_message", 
       ()=>{    
-
         setTimeout(()=>{
         axios.post('http://192.168.0.195:9090/admission/allInPatientReqs',
         {specialityName:specialityName},

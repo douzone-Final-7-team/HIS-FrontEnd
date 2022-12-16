@@ -8,6 +8,7 @@ import '../modalReception/PrescriptionPrint';
 import PrescriptionPrint from '../modalReception/PrescriptionPrint';
 import Modal from '../modalReception/Modal';
 import BillPaper from '../modalReception/BillPaper';
+import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 const socket = io.connect('http://192.168.0.195:3001');
 
@@ -48,7 +49,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   const [room, setRoom] = useState("");
   const [test3, setTest3] = useState(false);
   const [billData, setBillData] = useState(false);
-  const [billCompleteData,setBillCompleteData] = useState();
+  const [billCompleteData,setBillCompleteData] = useState([{}]);
 
   
 
@@ -138,19 +139,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
       </table>
     )
   }
+  
+  function completeAxios(){
+    axios.post(API_URL+"/AdmissionReceipt/getBillData", {ADMISSION_ID_PK:detail[0].ADMISSION_ID_PK}, { headers: { "Content-Type": `application/json` }, })
+    .then(res => setBillCompleteData(()=>res.data)) 
 
-  function complete(){
-    //모달 띄워서 영수증 출력 여부 확인하기.
-
-    axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
-    .then((res) => {res.data==="success"? alert("수납이완료되었습니다.", axios.post(API_URL+"/AdmissionReceipt/getBillData", {ADMISSION_ID_PK:detail[0].ADMISSION_ID_PK}, { headers: { "Content-Type": `application/json` }, })
-    .then(res => setBillCompleteData(()=>res.data)) ):alert("수납처리에 실패하였습니다.")
-    
-    });
-    
-   
-    
-    
     console.log("퇴원일: "+billCompleteData);
     let result = reRender;
     if(result === true){
@@ -158,11 +151,28 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
     }else if(result===false){
       result = true;
     }
+
+    
     setBillData(()=>detail[0]);
     setReRender(result);
-    setTimeout(() => 
-      setTest3(true)
-    ,1000)
+    setTest3(true);
+    
+  }
+
+  function complete(){
+    //모달 띄워서 영수증 출력 여부 확인하기.
+    
+    console.log("오케이 : "+detail[0].ADMISSION_ID_PK);
+
+    axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
+    .then((res) => {res.data==="success"? alertSweetSuccess("승인","수납이완료되었습니다.",completeAxios):alertSweetError("거부","수납처리에 실패하였습니다.");
+    });
+    
+    
+    
+    
+    
+    
   }
 
   
