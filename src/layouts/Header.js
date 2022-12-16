@@ -14,7 +14,7 @@ function Header({showNav}) {
 
   useEffect(() => {
     if(token !== '') {
-    axios.get("http://192.168.0.195:9090/user/headerInfo",
+    axios.get("http://localhost:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setHeaderInfo(res.data)

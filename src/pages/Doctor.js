@@ -22,7 +22,7 @@ import InPatientModal from '../components/doctor/InPatientModal';
 import InPatientDetailModal from '../components/doctor/InPatientDetailModal';
 import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert.js';
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://localhost:3001');
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
@@ -52,19 +52,19 @@ const Doctor = () => {
 
   useEffect(() => {
 
-    axios.get("http://192.168.0.195:9090/patient/pastTreatmentList", {params : {patientPk: treatmentPatientInfo[0].PATIENT_ID_PK || ''}})
+    axios.get("http://localhost:9090/patient/pastTreatmentList", {params : {patientPk: treatmentPatientInfo[0].PATIENT_ID_PK || ''}})
       .then((res) => {
         pastTreatmentList.current = res.data
       });
 
-    axios.get("http://192.168.0.195:9090/AdmissionFront/myInPatient", {
+    axios.get("http://localhost:9090/AdmissionFront/myInPatient", {
       headers : {'Authorization': token}
     })
       .then((res) => {
         setInPatientList(res.data)
     });
 
-    axios.get("http://192.168.0.195:9090/treatmentOrder/getDiagnosisList", {
+    axios.get("http://localhost:9090/treatmentOrder/getDiagnosisList", {
       headers : {'Authorization': token,}
     })
     .then((res) => {
@@ -87,7 +87,7 @@ const Doctor = () => {
     },[room])
 
   const getMedicineList = () => {
-    axios.get("http://192.168.0.195:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
+    axios.get("http://localhost:9090/treatmentOrder/getMedicineList", {params :{diagnosis: diagnosis.current}})
       .then((res) => {
         setMedicineList(res.data)
       })
@@ -120,7 +120,7 @@ const Doctor = () => {
         treatmentPk: treatmentPatientInfo[0].TREATMENT_NUM_PK
       }
 
-      axios.post("http://192.168.0.195:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
+      axios.post("http://localhost:9090/treatmentOrder/treatmentDone", JSON.stringify(data),
       {
         headers: {
           "Content-Type" : `application/json`,
