@@ -18,7 +18,7 @@ const UpdateScheduleModal = ({schedulePk, closeModal}) => {
 
     useEffect(() => {
 
-        axios.get("http://192.168.0.195:9090/user/selectedSchedule", {params :{scheduleIdPk: scheduleIdPk}})
+        axios.get("http://localhost:9090/user/selectedSchedule", {params :{scheduleIdPk: scheduleIdPk}})
         .then((res) => {
           setSchedule(res.data)
           scheduleCategory.current = res.data[0].SCHEDULE_CATEGORY
@@ -43,7 +43,7 @@ const UpdateScheduleModal = ({schedulePk, closeModal}) => {
             scheduleIdPk: schedulePk
         }
 
-        axios.post("http://192.168.0.195:9090/user/updateSchedule", JSON.stringify(data),
+        axios.post("http://localhost:9090/user/updateSchedule", JSON.stringify(data),
         {
           headers: {
             "Content-Type" : `application/json`,

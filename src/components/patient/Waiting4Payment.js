@@ -36,7 +36,7 @@ const Waiting4Payment = ({sunabList,setTest, setSelectRoom,waitingReceipt, setAc
 
   const OutList = () =>{
     function waitingReceiptDetail(index){
-      axios.post("http://192.168.0.195:9090/outStatus/getAcceptance", {
+      axios.post("http://localhost:9090/outStatus/getAcceptance", {
         PATIENT_ID_PK: waitingReceipt[index].PATIENT_ID_PK,
         TREATMENT_NUM_PK: waitingReceipt[index].TREATMENT_NUM_PK
         }).then((res)=>{
