@@ -4,7 +4,8 @@ import "./alert.scss";
 export const alertSweetError = (title,content)=>{Swal.fire({
     icon: 'error',
     title: title,
-    text: content  
+    html: content
+
 })}
 
 export const alertSweetSuccess = (title,content, Done)=>{Swal.fire({

@@ -50,7 +50,7 @@ const WardManagement = () => {
   },[room])
 
     let bedInfoState = bedInfo;
-    socket.on("bedInfoChange",(data)=>{
+    socket.on("bedInfoChange",()=>{console.log("메인페이지 bedInfo");
        if(!bedInfoState){
           bedInfoState = true;
         }else{

@@ -54,14 +54,14 @@ const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
 }
 },[socketRoom])
 
-  let bedInfoState = bedInfo;
+  // let bedInfoState = bedInfo;
   socket.on("admissionOrder",()=>{console.log("와드 체크")
-  if(!bedInfoState){
-     bedInfoState = true;
-   }else{
-     bedInfoState = false;
-   }
-   setSelected(()=>bedInfoState);
+  // if(!bedInfoState){
+  //    bedInfoState = true;
+  //  }else{
+  //    bedInfoState = false;
+  //  }
+  //  setSelected(()=>bedInfoState);
    setTimeout(() => 
    axios.get(API_URL+"/wardCheck/roominfos", {params : data})
      .then(res => setRoomInfos(res.data))
@@ -70,15 +70,6 @@ const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
         // 확인해야할부분 --> order쪽에서 승인 시 socket.on하여 확인 하지만 입원승인 후 바로 재랜더할지 입실완료 후 재랜더할지 결정해야함.
 
     // data.ward = "200";
-
-
-
-
-  // if(data.empIdPk.indexOf("O") !== -1){
-  //   data.ward = "200";
-  //   setWard("200");
-  // }
-
 
   let showWard =true;
   

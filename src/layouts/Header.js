@@ -6,7 +6,7 @@ function Header({showNav}) {
 
   function logout() {
     localStorage.clear();
-    window.location.href='http://localhost:3000/';
+    window.location.href='http://192.168.0.195:3000/';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);

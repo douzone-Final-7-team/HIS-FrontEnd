@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../utils/constants/Config';
 import './dischargeDue.scss';
 import io from 'socket.io-client';
+import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 
 const socket = io.connect('http://localhost:3001');
@@ -49,22 +50,7 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
     console.log(disChargeDueList);
     console.log(disChargeFinish);
 
-    async function complete(admissionIdPk,WARDROOM,BED_NUM) {
-        const messageData={
-            admission : socketRoom
-        }
-
-        await socket.emit("send_admissionOrder", messageData );
-
-        let ward = (WARDROOM+"").substring(0,1)*100;
-        let room = (WARDROOM+"").substring(2);
-
-        let data = {ADMISSION_ID_PK: admissionIdPk,
-                     WARD : ward,
-                     ROOM_NUM : room,
-                     BED_NUM : BED_NUM
-                    };
-        // console.log(admissionIdPk)
+    function completeAfter(){
 
         let changeState = disChargeFinish;
         if(changeState === false){
@@ -82,15 +68,30 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
             bedInfoState = false;
         }
 
-        
-
-        axios.put(API_URL+"/AdmissionFront/discharged", JSON.stringify(data), {headers:{"Content-Type" : `application/json`},})
-        .then(setDisChargeFinish(()=>changeState));
+        setDisChargeFinish(()=>changeState);
         setBedInfo(()=>bedInfoState);
+    }
 
-        
-
+    async function complete(admissionIdPk,WARDROOM,BED_NUM) {
+        const messageData={
+            admission : socketRoom
         }
+
+        await socket.emit("send_admissionOrder", messageData );
+
+        let ward = (WARDROOM+"").substring(0,1)*100;
+        let room = (WARDROOM+"").substring(2);
+
+        let data = {ADMISSION_ID_PK: admissionIdPk,
+                     WARD : ward,
+                     ROOM_NUM : room,
+                     BED_NUM : BED_NUM
+                    };
+                    
+        axios.put(API_URL+"/AdmissionFront/discharged", JSON.stringify(data), {headers:{"Content-Type" : `application/json`},})
+        .then((res) => {res.data==="success"? alertSweetSuccess("승인","퇴원이 완료되었습니다.",completeAfter):alertSweetError("거부","퇴원처리에 실패하였습니다.");
+            }); 
+    }
         
     
     const DisChargeListData = ()=>{return(disChargeDueList.map((v,index) => (
