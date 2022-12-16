@@ -262,18 +262,18 @@ else if(getModalMode === 'medi-check-create'){
           saveContent.current= globalModifyElements.handOverContent;
           }
         if(saveThirdContent.current === ""){
-            saveThirdContent.current= globalModifyElements.empIdPk;
+            saveThirdContent.current= globalModifyElements.handOverTargetId;
           }else{
             saveThirdContent.current = inNurse.userName;
           }
         treatData = ()=>{
-          if((saveThirdContent.current !== globalModifyElements.empIdPk && saveThirdContent.current !== inNurse.userName)){
+          if((saveThirdContent.current !== globalModifyElements.handOverTargetId && saveThirdContent.current !== inNurse.userName)){
               alertSweetError("잘못된 직원정보","검색을 다시하세요");
-              saveThirdContent.current=globalModifyElements.empIdPk
+              saveThirdContent.current=globalModifyElements.handOverTargetId
           }
           else{
             if(saveThirdContent.current === ""){
-              saveThirdContent.current = globalModifyElements.empIdPk
+              saveThirdContent.current = globalModifyElements.handOverTargetId
             }
             const doModifyHandover= () =>{
               sendElements ={

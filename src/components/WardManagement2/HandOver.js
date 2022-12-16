@@ -59,7 +59,8 @@ const HandOver = () => {
       handOverPK : handOverInfo[e.target.id].HANDOVER_ID_PK,
       handOverContent : handOverInfo[e.target.id].HANDOVER_CONTENT,
       handOverTarget:handOverInfo[e.target.id].HANDOVER_TARGET,
-      empIdPk: handOverInfo[e.target.id].EMP_ID_FK
+      empIdPk: handOverInfo[e.target.id].EMP_ID_FK,
+      handOverTargetId: handOverInfo[e.target.id].targetEMP_ID_FK
     };
     dispatch(globalmodifyElement(changeHandOverInfo));
   };
