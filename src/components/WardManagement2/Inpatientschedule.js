@@ -11,7 +11,6 @@ import {  useDispatch, useSelector } from 'react-redux';
 import { changeScheduleStatus, getInpatientSchedules } from '../../redux/AdmissionPatientInfoApi';
 import { executeModal, modalMode, globalmodifyElement} from '../../redux/InPatientInfoSlice';
 import { setStartDate } from '../../redux/InChangeDateSlice';
-import { parseISO } from 'date-fns';
 
 
 const InDatePicker = () => {
@@ -82,7 +81,7 @@ const Inpatientschedule = () => {
      updateScheduleStat={
       scheduleIdPk : scheduleInfo[e.target.id].SCHEDULE_ID_PK,
       specialityName : specialityName,
-      scheduleDate : parseISO(scheduleInfo[e.target.id].SCHEDULE_DATE)
+      scheduleDate : scheduleInfo[e.target.id].SCHEDULE_DATE
      };
      setSendChangeStat(updateScheduleStat);
    };
@@ -91,6 +90,7 @@ const Inpatientschedule = () => {
     setAnchorEl(null);
   };
   const handleStatus = (e)=>{
+    
     setSendChangeStat(sendChangeStat.scheduleStatus = e.target.id);
     updateScheduleStat = JSON.stringify(sendChangeStat);
     dispatch(changeScheduleStatus(updateScheduleStat));

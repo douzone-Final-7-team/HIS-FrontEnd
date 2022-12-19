@@ -24,19 +24,24 @@ const ReducedPatientStatus = ({ setTreatmentPatientInfo }) => {
   },[room])
 
   //여기서 on을 받는다.
-  useEffect(()=> {
+  
     setTimeout(() => 
       socket.on("change_state", ()=>{//receipt_render
         axios.get("http://43.200.169.159:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
-        .then(res=> setMyPatientList(res.data))}),100)
-  },[doctorID])
+        .then(res=> setMyPatientList(res.data))}),150)
+  
 
-  useEffect(()=> {
+  
     setTimeout(() => 
       socket.on("receipt_render", ()=>{
         axios.get("http://43.200.169.159:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
-        .then(res=> setMyPatientList(res.data))}),100)
-  },[doctorID])
+        .then(res=> setMyPatientList(res.data))}),150)
+
+    setTimeout(() => 
+      socket.on("sunab_render", ()=>{
+        axios.get("http://43.200.169.159:9090/outStatus/MyPatient", {params : {doctorID : doctorID}})
+        .then(res=> setMyPatientList(res.data))}),150)
+
 
   useEffect(() => {
 
