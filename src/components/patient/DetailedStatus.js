@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://192.168.0.195:3001');
 
 const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
@@ -18,10 +18,17 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   const className = ['box', 'waiting-order', 'selected'];
   const [opStatusClassification , setOpStatusClassification] = useState(false)
 
+
+  // patientID: info.PATIENT_ID_PK,
+  // treatmentDate: info.TREATMENT_DATE,
+  // regTime: info.REGISTRATION_TIME
   
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
     const { status, receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
+    console.log("정혜지 1 : "+ PATIENT_ID_PK);
+    console.log("정혜지 2 : "+ TREATMENT_DATE);
+    console.log("정혜지 3 : "+ REGISTRATION_TIME);
     dispatch(checkOpStatusCode(status)); //treatmentOrder에서 필요
     dispatch(getTreatmentInfo(receiveId));
     dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
@@ -92,7 +99,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
     updateChangeState.status = e.target.id;
 
-    axios.post('http://localhost:9090/outStatus/putChangeState',
+    axios.post('http://192.168.0.195:9090/outStatus/putChangeState',
       JSON.stringify(updateChangeState),
       {
         headers: {
