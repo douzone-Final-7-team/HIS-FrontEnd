@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 // style
 import '../../styles/scss/reset.scss';
+import { alertSweetSuccess } from "../higher-order-function/Alert";
 import './patientRegistrationModal.scss';
 // components 
 
@@ -20,7 +21,7 @@ const PatientRegistrationModal = () => {
       PATIENT_SSN: ssn,
       INSURANCE: insurance
       })
-      .then(alert(name + "님 등록 완료"))
+      .then(alertSweetSuccess(name + "님 등록 완료"))
       .then(window.location.href="/reception");
   }
 

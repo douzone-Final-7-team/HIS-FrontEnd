@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 // style
 import './prescriptionPrint.scss';
@@ -12,6 +12,7 @@ const PrescriptionPrint = ({prescriptionData, setPrescriptionPrint}) => {
     documentTitle: 'prescription',
     onAfterPrint: ()=> setPrescriptionPrint(false)
   });
+  console.log(prescriptionData)
   
   return (
       <div>
@@ -48,16 +49,18 @@ const PrescriptionPrint = ({prescriptionData, setPrescriptionPrint}) => {
                 </tr>
                 <tr>
                   <td colSpan={4} className='align-top'>
-                    <p>{prescriptionData.MEDICINE}</p>
+                    {prescriptionData.MEDICINE!==null&&prescriptionData.MEDICINE!==undefined?prescriptionData.MEDICINE.split(',').map((data,index) => {
+                      return <p key={index}>{data}</p>
+                    }):''}
                   </td>
                   <td colSpan={2}  className='align-top'>
-                  {prescriptionData.MEDICINE!==null&&prescriptionData.MEDICINE!==undefined?prescriptionData.MEDICINE.split('\n').map((data,index) => {
-                    return <p key={index}>1</p>
+                  {prescriptionData.MEDICINE!==null&&prescriptionData.MEDICINE!==undefined?prescriptionData.MEDICINE.split(',').map((data,index) => {
+                    return data.length!==0?<p key={index}>1</p>:''
                   }):''}
                   </td>
                   <td colSpan={4}  className='align-top'>
-                  {prescriptionData.MEDICINE!==null&&prescriptionData.MEDICINE!==undefined?prescriptionData.MEDICINE.split('\n').map((data,index) => {
-                    return <p key={index}>식후 30분 복용</p>
+                  {prescriptionData.MEDICINE!==null&&prescriptionData.MEDICINE!==undefined?prescriptionData.MEDICINE.split(',').map((data,index) => {
+                    return data.length!==0?<p key={index}>식후 30분 복용</p>:''
                   }):''}
                   </td>
                 </tr>
