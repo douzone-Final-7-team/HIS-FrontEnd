@@ -45,7 +45,7 @@ const Doctor = () => {
   const diagnosis = useRef("");
   const treatmentMemo = useRef("");
   const treatmentOrder = useRef("");
-  const admissionOrder = useRef("");
+  const admissionOrder = useRef(startDate.toJSON().substring(0, 10));
   const admissionCheck = useRef(0);
   const specialityId = 'N';//localStorage.getItem('specialityId') || '';
   const token = localStorage.getItem('jwt') || '';
@@ -139,8 +139,6 @@ const Doctor = () => {
       })
     }
   };
-
-  // console.log(admissionOrder.current);
   
   return (
     <div className='doctor'>
