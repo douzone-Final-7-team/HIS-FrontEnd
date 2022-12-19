@@ -29,7 +29,7 @@ function Stastic() {
       }
       yearElements = JSON.stringify(yearElements);
   
-    axios.post('http://192.168.0.195:9090/stastic/year',
+    axios.post('http://43.200.169.159:9090/stastic/year',
       yearElements,
         { 
           headers: {
@@ -117,7 +117,7 @@ function Stastic() {
 
           setInPatinetOptions({
             title: {
-              text: "입원 환자 수",
+              text: "퇴원 환자 수",
               subtext: "단위 : %",
               left: "10px",
               textStyle: {
@@ -133,7 +133,7 @@ function Stastic() {
           },
           series: [
             {
-              name: '입원 환자 %',
+              name: '퇴원 환자 %',
               type: 'pie',
               radius: ['40%', '70%'],
               avoidLabelOverlap: false,
@@ -219,17 +219,17 @@ function Stastic() {
               </tr>
               <tr>
                 <td className='static-contnet'>올해 외래 환자 수</td>
-                <td className='static-date'>{chartData[3].totalOutPatinetNum}</td>
-                <td className='static-writer'>{chartData[3].spectialityOutPatinetNum}</td>
-                <td className='static-writer'>{chartData[5].spectialityOutPatinetNum}</td>
-                <td className='static-writer'>{chartData[4].spectialityOutPatinetNum}</td>
+                <td className='static-date'>{chartData[0].totalOutPatinetNum}</td>
+                <td className='static-writer'>{chartData[0].spectialityOutPatinetNum}</td>
+                <td className='static-writer'>{chartData[2].spectialityOutPatinetNum}</td>
+                <td className='static-writer'>{chartData[1].spectialityOutPatinetNum}</td>
               </tr>
               <tr>
-                <td className='static-contnet'>올해 입원 환자 수</td>
-                <td className='static-date'>{chartData[3].toalInPatientNum}</td>
-                <td className='static-writer'>{chartData[3].spectialityInPatientNum}</td>
-                <td className='static-writer'>{chartData[5].spectialityInPatientNum}</td>
-                <td className='static-writer'>{chartData[4].spectialityInPatientNum}</td>
+                <td className='static-contnet'>올해 퇴원 환자 수</td>
+                <td className='static-date'>{chartData[0].toalInPatientNum}</td>
+                <td className='static-writer'>{chartData[0].spectialityInPatientNum}</td>
+                <td className='static-writer'>{chartData[2].spectialityInPatientNum}</td>
+                <td className='static-writer'>{chartData[1].spectialityInPatientNum}</td>
               </tr>
               </tbody>
             }

@@ -15,7 +15,7 @@ function EmpBar() {
 
   useEffect(()=>{
     if(token !== '') {
-    axios.get("http://192.168.0.195:9090/user/headerInfo",
+    axios.get("http://43.200.169.159:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setEmpBarInfo(res.data)

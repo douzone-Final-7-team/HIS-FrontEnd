@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 // style
 import '../../styles/scss/reset.scss';
+import { alertSweetSuccess } from "../higher-order-function/Alert";
 import './patientRegistrationModal.scss';
 // components 
 
@@ -12,16 +13,18 @@ const PatientRegistrationModal = () => {
   const [ssn, setSsn] = useState();
   const [insurance, setInsurance] = useState();
  
+  function relocation() {
+    window.location.href="/reception";
+  }
   function patientReg() {
-      axios.post("http://192.168.0.195:9090/patient/insert", {
+      axios.post("http://43.200.169.159:9090/patient/insert", {
       PATIENT_NAME: name,
       PATIENT_ADDR: addr,
       PATIENT_TEL: tel,
       PATIENT_SSN: ssn,
       INSURANCE: insurance
       })
-      .then(alert(name + "님 등록 완료"))
-      .then(window.location.href="/reception");
+      .then(alertSweetSuccess("등록성공", name + "님 등록 완료", relocation))
   }
 
   return(

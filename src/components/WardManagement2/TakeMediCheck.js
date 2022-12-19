@@ -24,6 +24,7 @@ const ModalMode = (e)=>{
 const getMediRecords = useSelector(state=>{
       return state.inPatientInfo.value[7]
 }); 
+console.log(getMediRecords)
 
 const selectRow = (e)=>{
   let changeMediRecords = {
@@ -83,7 +84,7 @@ const confirmTaking = (e)=>{
           </tbody>
         </table>
       </div>
-      {getMediRecords[0].ORDER_DATE !== "" &&
+      {getMediRecords[0].ORDER_CONTENT !== "빈 데이터 입니다 환자를 클릭 해 주세요" &&
       <div className='btn-wapper' >
         <a href='#!' className='btn' id='medi-check-modify' onClick={ModalMode}>수정</a> 
         <a href='#!' className='btn' id='medi-check-create' onClick={ModalMode}>등록</a>

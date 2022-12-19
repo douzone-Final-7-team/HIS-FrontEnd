@@ -14,7 +14,7 @@ export const alertSweetSuccess = (title,content, Done)=>{Swal.fire({
   text: content  
 }).then(()=>{
   if(Done != null){
-    Done()
+      Done()
   }
 })}
 

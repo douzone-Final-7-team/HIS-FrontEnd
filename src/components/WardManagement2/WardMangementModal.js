@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCareInfo, changeHandover, changeMediRecord, changeSchedule, setCareInfo, setHandOver, setInpatientSchedule, setMediRecord } from '../../redux/AdmissionPatientInfoApi';
 import {setStartDate } from '../../redux/InChangeDateSlice';
-import {executeModal, globalmodifyElement, modifyElement} from '../../redux/InPatientInfoSlice';
+import {executeModal, globalmodifyElement, modifyElement, setRadioChecked} from '../../redux/InPatientInfoSlice';
 import { alertSweetError, confrimSweet } from '../higher-order-function/Alert';
 import { SearchAddEvent } from '../higher-order-function/SearchFuction';
 import './wardMangementModal.scss';
@@ -48,7 +48,7 @@ const WardMangementModal = () => {
       });
 
   useEffect(()=>{
-    axios.post('http://192.168.0.195:9090/admission/inNurseList')
+    axios.post('http://43.200.169.159:9090/admission/inNurseList')
     .then(res=>{setInNurseList(res.data)})
   },[]);
 
@@ -90,7 +90,7 @@ const WardMangementModal = () => {
       });
 
   useEffect(()=>{
-    axios.get('http://192.168.0.195:9090/wardCheck/ocuupiedList', {params : {
+    axios.get('http://43.200.169.159:9090/wardCheck/ocuupiedList', {params : {
       ward : ward
       }}).then(res=> setInPatientWardList(res.data))
     },[ward]);
@@ -262,18 +262,18 @@ else if(getModalMode === 'medi-check-create'){
           saveContent.current= globalModifyElements.handOverContent;
           }
         if(saveThirdContent.current === ""){
-            saveThirdContent.current= globalModifyElements.empIdPk;
+            saveThirdContent.current= globalModifyElements.handOverTargetId;
           }else{
             saveThirdContent.current = inNurse.userName;
           }
         treatData = ()=>{
-          if((saveThirdContent.current !== globalModifyElements.empIdPk && saveThirdContent.current !== inNurse.userName)){
+          if((saveThirdContent.current !== globalModifyElements.handOverTargetId && saveThirdContent.current !== inNurse.userName)){
               alertSweetError("잘못된 직원정보","검색을 다시하세요");
-              saveThirdContent.current=globalModifyElements.empIdPk
+              saveThirdContent.current=globalModifyElements.handOverTargetId
           }
           else{
             if(saveThirdContent.current === ""){
-              saveThirdContent.current = globalModifyElements.empIdPk
+              saveThirdContent.current = globalModifyElements.handOverTargetId
             }
             const doModifyHandover= () =>{
               sendElements ={
@@ -286,6 +286,7 @@ else if(getModalMode === 'medi-check-create'){
               dispatch(executeModal(false));
               dispatch(changeHandover(sendElements));
               dispatch(globalmodifyElement(null));
+              dispatch(setRadioChecked(false));
             }
             confrimSweet("수정 하시겠습니까 ?", "확인을 누르시면 진행됩니다.","수정","성공적으로 수정되었습니다",doModifyHandover)
           };
@@ -322,6 +323,7 @@ else if(getModalMode === 'medi-check-create'){
         sendElements = JSON.stringify(sendElements);
         dispatch(executeModal(false));
         dispatch(setHandOver(sendElements));
+        dispatch(setRadioChecked(false));
       }
       confrimSweet("등록 하시겠습니까 ?", "확인을 누르시면 진행됩니다.","등록","성공적으로 등록되었습니다",doCreateHandover)
     };  

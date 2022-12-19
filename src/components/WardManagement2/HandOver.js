@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getReceiveHandOver, getSendHandOver } from '../../redux/AdmissionPatientInfoApi';
-import {executeModal, globalmodifyElement, modalMode} from '../../redux/InPatientInfoSlice';
+import {executeModal, globalmodifyElement, modalMode, setRadioChecked} from '../../redux/InPatientInfoSlice';
 // style
 import './handOver.scss';
 
@@ -26,11 +26,14 @@ const HandOver = () => {
 
   let handOverElement = JSON.stringify(user);
 
-  const [radioChecked, setRadioChecked] =useState(true);
+  // const [radioChecked, setRadioChecked] =useState(true);
+  const radioChecked = useSelector(state=>{
+    return state.inPatientInfo.value[10]
+  });
 
   const ToHandOver = () =>{
     dispatch(getReceiveHandOver(handOverElement));
-    setRadioChecked(!radioChecked);
+    dispatch(setRadioChecked(!radioChecked));
     let handOverCheck=document.getElementsByName("handOver");
     for(let i =0; i < handOverCheck.length ; i++){
       if(handOverCheck[i].checked){
@@ -41,7 +44,7 @@ const HandOver = () => {
 
   const FromHanover = () =>{
      dispatch(getSendHandOver(handOverElement));
-     setRadioChecked(!radioChecked);
+     dispatch(setRadioChecked(!radioChecked));
      let handOverCheck=document.getElementsByName("handOver");
     for(let i =0; i < handOverCheck.length ; i++){
       if(handOverCheck[i].checked){
@@ -59,7 +62,8 @@ const HandOver = () => {
       handOverPK : handOverInfo[e.target.id].HANDOVER_ID_PK,
       handOverContent : handOverInfo[e.target.id].HANDOVER_CONTENT,
       handOverTarget:handOverInfo[e.target.id].HANDOVER_TARGET,
-      empIdPk: handOverInfo[e.target.id].EMP_ID_FK
+      empIdPk: handOverInfo[e.target.id].EMP_ID_FK,
+      handOverTargetId: handOverInfo[e.target.id].targetEMP_ID_FK
     };
     dispatch(globalmodifyElement(changeHandOverInfo));
   };

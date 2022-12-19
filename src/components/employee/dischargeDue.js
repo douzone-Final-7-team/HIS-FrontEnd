@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>

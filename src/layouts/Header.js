@@ -6,7 +6,7 @@ function Header({showNav}) {
 
   function logout() {
     localStorage.clear();
-    window.location.href='http://192.168.0.195:3000/';
+    window.location.href='http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);
@@ -14,7 +14,7 @@ function Header({showNav}) {
 
   useEffect(() => {
     if(token !== '') {
-    axios.get("http://192.168.0.195:9090/user/headerInfo",
+    axios.get("http://43.200.169.159:9090/user/headerInfo",
       {headers : {'Authorization': token}}
     ).then((res) => {
       setHeaderInfo(res.data)

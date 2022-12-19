@@ -6,7 +6,7 @@ import { alertSweetError} from '../higher-order-function/Alert';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const TreatmentOrder = ({ patientDetails }) => {
   /*-소켓-*/
@@ -51,7 +51,7 @@ const TreatmentOrder = ({ patientDetails }) => {
     const opStatusCode = 'OD';
     // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
     if(checked === true){
-      axios.post('http://localhost:9090/outStatus/putChangeState',
+      axios.post('http://43.200.169.159:9090/outStatus/putChangeState',
       {
         RECEIVE_ID_PK : receiveId,
         SPECIALITY_ID_FK : SPECIALITY_ID_FK,

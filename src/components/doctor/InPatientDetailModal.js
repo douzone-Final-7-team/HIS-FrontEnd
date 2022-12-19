@@ -18,7 +18,7 @@ const InPatientDetailModal = ({ outInfoElements }) => {
             bedNum: outInfoElements[3]
         }
 
-        axios.post("http://192.168.0.195:9090/patient/outInfo", JSON.stringify(outInfoElement), 
+        axios.post("http://43.200.169.159:9090/patient/outInfo", JSON.stringify(outInfoElement), 
         {
             headers: {
                 "Content-Type" : `application/json`,
@@ -28,7 +28,7 @@ const InPatientDetailModal = ({ outInfoElements }) => {
             setInpatientDetailInfo(res.data)
         });
 
-        axios.post("http://192.168.0.195:9090/admission/careInfos", JSON.stringify(outInfoElement), 
+        axios.post("http://43.200.169.159:9090/admission/careInfos", JSON.stringify(outInfoElement), 
         {
             headers: {
                 "Content-Type" : `application/json`,
@@ -38,7 +38,7 @@ const InPatientDetailModal = ({ outInfoElements }) => {
             setinpatientCure(res.data)
         });
 
-        axios.post("http://192.168.0.195:9090/admission/mediRecords", JSON.stringify(outInfoElement), 
+        axios.post("http://43.200.169.159:9090/admission/mediRecords", JSON.stringify(outInfoElement), 
         {
             headers: {
                 "Content-Type" : `application/json`,

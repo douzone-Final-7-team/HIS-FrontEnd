@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://192.168.0.195:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let speciality = data.SPECIALITY_ID_PK;
@@ -99,7 +99,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
     updateChangeState.status = e.target.id;
 
-    axios.post('http://192.168.0.195:9090/outStatus/putChangeState',
+    axios.post('http://43.200.169.159:9090/outStatus/putChangeState',
       JSON.stringify(updateChangeState),
       {
         headers: {
@@ -119,7 +119,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   // useEffect(()=> 
   //   setTimeout(() => 
   //       socket.on("change_state", (data)=>{console.log(data)
-  //           axios.post('http://192.168.0.195:9090/outStatus/getdocpat',
+  //           axios.post('http://43.200.169.159:9090/outStatus/getdocpat',
   //           JSON.stringify(data),
   //             {
   //               headers: {
@@ -143,7 +143,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
-              onContextMenu={(e) => handleClick(e, data)}>
+              onContextMenu={(e) => localStorage.getItem('role')==='ROLE_OUTNURSE'?handleClick(e, data):''}>
               <p className='waiting-name'>
                 {data.patName}
                 <span className='medical-hours'>{data.regTime}</span>
