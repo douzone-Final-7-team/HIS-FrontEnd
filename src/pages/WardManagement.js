@@ -12,7 +12,7 @@ import { API_URL } from '../utils/constants/Config';
 import io from 'socket.io-client';
 
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://43.200.169.159:3001')
 
 
 const WardManagement = () => {
