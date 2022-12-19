@@ -61,7 +61,7 @@ const WardPatientCall = ({setShowNav}) => {
       await socket.emit("send_message", messageData )
 
 
-    axios.put('http://localhost:9090/admission/InPatientReq',
+    axios.put('http://43.200.169.159:9090/admission/InPatientReq',
       savemassage,
         {
           headers: {

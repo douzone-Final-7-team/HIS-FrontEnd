@@ -45,7 +45,7 @@ const WardPatientRequest = () => {
 
 
   useEffect(()=>{
-    axios.post('http://localhost:9090/admission/allInPatientReqs',
+    axios.post('http://43.200.169.159:9090/admission/allInPatientReqs',
     {specialityName:specialityName},
         {
           headers: {
@@ -68,7 +68,7 @@ const WardPatientRequest = () => {
       socket.on("call_message", 
       ()=>{    
         setTimeout(()=>{
-        axios.post('http://localhost:9090/admission/allInPatientReqs',
+        axios.post('http://43.200.169.159:9090/admission/allInPatientReqs',
         {specialityName:specialityName},
             {
               headers: {
@@ -88,7 +88,7 @@ const WardPatientRequest = () => {
   const handleStatus = async(e)=>{
     setSendChangeReqStat(sendChangeReqStat.callStatus = e.target.id)
     updateNurseReq = JSON.stringify(sendChangeReqStat)
-    axios.put('http://localhost:9090/admission/InPatientReq',
+    axios.put('http://43.200.169.159:9090/admission/InPatientReq',
           updateNurseReq,
         {
           headers: {
