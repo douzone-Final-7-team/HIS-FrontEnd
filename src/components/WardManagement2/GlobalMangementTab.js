@@ -5,32 +5,32 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../styles/tab.scss'
-import Outpatientschedule from './Outpatientschedule';
+import Inpatientschedule from './Inpatientschedule';
 import HandOver from './HandOver';
-
 //redux
 import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
+import { setStartDate } from '../../redux/InChangeDateSlice';
+import { parseISO } from 'date-fns';
+// import AdmissionDue from './AdmissionDue';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
-  );
-}
+  )
+};
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -42,47 +42,54 @@ function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+  }
+};
 
 export default function GlobalMangementTab() {
-  const [value, setValue] = React.useState(0);
 
+  const [value, setValue] = React.useState(0);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const dispatch = useDispatch();
+
+  const reloadSchedule = () =>{
+  const newDate = new Date();
+  let today = newDate;
+  today = today.getFullYear()+"-"+ ("00" + (today.getMonth()+1)).slice(-2)+ "-" + ("00" + today.getDate()).slice(-2);
+    dispatch(setStartDate(parseISO(today)));
+  };
+
+  const empIdPk = window.localStorage.getItem('empIdPk');
  
   const ToHandOver = () =>{
-   // 시큘리티 마무리 되면 userID얻어서 저장
     let user = {
-      "userName" : "wjdgus"
-    }
-
-    let handOverElement = JSON.stringify(user)
-
+      "userName" : empIdPk
+    };
+    
+    let handOverElement = JSON.stringify(user);
     dispatch(getReceiveHandOver(handOverElement));
+  };
 
-  }
-  
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="환자 일정" {...a11yProps(0)} />
+          <Tab label="환자 일정" {...a11yProps(0)} onClick={reloadSchedule}/>
           <Tab label="인계 사항" {...a11yProps(1)} onClick={ToHandOver}/>
-          <Tab label="입원 예정" {...a11yProps(2)} />
+          {/* <Tab label="입원 예정" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Outpatientschedule/>
+        <Inpatientschedule/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <HandOver/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        동석이꺼 참고해서 수정
+        {/* <AdmissionDue /> */}
       </TabPanel>
     </Box>
   );

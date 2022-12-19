@@ -8,7 +8,7 @@
   table {
     width: 100%;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
     th,
     td {padding: 3px 0 3px 10px; border: 1px solid $tblBorder;
     }
@@ -20,19 +20,13 @@
       input {width: 100%; border: none; outline: none;}
     }
   }
+  .btn-detail {
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 4px;
+    line-height: 20px;
+    background-color: $primaryColor;
+    color: $white;
+    cursor: pointer;
+  }
 }
-
-.medical-history::-webkit-scrollbar {
-  width: 10px;  /* 스크롤바의 너비 */
-}
-
-.medical-history::-webkit-scrollbar-thumb {
-  height: 5%; /* 스크롤바의 길이 */
-  background: #0af; /* 스크롤바의 색상 */
-  
-  border-radius: 10px;
-}
-
-.medical-history::-webkit-scrollbar-track {
-  background: #e6eef2;  /*스크롤바 뒷 배경 색상*/
-}     

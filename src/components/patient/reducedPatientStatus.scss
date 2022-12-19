@@ -1,7 +1,7 @@
 @import '../../styles/scss/elements';
 @import '../../styles/scss/variables';
 
-.reduced-patient-status {
+.doctor-patient-status {
   @extend %contentBox;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,10 @@
     margin: 18px;
     font-size: 15px;
     .the-whole-waiting-list {color: $primaryColor;}
+
+    span {
+      cursor: pointer;
+    }
   }
   .status-wrapper {
     display: grid;
@@ -38,13 +42,17 @@
       border: solid 1px #a2a9ac;
       background-color: $white;
       font-size: 15px;
+      cursor: pointer;
+
       .medical-hours {
         padding-left: 8px;
       }
-      .status-value {
-        font-size: 14px;
-        color: $primaryColor;
-      }
+      
+      .OA {font-size: 14px;color: #ffd700;}
+      .OB {font-size: 14px;color: #ff0000;}
+      .OC {font-size: 14px;color: #00AAFF;}
+      .OE {font-size: 14px;color: #000;}
+
       &.selected {
         .status-value {color: #fdbd39;}
       }
@@ -54,6 +62,9 @@
           color: #a2a9ac;
         }
       }
+    }
+    .waiting-order:hover {
+      border: solid 2px black;
     }
   }
 }

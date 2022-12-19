@@ -1,8 +1,29 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 // style
 import './patientDetail.scss';
 
-const PDetail = ({patient}) => {
+
+const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, symptom, setSpecialityName}) => {
+  const [doctorList, setDoctorList] = useState();
+  const [speciality, setSpeciality] = useState('내과');
+
+  useEffect(()=>{
+    axios.post("http://localhost:9090/outStatus/doctorList", {
+      SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ') 
+      }).then((res)=>{
+        setDoctorList(res.data);
+        if(localStorage.getItem('role') === 'ROLE_OUTRECEIPT'){
+          setEmpId(res.data[0].EMP_NAME+'('+res.data[0].EMP_ID_PK+')');
+        }
+      });
+  },[speciality, setEmpId]);
+
+  // selectBox option selected 이벤트
+  const selected = useSelector(state => state.selectSpeciality.value[3]);
+  const selectedDoctor = useSelector(state => state.selectEmpName.value[4]);
+
 
   return (
     <div className='patient-detail'>
@@ -10,38 +31,85 @@ const PDetail = ({patient}) => {
         <tbody>
           <tr>
             <th className='devide1 border-left'>S/A</th>
-            {/* <td className='devide1'>{patient.}</td> */}
-            <td className='devide1'><input/></td>
+            <td className='devide1'>
+              <span>
+              {/* 원무수납_환자정보 */}
+                {data!==null && data!==undefined? data.GENDER:" "}
+              {/* 외래간호_환자정보 */}
+                {patientDetails!==null && patientDetails!==undefined? patientDetails.GENDER:" "}
+              </span>
+              &nbsp; / 
+              <span>
+                {data!==null && data!==undefined? data.PATIENT_AGE:" "}
+                {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_AGE:" "}
+              </span>
+            </td>
             <th className='devide1'>Tel</th>
-            <td><input/></td>
+            <td>
+              {data!==null && data!==undefined? data.PATIENT_TEL:" "}
+              {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_TEL:" "}
+            </td>
             <th className='devide1'>진료과</th>
             <td>
-              <select>
-                <option>내과</option>
-                <option>이비인후과</option>
-                <option>정형외과</option>
+              <select
+                defaultValue={selected}
+                onChange={(e) => {
+                setSpeciality(e.target.value);
+                setSpecialityName(e.target.value);
+                }
+              }>
+                {
+                  selected !== null && selected !== undefined ?
+                  <option value={selected}>{selected}</option>
+                  :
+                  <>
+                    <option value='내과'>내과</option>
+                    <option value='이비인후과'>이비인후과</option>
+                    <option value='정형외과'>정형외과</option>
+                  </>
+                }
+                
               </select>
             </td>
             <th className='devide1'>담당의</th>
             <td>
-              <select>
-                <option>김의사</option>
-                <option>이의사</option>
-                <option>최의사</option>
+              <select defaultValue={selectedDoctor}
+                onChange={(e) => {
+                setEmpId(e.target.value);
+              }}>
+              {doctorList!==null && doctorList!==undefined? doctorList.map((data, index) => (
+                  <option defaultValue={data.EMP_NAME} key={index}>{data.EMP_NAME}({data.EMP_ID_PK})</option>
+            )) : 
+            ''
+            }
               </select>
             </td>
             <th className='devide1'>보험유무</th>
-            <td className='devide1'><input placeholder='O/X'/></td>
+            <td className='devide1'>
+              {data!==null && data!==undefined? (data.INSURANCE === 0 ? 'X':'O') : " "}
+              {patientDetails!==null && patientDetails!==undefined? (patientDetails.INSURANCE === 0 ? 'X':'O') : " "}
+            </td>
             <th className='devide1'>진료구분</th>
-            <td className='devide1'>초/재진</td>
+            <td className='devide1'>
+              {data!==null && data!==undefined? (data.treatmentInfo.length === 0 ? '초진':'재진') : " "}
+              {registrationInfo!==null && registrationInfo!==undefined? (registrationInfo.treatmentInfo.length === 0 ? '초진':'재진') : " "}
+            </td>
           </tr>
           <tr>
             <th colSpan={3}>주소</th>
-            <td colSpan={9}><input placeholder='주소 입출력' /></td>
+            <td colSpan={9}>
+              {data!==null && data!==undefined? data.PATIENT_ADDR:" "}
+              {patientDetails!==null && patientDetails!==undefined? patientDetails.PATIENT_ADDR:" "}
+            </td>
           </tr>
           <tr>
             <th colSpan={3}>증상</th>
-            <td colSpan={9}><input placeholder='증상 입출력'/></td>
+            <td colSpan={9}>
+              {patientDetails!==null && patientDetails!==undefined ? 
+                <span>{patientDetails.SYMPTOM}</span> : 
+                <input className="none"
+                onChange={(e)=> {symptom.current = e.target.value}}/>}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -49,4 +117,4 @@ const PDetail = ({patient}) => {
   )
 }
 
-export default PDetail
+export default PatientDetail;

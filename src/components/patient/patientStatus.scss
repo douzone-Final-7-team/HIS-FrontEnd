@@ -30,5 +30,18 @@
       grid-template-rows: minmax(360px, 1fr);
       padding: 0 10px;
     }
+
+    .btn {
+      border: 0;
+      background-color: #fff;
+      margin: -4px 10px 0 10px;
+      cursor: pointer;
+      font-size: 16px;
+  
+      &.active {
+        color: #00AAFF;
+        font-weight: bold;
+      }
+  }
   }
 }

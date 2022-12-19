@@ -7,7 +7,7 @@ a {color: #000; text-decoration: none;}
   width: 100%;
   height: 100%;
 
-  main {
+  > main {
     display: grid;  
     gap: 25px;
     grid-template-columns: 2.5fr 1fr 1fr;
@@ -24,26 +24,33 @@ a {color: #000; text-decoration: none;}
       flex-direction: column;
       padding: 10px 20px;
       .search-info {
-        display: flex;
-        justify-content: space-between;
+        margin-bottom: 10px;
         .input-patient {
           display: flex;
           align-items: center;
-          font-size: 18px;
+          font-size: 14px;
           letter-spacing: 0.72px;
-          label {margin-right: 10px; font-weight: 600;}
-          input {
-            width: 150px;
-            padding-bottom: 5px;
+          .label {margin-right: 10px; font-weight: 600;}
+          .label-value {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 125px;
+            height: 30px;
+            margin-right: 10px;
             border: none;
             border-bottom: 1px solid $grey;
-            outline: 0;
-            font-size: 18px;
+            box-sizing: border-box;
+            font-size: 16px;
             text-align: center;
+            &:last-child {width: 180px;}
+            span {
+              width: 100%;
+              padding-bottom: 6px;
+            }
           }
           
         }
-        .btn:last-child {margin-left: 20px;}
       }
     }
     .order {
@@ -120,14 +127,22 @@ a {color: #000; text-decoration: none;}
             }
           }
         }
-
-
         input[type="checkbox"] {
           cursor: pointer;
         }
         input[type="checkbox"]:checked {
           /* accent-color: #00B400; */
           accent-color: #0af;
+        }
+
+        .btn-tbl {
+          margin-top: 30px;
+          display: flex;
+          justify-content: flex-end;
+          a {
+            height: 35px;
+            line-height: 35px;
+          }
         }
       }
     }

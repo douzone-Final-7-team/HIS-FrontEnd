@@ -5,236 +5,224 @@ import './wardCheck.scss';
 
 //redux
 import { useDispatch } from 'react-redux';
-import {getInpatientInfo} from '../../redux/AdmissionPatientInfoApi';
-import { selectPeople } from '../../redux/outPatientInfoSlice';
+import {getCareInfo, getInpatientInfo, getMediRecords} from '../../redux/AdmissionPatientInfoApi';
+import { selectPeople } from '../../redux/InPatientInfoSlice';
+import { API_URL } from '../../utils/constants/Config';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3001');
+
+// const specialityName = window.localStorage.getItem('specialityName');
+const empIdPk = window.localStorage.getItem('empIdPk');
 
 let data = {
-  empIdPk : 'O220019' //세션에 있는 사번
-
+  empIdPk : empIdPk //세션에 있는 사번
 }
 
 const WardOpions = [
-  { key : "" , value : "" , name : "병동선택"},
-  { key : "ward" , value : "200" , name : "내과 : 200"},
-  { key : "ward" , value : "300" , name : "정형외과 : 300"},
-  { key : "ward" , value : "400" , name : "이빈후과 : 400"},
+  { key:"1", value : "100" , name : "병동선택"},
+  { key:"2", value : "200" , name : "내과 : 200"},
+  { key:"3", value : "300" , name : "정형외과 : 300"},
+  { key:"4", value : "400" , name : "이빈후과 : 400"},
 ];
 
 const RoomOpions = [
-  { key : "" , value : "" , name : "호실선택"},
-  { key : "roomNum" , value : "1" , name : "1호실"},
-  { key : "roomNum" , value : "2" , name : "2호실"},
-  { key : "roomNum" , value : "3" , name : "3호실"},
-  { key : "roomNum" , value : "4" , name : "4호실"},
-  { key : "roomNum" , value : "5" , name : "5호실"},
+  { key:"1" , value : "0" , name : "호실선택"},
+  { key:"2" , value : "1" , name : "1호실"},
+  { key:"3" , value : "2" , name : "2호실"},
+  { key:"4" , value : "3" , name : "3호실"},
+  { key:"5" , value : "4" , name : "4호실"},
+  { key:"6" , value : "5" , name : "5호실"},
 ];
 
 
-// const RoomSelectBox = (props) =>{
 
-//   return (
-//     <select>
-//           {props.options.map((option) => (
-//               <option
-//                 key={option.value}
-//                 value={option.value}
-//               >
-//                 {option.name}
-//               </option>
-//           ))}
-//     </select>
-//   )
-// }
-
-
-const WardCheck = () => {
-
-  const selectedadPeople = [];
-
-  let selectedOutInfo;
-  const dispatch = useDispatch();
- 
-    const sendWardbasicData = () =>{
-      for(let i=0 ; i < document.getElementById('aaa').childNodes.length ; i++){
-        selectedadPeople[i] = document.getElementById('aaa').childNodes[i].innerText
-      }
-        selectedOutInfo = {
-        "name": selectedadPeople[2],
-        "ward" : selectedadPeople[1].substr(0,1)*100,
-        "roomNum" : selectedadPeople[1].substr(2,1),
-        "bedNum" : selectedadPeople[0]
-      }
-     
-      selectedOutInfo = JSON.stringify(selectedOutInfo)
-   
-      dispatch(selectPeople(selectedOutInfo))
- 
-      // 비동기 정보
-      dispatch(getInpatientInfo(selectedOutInfo));
-
-    }
-    
+const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
+  
+  const myWard = window.localStorage.getItem('ward');
 
   const [roomInfos, setRoomInfos] = useState([]);
-  const [test, setTest] = useState([]);;
+  const [selected, setSelected] = useState([]);
+  const [ward, setWard] = useState([]);
+  const [room, setRoom] = useState([]);
+  const [socketRoom, setSocketRooom] = useState("");
+
+  useEffect(()=>{
+    setSocketRooom("입원")
+  if (socketRoom !== "") {
+    socket.emit("join_room", socketRoom);
+}
+},[socketRoom])
+
+  // let bedInfoState = bedInfo;
+  socket.on("admissionOrder",()=>{console.log("와드 체크")
+  // if(!bedInfoState){
+  //    bedInfoState = true;
+  //  }else{
+  //    bedInfoState = false;
+  //  }
+  //  setSelected(()=>bedInfoState);
+   setTimeout(() => 
+   axios.get(API_URL+"/wardCheck/roominfos", {params : data})
+     .then(res => setRoomInfos(res.data))
+     ,50)
+ })
+        // 확인해야할부분 --> order쪽에서 승인 시 socket.on하여 확인 하지만 입원승인 후 바로 재랜더할지 입실완료 후 재랜더할지 결정해야함.
+
+    // data.ward = "200";
+
+  let showWard =true;
+  
+  //ward 로컬 정보 수정한거 머지 되면 들고와서 사용
+  if(empIdPk.substring(0,1) === 'I'){
+    showWard=(false)
+    data.ward = myWard;
+  }
+
+
+  let selectedInInfo;
+  let selectedroomInfo;
+  const dispatch = useDispatch();
+
+    const sendWardbasicData = (e) =>{
+     
+        selectedInInfo = {
+        "name": roomInfos[e.target.id].PATIENT_NAME,
+        "ward" : (roomInfos[e.target.id].WARDROOM + "").substring(0,1)*100,
+        "roomNum" : (roomInfos[e.target.id].WARDROOM + "").substring(2),
+        "bedNum" : (roomInfos[e.target.id].BED_NUM)
+        }
+
+
+      dispatch(selectPeople(selectedInInfo))
+      selectedInInfo = JSON.stringify(selectedInInfo)
+      // 비동기 정보
+      dispatch(getInpatientInfo(selectedInInfo));
+      dispatch(getCareInfo(selectedInInfo));
+      dispatch(getMediRecords(selectedInInfo))
+    }
+
+    const wardDataToReceipt = (e) =>{
+     
+      selectedroomInfo = {
+      "name": roomInfos[e.target.id].PATIENT_NAME,
+      "ward" : (roomInfos[e.target.id].WARDROOM + "").substring(0,1)*100,
+      "roomNum" : (roomInfos[e.target.id].WARDROOM + "").substring(2),
+      "bedNum" : (roomInfos[e.target.id].BED_NUM)
+      }
+
+
+    
+      setSelectRoom(JSON.stringify(selectedroomInfo));
+      setTest("");
+   
+    
+  }
+
+  
+    
+  
     useEffect(()=>{
-      axios.get("http://localhost:9090/admission/roominfos", {params : data})
-          .then(res => setRoomInfos(res.data));
-    },[test]);
+      setTimeout(() => 
+      axios.get(API_URL+"/wardCheck/roominfos", {params : data})
+        .then(res => setRoomInfos(res.data))
+        ,50)
+    },[selected, bedInfo]);
+    
+    const wardHandleChange = (e) => {
+        
+  
+      if(e.target.value === "100"){
+        delete data.ward;
+        delete data.roomNum;
+        setWard(e.target.value);
+        setRoom('0');
+        setSelected(e.target.value);
+      }else{
+        data.ward = e.target.value;
+        setWard(e.target.value);
+        setSelected(e.target.value);
+      }
 
-
+    }
 
     const WardSelectBox = (props) =>{
-      const wardHandleChange = (e) => {
-        let ward = '';
-        ward = e.target.value;
-        data.ward = ward;
-        setTest(...test,ward);
-      }
-      
+       
       return (
-        <select onChange={wardHandleChange}>
+        <select onChange={wardHandleChange} value={ward}>
               {props.options.map((option) => (
                   <option
+                    defaultValue={props.defaultValue === option.value}
                     key={option.value}
                     value={option.value}
+                    
                   >
                     {option.name}
                   </option>
               ))}
         </select>
       )
+    }
+    const roomHandleChange = (e) => {
+      
+      if(e.target.value === "0"){
+        delete data.roomNum;
+      }else{
+        data.roomNum = e.target.value;
+      }
+  
+      setRoom(e.target.value);
+      setSelected(e.target.value);
+      
     }
 
     const RoomSelectBox = (props) =>{
-      const roomHandleChange = (e) => {
-        let roomNum = '';
-        roomNum = e.target.value;
-        data.roomNum = roomNum;
-        setTest(...test,roomNum);
-      }
-      
       return (
-        <select onChange={roomHandleChange}>
+        <select onChange={roomHandleChange} value={room}>
               {props.options.map((option) => (
                   <option
+                    defaultValue={props.defaultValue === option.value}
                     key={option.value}
-                    value={option.value}
+                    value={option.value}   
                   >
                     {option.name}
+                    
                   </option>
+                  
               ))}
         </select>
       )
     }
 
+    
   return (
     <div className='ward-check'>
       <div className='filter'>
-        <WardSelectBox options={WardOpions}/>
-        <RoomSelectBox options={RoomOpions}/>
+        {/* {data.empIdPk.indexOf("O") !== -1  ? <WardSelectBox options={WardOpions} defaultValue=''/> : <WardSelectBox options={WardOpions} defaultValue='200'/>} */}
+        {showWard && <WardSelectBox options={WardOpions} defaultValue=''/>}
+        <RoomSelectBox options={RoomOpions} defaultValue=''/>
       </div>
       <div className='table-wrapper'>
-          <table class="styled-table">
+          <table className="styled-table">
             <thead>
               <tr>
                 <th>-</th>
                 <th>병실</th>
                 <th>이름</th>
                 <th>주치의</th>
-            </tr>
+              </tr>
           </thead>
           <tbody>
-            <tr id ='aaa'>
-                <td>1</td>
-                <td>201</td>
-                <td onClick={sendWardbasicData}>배병서</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>202</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>203</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>204</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>205</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>301</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>302</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>303</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>304</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>305</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>401</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>402</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>403</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>404</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
-            <tr>
-                <td>15</td>
-                <td>40</td>
-                <td>김더존</td>
-                <td>홍길동</td>
-            </tr>
+            {roomInfos.map((wardNum, index) => (
+              <tr key={index}>
+                <td id ={index} onClick={empIdPk.substring(0,1) === 'I' ? sendWardbasicData : wardDataToReceipt}>{wardNum.BED_NUM}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.WARDROOM}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.PATIENT_NAME}</td>
+                <td id ={index} onClick={sendWardbasicData}>{wardNum.EMP_NAME}</td>
+              </tr>
+              
+            ))}
+            
           </tbody>
         </table>
         </div>

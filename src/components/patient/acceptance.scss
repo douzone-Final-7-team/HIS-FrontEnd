@@ -1,0 +1,55 @@
+.receipt-wrap {
+  width: 58%;
+  margin-top: 10%;
+  padding: 20px;
+  border: 1px solid black;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  p{
+    margin-top: 20px;
+    text-align: left;
+  }
+  .receipt-title{
+    font-size: 30px;
+    text-align: center;
+  }
+  .receipt-top{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 20px 0;
+  }
+  .acceptance-table{
+    border-collapse: collapse;
+    width: 100%;
+    border: none;
+    .receipt-top {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    th {
+      font-weight: bold;
+      padding: 12px 15px;
+      border-top: 2px dashed black;
+      border-bottom: 2px dashed black;
+      border-left: none;
+      border-right: none;
+    }
+    
+    td {
+      padding: 12px 15px;
+      border: none;
+    }
+    
+    .total {
+      font-size: 24px;
+      font-weight: bold;
+      border-top: 2px dashed black;
+      border-bottom: 2px dashed black;
+    }
+  }
+  
+  
+}
+

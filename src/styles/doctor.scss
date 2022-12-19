@@ -8,10 +8,10 @@
   main {
     display: grid;  
     gap: 25px;
-    grid-template-columns: 1fr 335px;
+    grid-template-columns: 1fr 360px;
     grid-template-rows: 75px .8fr 1fr 435px;
     height: 100%;
-    padding: 20px 35px;
+    padding: 10px 35px;
     .top {
       grid-column-start: span 2;
     }
@@ -152,6 +152,10 @@
         text-align: center;
         margin-top: 10px;
 
+        .admission-tbody {
+          cursor: pointer;
+        }
+
         .admissionTh,
         .admissionTd {
           padding: 6px 20px;
@@ -170,11 +174,15 @@
 
 
       }
+      .admission-tbody:hover {
+        border: 2px solid black;
+      }
     } 
     
     .treatment-box {
       @extend %contentBox;
       width: 1400px;
+      height: 100%;
       padding: 15px 0;
 
       .box-title {
@@ -194,55 +202,54 @@
       .treatment-form {
         padding: 0 30px;
 
-        .devide {
-          display: block;
+        .divide1 {
+          
+          height: 150px;
 
-          .order-div {
+          .diagnosis-div {
+
             display: inline-block;
-
-            .form-span {
+            vertical-align: top;
+            margin-top: 35px;
+            
+            .diagnosis-title {
               font-size: 17px;
               font-weight: 600;
-            } 
-
-            .case-div {
-              display: inline;
-      
-              span {
-                font-size: 17px;
-                font-weight: 600;
-              }
-      
-              input {
-                width: 250px;
-                height: 25px;
-                margin-left: 20px;
-                border: 1px solid $tblBorder;
-                border-radius: 5px;
-              }
-
-              .order-checkbox {
-                display: inline-block;
-  
-                .treatment-checkbox,
-                .medicine-checkbox,
-                .admission-checkbox {
-                  margin-left: 25px;
-                }
-      
-                .checkbox-span {
-                  font-weight: 600;
-                }
-  
-              }
             }
-
+    
+            .diagnosis-select {
+              width: 170px;
+              height: 25px;
+              text-align: center;
+              margin-left: 20px;
+              border: 1px solid $tblBorder;
+              border-radius: 5px;
+              font-size: 15px;
+              font-weight: 600;
+            }
+  
+          }
+  
+          .order-div {
+  
+            margin-top: 35px;
+  
+            .treatment-checkbox,
+            .medicine-checkbox,
+            .admission-checkbox {
+              margin-left: 25px;
+            }
+  
+            span {
+              font-weight: 600;
+            }
           }
 
           .order-detail {
+
             display: inline-block;
             margin-left: 30px;
-  
+            
             span {
               font-size: 17px;
               font-weight: 600;
@@ -254,50 +261,82 @@
               margin-top: 10px;
               border: 1px solid $tblBorder;
               border-radius: 5px;
+              resize: none;
+            }
+
+            .datepicker {
+              text-align: center;
+              vertical-align: bottom;
+              width: 300px;
+              height: 120px;
+              margin-top: 10px;
+              border: 1px solid $tblBorder;
+              border-radius: 5px;
+              font-size: 20px;
+              font-weight: 600;
+            }
+
+            .medicine-div {
+              display: inline-block;
+              width: 300px;
+              height: 120px;
+              margin-top: 10px;
+              border: 1px solid $tblBorder;
+              border-radius: 5px;
+
+              .medicine-table {
+                border-style: hidden;
+
+                th,
+                td {
+                  padding: 1.9px 10px; 
+                  border: 1px solid $tblBorder;
+                  border-radius: 5px;
+                }
+
+                th {
+                  font-weight: 600;
+                  width: 257px;
+                }
+              }
             }
   
             .treatment-detail,
             .medicine-detail,
             .admission-detail {
               display: inline-block;
+              margin-left: 19px;
+            }
+
+          }
+  
+        }
+
+      }
+
+        .divide2 {
+  
+          .memo-div {
+  
+            span {
+              font-size: 17px;
+              font-weight: 600;
             }
   
+            textarea {
+              width: 1340px;
+              height: 150px;
+              border: 1px solid $tblBorder;
+              border-radius: 5px;
+              resize: none;
+            }
           }
         }
-
-        .treatment-checkbox:checked ~ * .treatment-detail {
-          display: none;
-        }
-
-        .medicine-checkbox:checked ~ * .medicine-detail {
-          display: none;
-        }
-
-        .admission-checkbox:checked ~ * .admission-detail {
-          display: none;
-        }
-
-        .memo-div {
-
-          span {
-            font-size: 17px;
-            font-weight: 600;
-          }
-
-          textarea {
-            width: 1340px;
-            height: 150px;
-            border: 1px solid $tblBorder;
-            border-radius: 5px;
-          }
-        }
-
+                
         a {
-          position: relative;
-          left: 94.4%;
-          margin-top: 12px;
+          float: right;
+          margin-top: 6px;
         }
       }
     }
   }
-}
