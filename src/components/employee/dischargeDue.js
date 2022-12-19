@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const InitList = () => {return (
     <div className='discharge-Due-small-square'>
@@ -87,7 +87,7 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
                      ROOM_NUM : room,
                      BED_NUM : BED_NUM
                     };
-                    
+
         axios.put(API_URL+"/AdmissionFront/discharged", JSON.stringify(data), {headers:{"Content-Type" : `application/json`},})
         .then((res) => {res.data==="success"? alertSweetSuccess("승인","퇴원이 완료되었습니다.",completeAfter):alertSweetError("거부","퇴원처리에 실패하였습니다.");
             }); 

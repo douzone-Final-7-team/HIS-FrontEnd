@@ -7,7 +7,7 @@ import axios from 'axios';
 import './detailedStatus.scss';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
 
@@ -34,7 +34,7 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
   useEffect(() => {
     speciality.current = localStorage.getItem('speciality')? localStorage.getItem('speciality'):'내과';
     statusCode.current = localStorage.getItem('statusCode')? localStorage.getItem('statusCode'):null;
-    axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+    axios.post("http://43.200.169.159:9090/outStatus/getdocpatCon", {
       SPECIALITY_ID_FK: (speciality.current === '내과' ? 'N' : speciality.current === '이비인후과' ? 'E' : speciality.current === '정형외과' ? 'J' : ' '),
       OUTPATIENT_STATUS_CODE: statusCode.current
     }).then((res) => {
@@ -48,7 +48,7 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
 
   setTimeout(() =>
     socket.on("receipt_render", () =>
-      axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+      axios.post("http://43.200.169.159:9090/outStatus/getdocpatCon", {
         SPECIALITY_ID_FK: (speciality.current === '내과' ? 'N' : speciality.current === '이비인후과' ? 'E' : speciality.current === '정형외과' ? 'J' : ' '),
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
@@ -61,7 +61,7 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
 
   setTimeout(() =>
     socket.on("sunab_render", () =>
-      axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+      axios.post("http://43.200.169.159:9090/outStatus/getdocpatCon", {
         SPECIALITY_ID_FK: (speciality.current === '내과' ? 'N' : speciality.current === '이비인후과' ? 'E' : speciality.current === '정형외과' ? 'J' : ' '),
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
@@ -73,7 +73,7 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
 
   setTimeout(() =>
     socket.on("doctor_render", () =>
-      axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+      axios.post("http://43.200.169.159:9090/outStatus/getdocpatCon", {
         SPECIALITY_ID_FK: (speciality.current === '내과' ? 'N' : speciality.current === '이비인후과' ? 'E' : speciality.current === '정형외과' ? 'J' : ' '),
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
@@ -85,7 +85,7 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
 
   setTimeout(() =>
     socket.on("change_state", () => {
-      axios.post("http://localhost:9090/outStatus/getdocpatCon", {
+      axios.post("http://43.200.169.159:9090/outStatus/getdocpatCon", {
         SPECIALITY_ID_FK: (speciality.current === '내과' ? 'N' : speciality.current === '이비인후과' ? 'E' : speciality.current === '정형외과' ? 'J' : ' '),
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {

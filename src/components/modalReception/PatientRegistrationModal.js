@@ -17,7 +17,7 @@ const PatientRegistrationModal = () => {
     window.location.href="/reception";
   }
   function patientReg() {
-      axios.post("http://localhost:9090/patient/insert", {
+      axios.post("http://43.200.169.159:9090/patient/insert", {
       PATIENT_NAME: name,
       PATIENT_ADDR: addr,
       PATIENT_TEL: tel,

@@ -9,7 +9,7 @@ const Login = () => {
   const [inputPw, setInputPw] = useState("");
   
   const userLogin = () => {
-    axios.post("http://localhost:9090/login", {
+    axios.post("http://43.200.169.159:9090/login", {
     username: inputId,
     pw: inputPw
     })
@@ -17,7 +17,7 @@ const Login = () => {
       if(res.headers.get('Authorization')!==undefined){localStorage.setItem('jwt', res.headers.get('Authorization'))}
     })
     .then(() => {
-      axios.post("http://localhost:9090/user/myPage", {}, {
+      axios.post("http://43.200.169.159:9090/user/myPage", {}, {
           headers : {'Authorization': localStorage.getItem('jwt')}
       })
       .then((res) => {
@@ -29,15 +29,15 @@ const Login = () => {
         localStorage.setItem('ward', res.data[0].WARD);
         localStorage.setItem('specialityID', res.data[0].SPECIALITY_ID_FK);
         if(res.data[0].ROLE === 'ROLE_DOCTOR') {
-          window.location.href = 'http://localhost:3000/doctor';
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
-          window.location.href = 'http://localhost:3000/ward-management2';
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/ward-management2';
         } else if (res.data[0].ROLE === 'ROLE_OUTNURSE') {
-          window.location.href = 'http://localhost:3000/outpatient';
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/outpatient';
         } else if (res.data[0].ROLE === 'ROLE_OUTRECEIPT') {
-          window.location.href = 'http://localhost:3000/reception';
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/reception';
         } else if (res.data[0].ROLE === 'ROLE_INRECEIPT') {
-          window.location.href = 'http://localhost:3000/ward-management';
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/ward-management';
         }
       }); 
     })

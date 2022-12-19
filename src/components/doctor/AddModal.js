@@ -33,7 +33,7 @@ const AddModal = ({props, closeModal, setScheduleList, scheduleCount}) => {
                 empIdPk: empIdPk
             }
 
-            axios.post("http://localhost:9090/user/addSchedule", JSON.stringify(data),
+            axios.post("http://43.200.169.159:9090/user/addSchedule", JSON.stringify(data),
             {
             headers: {
                 "Content-Type" : `application/json`,

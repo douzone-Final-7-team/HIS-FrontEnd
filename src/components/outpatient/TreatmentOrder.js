@@ -2,15 +2,17 @@ import React, { useState,useEffect } from 'react'
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux'
 import axios from 'axios';
+import { alertSweetError} from '../higher-order-function/Alert';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const TreatmentOrder = ({ patientDetails }) => {
   /*-소켓-*/
   const [room, setRoom] = useState("");
-
+  const [checked, setChecked] = useState(false);
+  console.log(checked)
   useEffect(()=>{
     setRoom("out")
 
@@ -21,11 +23,11 @@ const TreatmentOrder = ({ patientDetails }) => {
   }
   },[room])
 
-  console.log(patientDetails)
+  // console.log(patientDetails)
   
   // 환자현황 : 환자 상태값
   const opStatusInfo = useSelector(state =>  state.checkOpStatusCode.value[2]);
-  console.log(opStatusInfo)
+  // console.log(opStatusInfo)
   // 외래진료환자 상태
   let onTreatmentStatus = false;  // 치료
   let completionStatus = false;   // 수납완료
@@ -43,12 +45,13 @@ const TreatmentOrder = ({ patientDetails }) => {
 
   // 치료오더 완료버튼 클릭시 외래진료환자 상태 수납대기로 변경
   const receiveId =  patientDetails.RECEIVE_ID_PK;
-  console.log(receiveId);
-  console.log(SPECIALITY_ID_FK);
+  // console.log(receiveId);
+  // console.log(SPECIALITY_ID_FK);
   const changePatientCode = () => {
     const opStatusCode = 'OD';
     // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
-    axios.post('http://localhost:9090/outStatus/putChangeState',
+    if(checked === true){
+      axios.post('http://43.200.169.159:9090/outStatus/putChangeState',
       {
         RECEIVE_ID_PK : receiveId,
         SPECIALITY_ID_FK : SPECIALITY_ID_FK,
@@ -68,7 +71,9 @@ const TreatmentOrder = ({ patientDetails }) => {
                 status : opStatusCode
                 }
       socket.emit("click_change_state", change );
-
+    }else{
+      alertSweetError("오류","치료를 완료하였으면 체크처리하십시오.");
+    }
   }
 
   return (
@@ -88,7 +93,7 @@ const TreatmentOrder = ({ patientDetails }) => {
           <tbody>
             <tr>
               {completionStatus === true ? <td><input type="checkbox" checked/></td> : ""}
-              {onTreatmentStatus === true ? <td><input type="checkbox" /></td> : ""}
+              {onTreatmentStatus === true ? <td><input type="checkbox" onChange={(e) => setChecked(e.target.checked)}/></td> : ""}
               {otherStatus === true ? <td><input type="checkbox" disabled={true}/></td> : ""}
 
               {patientDetails!==null && patientDetails!==undefined ?

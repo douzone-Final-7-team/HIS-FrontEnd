@@ -10,21 +10,21 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
 
     // 환자 과거병력 조회 SELECT
     const registrationInfo = useSelector(state => state.readPatientRegistrationInfo.value[1]);
-    console.log(patientID)
-    console.log(treatmentDate)
-    console.log(regTime)
+    
     // 상세 과거병력 SELECT
     const detailedMedicalHistory = useSelector(state => state.readDetailedMedicalHistory.value[5]);
     let medicalHistoryInfo;
     if(localStorage.getItem('role') === 'ROLE_OUTNURSE'){
-      detailedMedicalHistory.length > 0 && detailedMedicalHistory.map(data =>  medicalHistoryInfo = data)      
+      if(detailedMedicalHistory!==undefined){
+      detailedMedicalHistory.length > 0 && detailedMedicalHistory.map(data =>  medicalHistoryInfo = data)   
+      }   
     }
   
     const [detail, setDetail] = useState([{}]);
     
-
+    
     useEffect(() => {
-        axios.get("http://localhost:9090/patient/getTreatmentHistoryDetail", 
+        axios.get("http://43.200.169.159:9090/patient/getTreatmentHistoryDetail", 
         {params : {
             patientID : patientID,
             treatmentDate : treatmentDate,
@@ -33,7 +33,9 @@ const Detail = ({ patientID, treatmentDate, regTime }) => {
         .then((res) => {
           setDetail(res.data)
         })
-    }, [patientID, treatmentDate, regTime])
+    }, [patientID, treatmentDate, regTime]
+    )
+  
 
     return(
       <div className="detail-box">
