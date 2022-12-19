@@ -42,7 +42,6 @@ export const getCareInfo = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      
       return resp.data
   }
 )

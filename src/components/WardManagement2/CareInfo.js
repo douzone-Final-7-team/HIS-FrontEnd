@@ -22,7 +22,7 @@ const CareInfo = () => {
 
   const getCareInfo = useSelector(state=>{
     return state.inPatientInfo.value[6]
-  }) 
+  })
  
   const selectRow = (e)=>{
     let changeCareInfo = {
@@ -58,7 +58,7 @@ const CareInfo = () => {
           </tbody>
         </table>
       </div>
-      {getCareInfo[0].NURSE_NAME !== '' &&
+      {(getCareInfo.length !== 0 && getCareInfo[0].CARE_CONTENT !== "빈 데이터 입니다 환자를 클릭 하세요") &&
       <div className='btn-wapper'>
         <a href='#!' className='btn' id='careInfo-modify' onClick={ModalMode}>수정</a> 
         <a href='#!' className='btn' id='careInfo-create' onClick={ModalMode}>등록</a>

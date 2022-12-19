@@ -45,7 +45,8 @@ const InPatientInfoSlice = createSlice({
         HANDOVER_TARGET : "",
         EMP_NAME : "",
         HANDOVER_DATE : ""  
-    }]]},
+    }],
+    [true]]},
     reducers:{
         selectPeople: (state, action) => {
             state.value[0] = action.payload;     
@@ -64,6 +65,9 @@ const InPatientInfoSlice = createSlice({
         globalmodifyElement: (state, action) => {
             state.value[4] = action.payload;     
         },
+        setRadioChecked: (state, action) => {
+            state.value[10] = action.payload;     
+        }
     },
 
     extraReducers: (builder) => {
@@ -130,5 +134,5 @@ const InPatientInfoSlice = createSlice({
 });
 
 export default InPatientInfoSlice;
-export const {selectPeople, executeModal, modalMode,modifyElement,globalmodifyElement} = InPatientInfoSlice.actions;
+export const {selectPeople, executeModal, modalMode,modifyElement,globalmodifyElement,setRadioChecked} = InPatientInfoSlice.actions;
 

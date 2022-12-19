@@ -14,8 +14,7 @@ const Login = () => {
     pw: inputPw
     })
     .then((res)=>{
-      localStorage.setItem('jwt', res.headers.get('Authorization'))
-      console.log(res.data);
+      if(res.headers.get('Authorization')!==undefined){localStorage.setItem('jwt', res.headers.get('Authorization'))}
     })
     .then(() => {
       axios.post("http://localhost:9090/user/myPage", {}, {

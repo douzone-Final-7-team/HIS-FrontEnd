@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCareInfo, changeHandover, changeMediRecord, changeSchedule, setCareInfo, setHandOver, setInpatientSchedule, setMediRecord } from '../../redux/AdmissionPatientInfoApi';
 import {setStartDate } from '../../redux/InChangeDateSlice';
-import {executeModal, globalmodifyElement, modifyElement} from '../../redux/InPatientInfoSlice';
+import {executeModal, globalmodifyElement, modifyElement, setRadioChecked} from '../../redux/InPatientInfoSlice';
 import { alertSweetError, confrimSweet } from '../higher-order-function/Alert';
 import { SearchAddEvent } from '../higher-order-function/SearchFuction';
 import './wardMangementModal.scss';
@@ -286,6 +286,7 @@ else if(getModalMode === 'medi-check-create'){
               dispatch(executeModal(false));
               dispatch(changeHandover(sendElements));
               dispatch(globalmodifyElement(null));
+              dispatch(setRadioChecked(false));
             }
             confrimSweet("수정 하시겠습니까 ?", "확인을 누르시면 진행됩니다.","수정","성공적으로 수정되었습니다",doModifyHandover)
           };
@@ -322,6 +323,7 @@ else if(getModalMode === 'medi-check-create'){
         sendElements = JSON.stringify(sendElements);
         dispatch(executeModal(false));
         dispatch(setHandOver(sendElements));
+        dispatch(setRadioChecked(false));
       }
       confrimSweet("등록 하시겠습니까 ?", "확인을 누르시면 진행됩니다.","등록","성공적으로 등록되었습니다",doCreateHandover)
     };  
