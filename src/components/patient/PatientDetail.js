@@ -10,7 +10,7 @@ const PatientDetail = ({patientDetails, registrationInfo, data, setEmpId, sympto
   const [speciality, setSpeciality] = useState('내과');
 
   useEffect(()=>{
-    axios.post("http://localhost:9090/outStatus/doctorList", {
+    axios.post("http://43.200.169.159:9090/outStatus/doctorList", {
       SPECIALITY_ID_FK: (speciality === '내과' ? 'N' : speciality === '이비인후과' ? 'E' : speciality === '정형외과' ? 'J' : ' ') 
       }).then((res)=>{
         setDoctorList(res.data);

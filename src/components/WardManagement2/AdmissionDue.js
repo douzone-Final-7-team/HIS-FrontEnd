@@ -134,7 +134,7 @@ export default AdmissionDue
 // const [room, setRoom] = useState("");
 
 // useEffect(()=>{
-//   axios.post('http://localhost:9090/admission/allInPatientReqs',
+//   axios.post('http://43.200.169.159:9090/admission/allInPatientReqs',
 //   {specialityName:specialityName},
 //       {
 //         headers: {

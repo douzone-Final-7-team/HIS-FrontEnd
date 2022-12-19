@@ -179,7 +179,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   
 
   function success() {
-    axios.post("http://localhost:9090/outStatus/insertReceipt", {
+    axios.post("http://43.200.169.159:9090/outStatus/insertReceipt", {
       TREATMENT_NUM_FK: treatmentNumPk,
       TREAT_COST: acceptance.treatCost,
       INSURANCE_COST: acceptance.insuranceCost,
@@ -197,11 +197,11 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   
   function successNprint() {
     if(btnChange.current.value === "처방전") {
-      axios.post("http://localhost:9090/outStatus/getPrescription", {
+      axios.post("http://43.200.169.159:9090/outStatus/getPrescription", {
         TREATMENT_NUM_PK: treatmentNumPk
       }).then((res)=>setPrescriptionData(res.data[0]));
 
-      axios.post("http://localhost:9090/outStatus/insertReceipt", {
+      axios.post("http://43.200.169.159:9090/outStatus/insertReceipt", {
         TREATMENT_NUM_FK: treatmentNumPk,
         TREAT_COST: acceptance.treatCost,
         INSURANCE_COST: acceptance.insuranceCost,

@@ -48,7 +48,7 @@ const TreatmentOrder = ({ patientDetails }) => {
   const changePatientCode = () => {
     const opStatusCode = 'OD';
     // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 
-    axios.post('http://localhost:9090/outStatus/putChangeState',
+    axios.post('http://43.200.169.159:9090/outStatus/putChangeState',
       {
         RECEIVE_ID_PK : receiveId,
         SPECIALITY_ID_FK : SPECIALITY_ID_FK,
