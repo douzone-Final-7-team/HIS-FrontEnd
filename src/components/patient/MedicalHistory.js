@@ -6,6 +6,8 @@ import './medicalHistory.scss';
 // components
  
 const MedicalHistory = ({registrationInfo, data}) => {
+
+  // console.log("정혜지  : "+registrationInfo.treatmentInfo); 
   const [detail, setDetail] = useState(false);
   const [patientID, setPatientID] = useState("");
   const [treatmentDate, setTreatmentDate] = useState("");
@@ -26,7 +28,13 @@ const MedicalHistory = ({registrationInfo, data}) => {
               <td>{data.TREATMENT_DATE}</td>
               <td>{data.DIAGNOSIS_CODE}</td>
               <td>{data.TREATMENT_MEMO}</td>
-              <td><p className='btn-detail' onClick={() => setDetail(!detail)}>상세기록</p></td>
+              <td><p className='btn-detail' onClick={() => {setDetail(!detail)
+                                                           setPatientID(data.PATIENT_ID_FK)
+                                                           setTreatmentDate(data.TREATMENT_DATE)
+                                                           setRegTime(data.REGISTRATION_TIME)}
+              
+              
+              }>상세기록</p></td>
             </tr>
           )) 
           : 

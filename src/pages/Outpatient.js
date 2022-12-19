@@ -17,6 +17,8 @@ const Outpatient = () => {
   // 환자 과거병력 조회 SELECT
   const registrationInfo = useSelector(state => state.readPatientRegistrationInfo.value[1]);
 
+  console.log("정혜지 : "+patientDetails);
+
   return (
     <div className='outpatient'>
       <main className='main'>

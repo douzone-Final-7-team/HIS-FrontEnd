@@ -18,10 +18,17 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   const className = ['box', 'waiting-order', 'selected'];
   const [opStatusClassification , setOpStatusClassification] = useState(false)
 
+
+  // patientID: info.PATIENT_ID_PK,
+  // treatmentDate: info.TREATMENT_DATE,
+  // regTime: info.REGISTRATION_TIME
   
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
     const { status, receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
+    console.log("정혜지 1 : "+ PATIENT_ID_PK);
+    console.log("정혜지 2 : "+ TREATMENT_DATE);
+    console.log("정혜지 3 : "+ REGISTRATION_TIME);
     dispatch(checkOpStatusCode(status)); //treatmentOrder에서 필요
     dispatch(getTreatmentInfo(receiveId));
     dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
