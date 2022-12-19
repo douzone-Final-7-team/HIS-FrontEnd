@@ -9,7 +9,7 @@ import InPatientBar from '../components/inPatient/InPatientBar';
 import io from 'socket.io-client';
 import axios from 'axios';
 import WardSetting from './WardSetting';
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('http://43.200.169.159:3001')
 
 
 const WardPatientCall = ({setShowNav}) => {

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const TreatmentOrder = ({ patientDetails }) => {
   /*-소켓-*/

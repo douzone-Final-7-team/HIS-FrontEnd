@@ -10,7 +10,7 @@ import Modal from '../modalReception/Modal';
 import BillPaper from '../modalReception/BillPaper';
 import { alertSweetError, alertSweetSuccess } from '../higher-order-function/Alert';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const role = window.localStorage.getItem('role');
 

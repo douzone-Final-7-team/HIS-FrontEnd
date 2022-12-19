@@ -15,7 +15,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const Reception = () => {
   const [registration, setRegistration] = useState(false);

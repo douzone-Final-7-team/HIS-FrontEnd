@@ -22,7 +22,7 @@ import InPatientModal from '../components/doctor/InPatientModal';
 import InPatientDetailModal from '../components/doctor/InPatientDetailModal';
 import { alertSweetError, alertSweetSuccess } from '../components/higher-order-function/Alert.js';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://43.200.169.159:3001');
 
 const Doctor = () => {
   const [treatmentPatientInfo, setTreatmentPatientInfo] = useState([{}]);
