@@ -136,7 +136,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
-              onContextMenu={(e) => handleClick(e, data)}>
+              onContextMenu={(e) => localStorage.getItem('role')==='ROLE_OUTNURSE'?handleClick(e, data):''}>
               <p className='waiting-name'>
                 {data.patName}
                 <span className='medical-hours'>{data.regTime}</span>

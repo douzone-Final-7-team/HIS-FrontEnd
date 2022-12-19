@@ -13,6 +13,9 @@ const PatientRegistrationModal = () => {
   const [ssn, setSsn] = useState();
   const [insurance, setInsurance] = useState();
  
+  function relocation() {
+    window.location.href="/reception";
+  }
   function patientReg() {
       axios.post("http://localhost:9090/patient/insert", {
       PATIENT_NAME: name,
@@ -21,8 +24,7 @@ const PatientRegistrationModal = () => {
       PATIENT_SSN: ssn,
       INSURANCE: insurance
       })
-      .then(alertSweetSuccess(name + "님 등록 완료"))
-      .then(window.location.href="/reception");
+      .then(alertSweetSuccess("등록성공", name + "님 등록 완료", relocation))
   }
 
   return(
