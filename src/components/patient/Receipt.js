@@ -214,6 +214,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
       setWait4payReRender(()=>false);
       setAcceptance([{}]);
       setPrescriptionPrint(!prescriptionPrint);
+      socket.emit("sunab_complete" , {outpatient : room , SPECIALITY_ID_PK : specialityId});
     }
     btnChange.current.value = "처방전";
   }
