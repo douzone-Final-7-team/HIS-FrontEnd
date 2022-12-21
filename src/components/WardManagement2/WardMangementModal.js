@@ -384,12 +384,12 @@ else if(getModalMode === 'medi-check-create'){
     insertPatientInfo = false;
     
     treatData = ()=>{
-    if(saveContent.current === "" || saveScheduleDate.current === ""
+    if(saveContent.current === "" || saveScheduleDate.current === "" || saveThirdContent.current === ""
     ){
       alertSweetError("잘못된 입력","빈값이 존재 합니다 확인 해주세요");
     }
     else if((serachInPatient.current === "" || inPatientWard.name === "")){
-      alertSweetError("잘못된 직원정보","검색을 다시하세요");
+      alertSweetError("잘못된 환자정보","검색을 다시하세요");
     }
     else{
       const doCreateSchedule= () =>{
