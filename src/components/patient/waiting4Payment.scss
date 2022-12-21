@@ -14,7 +14,7 @@
   .content-box {
     @extend %contentBox;
     padding: 15px 10px;
-    height: 436px;
+    height: 100%;
     overflow-y: scroll;
     .waited-people {
       display: grid;
