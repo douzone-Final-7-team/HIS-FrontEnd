@@ -23,23 +23,29 @@ function Header({showNav}) {
   }, [token])
 
   return (
-    <div className='header'>
+    <div>
       {showNav ?
+      <div className='header'>
       <div className='profile'>
         <div className='profile-img'></div>
         {/* <img src='https://mv.amaranth10.co.kr/custom/img/labal_pic_.png' /> */}
         <div className='emp-name'>{headerInfo[0].SPECIALITY_NAME} {headerInfo[0].EMP_NAME}</div>
         <button className='logout' onClick={logout}>LogOut</button>
       </div>
+      <div className='emp-role'>{headerInfo[0].WORK}</div>
+      </div>
       :
+      <div className='header'>
       <div className='profile'>
       <div className='profile-imoticon'></div>
       <div className='emp-name'>더조은 병원</div>
     </div>
+    <div className='emp-role'></div>
+    </div>
       }
-      <div className='emp-role'>{headerInfo[0].WORK}</div>
     </div>
   )
 }
+
 
 export default Header
