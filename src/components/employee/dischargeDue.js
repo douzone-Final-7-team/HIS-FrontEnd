@@ -40,15 +40,9 @@ const DischargeDue = ({setBedInfo , bedInfo}) => {
         axios.get(API_URL+"/AdmissionFront/dischargelist")
             .then(res => setDisChargeDueList(res.data))
             , 50);
-        // console.log("퇴원재랜더");
     },[disChargeFinish]);
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => console.log('Initial timeout!')
-    //   }, []);
 
-    console.log(disChargeDueList);
-    console.log(disChargeFinish);
 
     function completeAfter(){
 

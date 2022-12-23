@@ -50,9 +50,7 @@ const AdmissionDue = () => {
 
     },[])
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => console.log('Initial timeout!')
-    //   }, []);
+  
 
 
     function complete (admissionIdPk,WARDROOM,BED_NUM) {
@@ -68,7 +66,6 @@ const AdmissionDue = () => {
         //              ROOM_NUM : room,
         //              BED_NUM : BED_NUM
         //             };
-        // // console.log(admissionIdPk)
 
         // let changeState = disChargeFinish;
         // if(changeState === false){

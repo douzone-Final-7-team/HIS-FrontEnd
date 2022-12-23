@@ -45,7 +45,6 @@ const InPatientDetailModal = ({ outInfoElements }) => {
               }
         })
         .then((res) => {
-            console.log(res.data)
             setInpatientMedicineRecord(res.data)
         });
 

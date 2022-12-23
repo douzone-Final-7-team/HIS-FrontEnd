@@ -75,7 +75,6 @@ const DoctorScheduleModal = (props) => {
                     date: date
                 }}
             ).then((res) => {
-                console.log(res.data)
                 scheduleCount.current = res.data.length
                 setScheduleList(res.data)
                 })
@@ -87,7 +86,6 @@ const DoctorScheduleModal = (props) => {
                     empIdPk: empIdPk
                 }}
             ).then((res) => {
-                console.log(res.data.length)
                 scheduleCount.current = res.data.length
                 setScheduleList(res.data)
             })
@@ -184,7 +182,6 @@ const DoctorScheduleModal = (props) => {
                                                empIdPk: empIdPk
                                     }}
                                     ).then((res) => {
-                                    console.log(res.data.length)
                                     scheduleCount.current = res.data.length
                                     setScheduleList(res.data)
                                     })

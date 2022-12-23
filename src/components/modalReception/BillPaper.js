@@ -9,8 +9,7 @@ import './BillPaper.scss';
 const BillPaper = ({setTest3,billData,billCompleteData}) => {
 
 
-  console.log(billData);
-  console.log(billCompleteData);
+  
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({

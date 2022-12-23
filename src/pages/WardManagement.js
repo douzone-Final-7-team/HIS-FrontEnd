@@ -28,7 +28,6 @@ const WardManagement = () => {
 
   useEffect(()=>{
     axios.put(API_URL+"/AdmissionReceipt/changeStateList")
-    .then(console.log("update완료"));
   },[]);
 
 
@@ -50,7 +49,7 @@ const WardManagement = () => {
   },[room])
 
     let bedInfoState = bedInfo;
-    socket.on("bedInfoChange",()=>{console.log("메인페이지 bedInfo");
+    socket.on("bedInfoChange",()=>{
        if(!bedInfoState){
           bedInfoState = true;
         }else{
@@ -67,7 +66,7 @@ const WardManagement = () => {
     ,70);
   },[bedInfo]);
 
-  console.log(available);
+
   let secondWard = [];
   let thirdWard = [];
   let fourthWard = [];

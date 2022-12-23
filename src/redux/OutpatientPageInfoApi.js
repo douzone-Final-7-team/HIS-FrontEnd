@@ -43,7 +43,6 @@ export const getPatientRegistrationInfo = createAsyncThunk(
 export const changeOutpatientStatus = createAsyncThunk(
   'OutpatientPageInfoSlice/changeOutpatientStatus',
   async (info) => {
-    console.log(info.opStatusCode)
     const resp = await axios.put(API_URL + "/outpatient/changeOutpatientStatus",
     {
       status: info.opStatusCode,
@@ -64,7 +63,6 @@ export const changeOutpatientStatus = createAsyncThunk(
 export const addPatientStatusInfo = createAsyncThunk(
   'OutpatientPageInfoSlice/addPatientStatusInfo',
   async (info) => {
-    console.log(info)
     const resp = await axios.post(API_URL + "/outpatient/addPatientStatusInfo",
     {
       receiveId: info.receiveId,
@@ -88,7 +86,6 @@ export const getDetailedMedicalHistory = createAsyncThunk(
 
   'OutpatientPageInfoSlice/getDetailedMedicalHistory',
   async (info) => {
-    console.log(info)
     const resp = await axios.get(API_URL + "/patient/getTreatmentHistoryDetail",
     {params :{
       patientID: info.PATIENT_ID_PK,

@@ -57,8 +57,7 @@ function TabPanel(props) {
     const [checkedList, setCheckedList] = React.useState([]);
     //middlePayment , All , today
 
-    // console.log(sunabInfo);
-    // console.log(sunabInfo2);
+   
 
     let sunabInfo = checkedList;
 
@@ -95,7 +94,6 @@ function TabPanel(props) {
           setReRender(!reRender);
         }
       };
-      console.log(checkedList);
       return (
         <div>
             {CATEGORY_LIST.map(item => {
