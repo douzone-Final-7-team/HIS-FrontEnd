@@ -53,7 +53,6 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
         setPatientStatus(res.data);
-        setOutStatusReRender(() => true);
       })), 50)
 
   //여기서 on을 받는다.
@@ -66,7 +65,6 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
         setPatientStatus(res.data);
-        setOutStatusReRender(() => true);
       })), 50)
 
 
@@ -78,7 +76,6 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
         setPatientStatus(res.data);
-        setOutStatusReRender(() => true);
       })), 50)
 
 
@@ -90,7 +87,6 @@ function PatientStatus({ outStatusReRender, setOutStatusReRender }) {
         OUTPATIENT_STATUS_CODE: statusCode.current
       }).then((res) => {
         setPatientStatus(res.data);
-        setOutStatusReRender(() => true);
       })
     }), 50)
 
