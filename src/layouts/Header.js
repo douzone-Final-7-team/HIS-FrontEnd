@@ -29,10 +29,10 @@ function Header({showNav}) {
       <div className='profile'>
         <div className='profile-img'></div>
         {/* <img src='https://mv.amaranth10.co.kr/custom/img/labal_pic_.png' /> */}
-        <div className='emp-name'>{headerInfo[0].SPECIALITY_NAME} {headerInfo[0].EMP_NAME}</div>
+        <div className='emp-name'>{headerInfo[0].SPECIALITY_NAME} {headerInfo[0].EMP_NAME}{headerInfo[0].WORK}</div>
         <button className='logout' onClick={logout}>LogOut</button>
       </div>
-      <div className='emp-role'>{headerInfo[0].WORK}</div>
+      <div className='emp-role'></div>
       </div>
       :
       <div className='header'>
