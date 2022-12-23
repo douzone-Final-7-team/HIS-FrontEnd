@@ -12,7 +12,7 @@ const PrescriptionPrint = ({prescriptionData, setPrescriptionPrint}) => {
     documentTitle: 'prescription',
     onAfterPrint: ()=> setPrescriptionPrint(false)
   });
-  console.log(prescriptionData)
+
   
   return (
       <div>

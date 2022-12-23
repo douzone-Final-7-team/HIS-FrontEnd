@@ -24,7 +24,6 @@ const ModalMode = (e)=>{
 const getMediRecords = useSelector(state=>{
       return state.inPatientInfo.value[7]
 }); 
-console.log(getMediRecords)
 
 const selectRow = (e)=>{
   let changeMediRecords = {

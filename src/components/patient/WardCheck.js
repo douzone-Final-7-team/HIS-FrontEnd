@@ -55,7 +55,7 @@ const WardCheck = ({bedInfo, setTest, setSelectRoom}) => {
 },[socketRoom])
 
   // let bedInfoState = bedInfo;
-  socket.on("admissionOrder",()=>{console.log("와드 체크")
+  socket.on("admissionOrder",()=>{
   // if(!bedInfoState){
   //    bedInfoState = true;
   //  }else{

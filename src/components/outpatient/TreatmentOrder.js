@@ -12,7 +12,7 @@ const TreatmentOrder = ({ patientDetails }) => {
   /*-소켓-*/
   const [room, setRoom] = useState("");
   const [checked, setChecked] = useState(false);
-  console.log(checked)
+
   useEffect(()=>{
     setRoom("out")
 
@@ -23,11 +23,10 @@ const TreatmentOrder = ({ patientDetails }) => {
   }
   },[room])
 
-  // console.log(patientDetails)
+
   
   // 환자현황 : 환자 상태값
   const opStatusInfo = useSelector(state =>  state.checkOpStatusCode.value[2]);
-  // console.log(opStatusInfo)
   // 외래진료환자 상태
   let onTreatmentStatus = false;  // 치료
   let completionStatus = false;   // 수납완료
@@ -45,8 +44,7 @@ const TreatmentOrder = ({ patientDetails }) => {
 
   // 치료오더 완료버튼 클릭시 외래진료환자 상태 수납대기로 변경
   const receiveId =  patientDetails.RECEIVE_ID_PK;
-  // console.log(receiveId);
-  // console.log(SPECIALITY_ID_FK);
+
   const changePatientCode = () => {
     const opStatusCode = 'OD';
     // dispatch(changeOutpatientStatus({receiveId, opStatusCode})); 

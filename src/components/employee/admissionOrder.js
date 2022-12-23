@@ -64,7 +64,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
         ,50);
     },[admissionFinish]);
 
-    socket.on("doctor_render", ()=> {console.log("소켓소켓")
+    socket.on("doctor_render", ()=> {
     axios.post(API_URL+"/admissionReq/admissionOrder")
         .then(res => setAdmissionOrderList(res.data))
     })
@@ -83,7 +83,6 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
         };
   
         await socket.emit("send_admissionOrder", messageData );
-        console.log("이밋입니다")
         let changeState = admissionFinish;
         if(changeState === false){
             changeState = true;

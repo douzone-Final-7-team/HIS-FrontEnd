@@ -39,7 +39,6 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   }
   
 
-  // console.log("데이터들어왓다~~ : "+data);
 
   const [detail, setDetail] = useState([{}]);
   const [prescriptionPrint, setPrescriptionPrint] = useState(false);
@@ -69,8 +68,7 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
       // .then(res => detail.current = res.data);
   }, [data]);
 
-  // console.log((detail.current));
-  // console.log("0번째 : "+detail.current[0]);
+
 
   useEffect(()=> {
     if(role !== "ROLE_INRECEIPT" && acceptance.SPECIALITY !== undefined && acceptance.SPECIALITY !== null && acceptance.SPECIALITY !== '') {
@@ -80,7 +78,6 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
 },[acceptance])
 
   const AdmissionList = () => {
-    console.log("디테일 랭스 : "+detail);
 
     return (
       <table className="styled-table">
@@ -144,7 +141,6 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
     axios.post(API_URL+"/AdmissionReceipt/getBillData", {ADMISSION_ID_PK:detail[0].ADMISSION_ID_PK}, { headers: { "Content-Type": `application/json` }, })
     .then(res => setBillCompleteData(()=>res.data)) 
 
-    console.log("퇴원일: "+billCompleteData);
     let result = reRender;
     if(result === true){
       result = false;
@@ -162,7 +158,6 @@ const Receipt = ({ selectRoom,test, reRender ,setReRender, acceptance, setOutSta
   function complete(){
     //모달 띄워서 영수증 출력 여부 확인하기.
     
-    console.log("오케이 : "+detail[0].ADMISSION_ID_PK);
 
     axios.post(API_URL+"/AdmissionReceipt/AdReceiptComplete", JSON.stringify(detail[0]), {headers:{"Content-Type" : `application/json`},})
     .then((res) => {res.data==="success"? alertSweetSuccess("승인","수납이완료되었습니다.",completeAxios):alertSweetError("거부","수납처리에 실패하였습니다.");

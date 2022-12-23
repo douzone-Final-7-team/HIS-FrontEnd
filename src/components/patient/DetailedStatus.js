@@ -26,9 +26,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   // 혜지 환자현황 클릭 이벤트
   const getReceiveId = (data) => {
     const { status, receiveId, patName, PATIENT_SSN, EMP_NAME, SPECIALITY, PATIENT_ID_PK, TREATMENT_DATE, REGISTRATION_TIME} = data;
-    console.log("정혜지 1 : "+ PATIENT_ID_PK);
-    console.log("정혜지 2 : "+ TREATMENT_DATE);
-    console.log("정혜지 3 : "+ REGISTRATION_TIME);
+  
     dispatch(checkOpStatusCode(status)); //treatmentOrder에서 필요
     dispatch(getTreatmentInfo(receiveId));
     dispatch(getPatientRegistrationInfo({patName, PATIENT_SSN}));
@@ -64,7 +62,6 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   let insertData;
 
   const handleClick = (e, data) => {
-    console.log(data)
     if(data.status === "대기중"){
       setOpStatusClassification(true)
     }else{
@@ -91,9 +88,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   }
   
   const handleStatus = async(e) => {
-    console.log(e.target.id)
     dispatch(addPatientStatusInfo(sendData))
-    console.log(sendData)
 
     updateChangeState.RECEIVE_ID_PK = changeState.RECEIVE_ID_PK;
     updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
@@ -116,18 +111,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
       await socket.emit("click_change_state", change );
   }
  
-  // useEffect(()=> 
-  //   setTimeout(() => 
-  //       socket.on("change_state", (data)=>{console.log(data)
-  //           axios.post('http://43.200.169.159:9090/outStatus/getdocpat',
-  //           JSON.stringify(data),
-  //             {
-  //               headers: {
-  //                 "Content-Type" : `application/json`,
-  //               },
-  //             }).then(res=> {setPatientStatus(res.data)})
-  //             }),50)
-  // ,[setPatientStatus])
+
 
     
   

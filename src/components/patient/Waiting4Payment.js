@@ -11,7 +11,6 @@ const Waiting4Payment = ({sunabList,setTest, setSelectRoom,waitingReceipt, setAc
   let className = 'waiting-order';
   const AdmissionList = () =>{
     function sunabDetail(index){
-      // console.log(sunabList[index].ADMISSION_ID_PK);
       
       setTest(sunabList[index].ADMISSION_ID_PK);
       setSelectRoom("");

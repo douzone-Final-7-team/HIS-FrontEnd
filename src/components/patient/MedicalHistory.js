@@ -7,7 +7,6 @@ import './medicalHistory.scss';
  
 const MedicalHistory = ({registrationInfo, data}) => {
 
-  // console.log("정혜지  : "+registrationInfo.treatmentInfo); 
   const [detail, setDetail] = useState(false);
   const [patientID, setPatientID] = useState("");
   const [treatmentDate, setTreatmentDate] = useState("");

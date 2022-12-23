@@ -204,7 +204,6 @@ export const changeScheduleStatus = createAsyncThunk(
           "Content-Type" : `application/json`,
         },
       });
-      console.log("api 황동하 : "+data);
       return resp.data
   }
 )

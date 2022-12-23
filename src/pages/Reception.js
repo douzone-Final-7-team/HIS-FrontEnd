@@ -92,7 +92,6 @@ const Reception = () => {
       PATIENT_NAME: name.current,
       PATIENT_SSN: frontSsn.current+"-"+backSsn.current
       }).then((res)=>{
-        console.log(res.data)
         if(res.data.length === 0 || res.data === null) {
           alertSweetError("환자정보 없음", "초진 환자입니다 등록해주세요");
           const none = document.getElementsByClassName("none");
