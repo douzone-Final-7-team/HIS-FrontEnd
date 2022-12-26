@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux'
 import axios from 'axios';
-import { alertSweetError} from '../higher-order-function/Alert';
+import { alertSweetError, alertSweetSuccess} from '../higher-order-function/Alert';
 
 const SPECIALITY_ID_FK = 'N';//localStorage.getItem('specialityId') || '';
 
@@ -69,6 +69,10 @@ const TreatmentOrder = ({ patientDetails }) => {
                 status : opStatusCode
                 }
       socket.emit("click_change_state", change );
+      alertSweetSuccess('치료 완료', '', Done)
+      function Done() {
+        window.location.reload()
+      }
     }else{
       alertSweetError("오류","치료를 완료하였으면 체크처리하십시오.");
     }
