@@ -1,11 +1,15 @@
 import Swal from 'sweetalert2'
 import "./alert.scss";
 
-export const alertSweetError = (title,content)=>{Swal.fire({
+export const alertSweetError = (title,content, Done)=>{Swal.fire({
     icon: 'error',
     title: title,
     html: content
 
+}).then(()=>{
+  if(Done != null){
+      Done()
+  }
 })}
 
 export const alertSweetSuccess = (title,content, Done)=>{Swal.fire({

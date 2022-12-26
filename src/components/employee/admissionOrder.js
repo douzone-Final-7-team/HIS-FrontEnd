@@ -69,7 +69,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
         .then(res => setAdmissionOrderList(res.data))
     })
 
-    const sendData = async(admissionIdPk, admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn) => {
+    const sendData = async(admissionIdPk, admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn, bedInfo2) => {
         const messageData = {
           admission : room,
           ADMISSION_ID_PK : admissionIdPk,
@@ -83,6 +83,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
         };
   
         await socket.emit("send_admissionOrder", messageData );
+        // console.log("이밋입니다")
         let changeState = admissionFinish;
         if(changeState === false){
             changeState = true;
@@ -93,11 +94,20 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
         
         setAdmissionFinish(changeState);
 
+        let bedInfoState = bedInfo2;
+                
+                if(bedInfoState === false){
+                    bedInfoState = true;
+                }else if(bedInfoState === true){
+                    bedInfoState = false;
+                }
+                setBedInfo(()=>bedInfoState);
+
   
     }
 
 
-    function putOrderDate(btnState,admissionIdPk, bedInfo,admissionDueDate, patientName ,gender, patientAge , patientSsn, specialityName){
+    function putOrderDate(btnState,admissionIdPk, bedInfo,admissionDueDate, patientName ,gender, patientAge , patientSsn, specialityName, bedInfo2){
         
         let reg = /([2-4])([0])([1-5])[-]([1-6])/g;
 
@@ -133,15 +143,9 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                 .then(res => {if(res.data === 0){alertSweetError("거부","해당 병상은 다른환자가 사용중입니다!")}else{
                     alertSweetSuccess("승인","입원을 승인하였습니다.");
                     inputData.current = "";
-                    sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn)}
+                    sendData(admissionIdPk,admissionDueDate , patientName, wardRoom, bedNum, gender, patientAge, patientSsn, bedInfo2)}
                 });
-                let bedInfoState = bedInfo;
-                if(bedInfoState === false){
-                    bedInfoState = true;
-                }else if(bedInfoState === true){
-                    bedInfoState = false;
-                }
-                setBedInfo(()=>bedInfoState);
+                
 
             }else{
                 alertSweetError("거부","호실 및 병상 입력 양식이 틀렸습니다.<br/>예)  내        과 : 201-1<br/>정 형 외 과 : 301-1<br/>이비인후과 : 401-1")
@@ -169,7 +173,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                     },
                 })
                 inputData.current = "";
-                let bedInfoState = bedInfo;
+                let bedInfoState = bedInfo2;
                 if(bedInfoState === false){
                     bedInfoState = true;
                 }else if(bedInfoState === true){
@@ -215,7 +219,7 @@ const AdmissionOrder = ({bedInfo , setBedInfo}) => {
                                                                                     inputData.current = e.target.value;
                                                                                 }} />
                                                                         <span className='g'>
-                                                                            <input className='assign' type='button' value = "수락" onClick={() => {putOrderDate("assign",v.ADMISSION_ID_PK , inputData.current , v.ADMISSION_DUEDATE, v.PATIENT_NAME , v.GENDER, v.PATIENT_AGE, v.PATIENT_SSN, v.SPECIALITY_NAME);}}/>
+                                                                            <input className='assign' type='button' value = "수락" onClick={() => {putOrderDate("assign",v.ADMISSION_ID_PK , inputData.current , v.ADMISSION_DUEDATE, v.PATIENT_NAME , v.GENDER, v.PATIENT_AGE, v.PATIENT_SSN, v.SPECIALITY_NAME, bedInfo);}}/>
                                                                             <input className='unassign'type='button' value = "반려"onClick={() => {putOrderDate("reject",v.ADMISSION_ID_PK , inputData.current);}}/>
                                                                         </span>
                                                                     </p>

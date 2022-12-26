@@ -37,7 +37,17 @@ const PagiNavigation = () => {
             :localStorage.getItem('role') === 'ROLE_INRECEIPT'?<Route path="/" element={<Navigate replace to="/ward-management"/>} />
             :localStorage.getItem('role') === 'ROLE_INNURSE'?<Route path="/" element={<Navigate replace to="/ward-management2"/>} />
             :<Route path="/" element={<Login/>} />}
-              {localStorage.getItem('role') === 'ROLE_OUTRECEIPT'?
+              {localStorage.getItem('status') === '퇴직'?
+              <>
+              <Route path="/reception" element={<Navigate replace to={-1}/>} />
+              <Route path="/doctor" element={<Navigate replace to={-1}/>} />
+              <Route path='/outpatient' element={<Navigate replace to={-1}/>} />
+              <Route path='/ward-management' element={<Navigate replace to={-1}/>} />
+              <Route path='/ward-management2' element={<Navigate replace to={-1}/>} />
+              <Route path='/my-page' element={<MyPage/>} />
+              </> 
+              :
+              localStorage.getItem('role') === 'ROLE_OUTRECEIPT'?
               <>
                 <Route path="/" element={<Navigate replace to="/reception"/>} />
                 <Route path="/reception" element={<Reception />} />
