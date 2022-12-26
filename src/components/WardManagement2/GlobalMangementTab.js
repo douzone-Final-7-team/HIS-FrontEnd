@@ -12,6 +12,7 @@ import { getReceiveHandOver } from '../../redux/AdmissionPatientInfoApi';
 import { useDispatch} from 'react-redux';
 import { setStartDate } from '../../redux/InChangeDateSlice';
 import { parseISO } from 'date-fns';
+import { setRadioChecked } from '../../redux/InPatientInfoSlice';
 // import AdmissionDue from './AdmissionDue';
 
 function TabPanel(props) {
@@ -71,8 +72,9 @@ export default function GlobalMangementTab() {
     
     let handOverElement = JSON.stringify(user);
     dispatch(getReceiveHandOver(handOverElement));
+    dispatch(setRadioChecked(true));
   };
-
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
