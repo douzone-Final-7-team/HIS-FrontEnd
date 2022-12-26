@@ -6,7 +6,7 @@ function Header({showNav}) {
 
   function logout() {
     localStorage.clear();
-    window.location.href='http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/';
+    window.location.href='http:///';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);

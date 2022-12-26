@@ -11,7 +11,12 @@ const Nav = () => {
   // url의 path값을 받아올 수 있다.
   const pathName = useLocation().pathname;
   let menus;
-  if(window.localStorage.getItem('role') === 'ROLE_OUTRECEIPT'){
+  if(window.localStorage.getItem('status') === '퇴직') {
+    menus = [
+      { img: <TbSettings />, path: '/my-page'}  //마이페이지
+    ]
+  }
+  else if(window.localStorage.getItem('role') === 'ROLE_OUTRECEIPT'){
     menus = [
       { img: <RiHospitalLine />, path: '/reception'}, // 원무
       { img: <TbSettings />, path: '/my-page'}  //마이페이지

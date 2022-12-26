@@ -9,6 +9,7 @@ import './detailedStatus.scss';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import io from 'socket.io-client';
+import { confrimSweet } from '../higher-order-function/Alert';
 
 const socket = io.connect('http://43.200.169.159:3001');
 
@@ -42,7 +43,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
   // const [ receiveId, setReceiveId ] = useState();
   const [changeState ,setChangeState] =useState();
   const [room, setRoom] = useState("");
-
+  
   useEffect(()=>{
     setRoom("out")
 
@@ -110,9 +111,33 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
                 }
       await socket.emit("click_change_state", change );
   }
- 
 
-
+  const cancle = (e) => {
+    
+    const cancleFunc = async()=>{ dispatch(addPatientStatusInfo(sendData))
+  
+      updateChangeState.RECEIVE_ID_PK = changeState.RECEIVE_ID_PK;
+      updateChangeState.SPECIALITY_ID_FK = changeState.SPECIALITY_ID_FK;
+      updateChangeState.status = e.target.id;
+  
+      axios.post('http://43.200.169.159:9090/outStatus/putChangeState',
+        JSON.stringify(updateChangeState),
+        {
+          headers: {
+            "Content-Type" : `application/json`,
+          },
+        }).then(res=> {setPatientStatus(res.data)})
+  
+        let change;
+        change = {outpatient : room,
+                  RECEIVE_ID_PK : changeState.RECEIVE_ID_PK,
+                  SPECIALITY_ID_FK : changeState.SPECIALITY_ID_FK,
+                  status : e.target.id
+                  }
+        await socket.emit("click_change_state", change );
+      }
+      confrimSweet("접수취소", "취소하겠습니까?", "취소완료","취소가 완료되었습니다.",cancleFunc)
+    }
     
   
   return (
@@ -127,7 +152,7 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
-              onContextMenu={(e) => localStorage.getItem('role')==='ROLE_OUTNURSE'?handleClick(e, data):''}>
+              onContextMenu={(e) => localStorage.getItem('role')==='ROLE_OUTNURSE' || localStorage.getItem('role')==='ROLE_OUTRECEIPT'?handleClick(e, data):''}>
               <p className='waiting-name'>
                 {data.patName}
                 <span className='medical-hours'>{data.regTime}</span>
@@ -146,9 +171,10 @@ const DetailedStatus = ({ data, index, setPatientStatus }) => {
           }}
           style={{left:"170px" , top:"-25px"}}
         >
-          <MenuItem id="OA" onClick={(e)=>{handleClose(); handleStatus(e);}}>진료</MenuItem>
+          {localStorage.getItem('role')==='ROLE_OUTNURSE'?<MenuItem id="OA" onClick={(e)=>{handleClose(); handleStatus(e);}}>진료</MenuItem>
+          :localStorage.getItem('role')==='ROLE_OUTRECEIPT'?<MenuItem id="OF" onClick={(e)=>{handleClose(); cancle(e);}}>접수취소</MenuItem>
+          :''}
         </Menu> }
-      
     </div>
   )
 }

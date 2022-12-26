@@ -2,6 +2,7 @@ import React, {useState } from 'react';
 import '../styles/login.scss';
 import axios from 'axios';
 import logo from '../assets/DOUZONE.png';
+import { alertSweetError } from '../components/higher-order-function/Alert';
 
 const Login = () => {
 
@@ -12,6 +13,12 @@ const Login = () => {
     axios.post("http://43.200.169.159:9090/login", {
     username: inputId,
     pw: inputPw
+    })
+    .catch(() => {
+      alertSweetError('로그인 불가', '계정 정보가 일치하지 않습니다', Done)
+      function Done() {
+        window.location.reload();
+      }
     })
     .then((res)=>{
       if(res.headers.get('Authorization')!==undefined){localStorage.setItem('jwt', res.headers.get('Authorization'))}
@@ -28,7 +35,12 @@ const Login = () => {
         localStorage.setItem('role', res.data[0].ROLE);
         localStorage.setItem('ward', res.data[0].WARD);
         localStorage.setItem('specialityID', res.data[0].SPECIALITY_ID_FK);
-        if(res.data[0].ROLE === 'ROLE_DOCTOR') {
+        localStorage.setItem('status', res.data[0].EMP_STATUS);
+
+        if(res.data[0].EMP_STATUS === '퇴직') {
+          window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/my-page';
+        }
+        else if(res.data[0].ROLE === 'ROLE_DOCTOR') {
           window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/doctor';
         } else if (res.data[0].ROLE === 'ROLE_INNURSE') {
           window.location.href = 'http://myhisbucket.s3-website.ap-northeast-2.amazonaws.com/ward-management2';
