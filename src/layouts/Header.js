@@ -6,7 +6,7 @@ function Header({showNav}) {
 
   function logout() {
     localStorage.clear();
-    window.location.href='http:///';
+    window.location.href='/';
   }
 
   const [headerInfo, setHeaderInfo] = useState([{}]);
